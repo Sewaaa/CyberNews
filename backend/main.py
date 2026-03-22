@@ -131,6 +131,16 @@ def reset_items(db: Session = Depends(get_db)):
     return {"status": "ok", "items_reset": count}
 
 
+@app.delete("/admin/delete-all-articles")
+def delete_all_articles(db: Session = Depends(get_db)):
+    """Elimina tutti gli articoli e le sorgenti dal DB."""
+    from models import Source
+    sources_deleted = db.query(Source).delete()
+    articles_deleted = db.query(Article).delete()
+    db.commit()
+    return {"status": "ok", "articles_deleted": articles_deleted, "sources_deleted": sources_deleted}
+
+
 _pipeline_status: dict = {"running": False, "last_stats": None}
 
 

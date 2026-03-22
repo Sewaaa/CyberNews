@@ -10,6 +10,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [running, setRunning] = useState(false);
   const [resetting, setResetting] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [pipelineRunning, setPipelineRunning] = useState(false);
 
@@ -39,6 +40,26 @@ export default function AdminPage() {
       setMessage("Errore nel reset.");
     } finally {
       setResetting(false);
+    }
+  }
+
+  async function deleteAllArticles() {
+    const confirmed = window.confirm(
+      "⚠️ Sei sicuro?\n\nVerranno eliminati TUTTI gli articoli dal database. Questa azione è irreversibile."
+    );
+    if (!confirmed) return;
+
+    setDeleting(true);
+    setMessage(null);
+    try {
+      const res = await fetch(`${API_BASE}/admin/delete-all-articles`, { method: "DELETE" });
+      const data = await res.json();
+      setMessage(`🗑️ Eliminati ${data.articles_deleted} articoli e ${data.sources_deleted} sorgenti.`);
+      await loadStats();
+    } catch {
+      setMessage("Errore durante l'eliminazione.");
+    } finally {
+      setDeleting(false);
     }
   }
 
@@ -103,7 +124,7 @@ export default function AdminPage() {
           </button>
           <button
             onClick={resetItems}
-            disabled={running || resetting}
+            disabled={running || resetting || deleting}
             className="px-5 py-2.5 bg-zinc-700 hover:bg-zinc-600 disabled:bg-zinc-800 disabled:text-zinc-600 text-zinc-300 font-medium rounded-lg transition-colors"
           >
             {resetting ? "Reset in corso…" : "Reset item processati"}
@@ -115,6 +136,21 @@ export default function AdminPage() {
             {message}
           </p>
         )}
+      </div>
+
+      {/* Zona pericolosa */}
+      <div className="border border-red-900/50 rounded-lg p-6 bg-red-950/20">
+        <h2 className="text-lg font-semibold text-red-400 mb-1">Zona pericolosa</h2>
+        <p className="text-sm text-zinc-500 mb-4">
+          Azioni irreversibili. Procedi con cautela.
+        </p>
+        <button
+          onClick={deleteAllArticles}
+          disabled={running || resetting || deleting}
+          className="px-5 py-2.5 bg-red-700 hover:bg-red-600 disabled:bg-zinc-800 disabled:text-zinc-600 text-white font-medium rounded-lg transition-colors"
+        >
+          {deleting ? "Eliminazione in corso…" : "🗑️ Elimina tutti gli articoli"}
+        </button>
       </div>
 
       {/* Info */}
