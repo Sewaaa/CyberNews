@@ -1,67 +1,93 @@
-# CyberNews
+# CyberNews 🛡️
 
-Piattaforma di notizie automatizzata dedicata alla cybersecurity. Il sistema raccoglie articoli da feed RSS di fonti autorevoli, li raggruppa per topic tramite fuzzy matching, e usa un LLM (Groq API) per sintetizzare ogni cluster in un unico articolo in italiano.
+> AI-powered cybersecurity news aggregator — automatically discovers, clusters, and synthesizes the latest security news into concise Italian-language briefings.
 
-## Stack
+**[🌐 Live Demo](https://your-vercel-url.vercel.app)** &nbsp;·&nbsp; **[📡 API Docs](https://cybernews-bxml.onrender.com/docs)** &nbsp;·&nbsp; **[🔗 RSS Feed](https://cybernews-bxml.onrender.com/rss)**
 
-| Layer | Tecnologia |
+---
+
+## What it does
+
+CyberNews runs a fully automated pipeline every 30 minutes:
+
+1. **Discovery** — polls 7 RSS feeds from top cybersecurity sources and deduplicates via SHA-256
+2. **Clustering** — groups related stories by topic using fuzzy string similarity (rapidfuzz)
+3. **Scraping** — extracts full article text via trafilatura, with RSS summary as automatic fallback
+4. **Synthesis** — sends each cluster to Groq LLaMA 3.1 8B, which returns a structured Italian briefing: title, summary, markdown body, tags, and relevance score
+5. **Serving** — exposes articles via a REST API consumed by the Next.js frontend
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
 |---|---|
-| LLM | Groq API — llama-3.1-8b-instant (gratuito) |
-| Discovery | feedparser (RSS polling ogni 30 min) |
-| Scraping | trafilatura |
-| Clustering | rapidfuzz (fuzzy title matching) |
-| Backend | FastAPI + SQLAlchemy + SQLite |
-| Scheduling | APScheduler |
-| Frontend | Next.js 15 + Tailwind CSS |
-| Deploy | Vercel (frontend) + Render free tier (backend) |
+| Frontend | Next.js 15 (App Router), Tailwind CSS, TypeScript |
+| Backend | FastAPI, SQLAlchemy, APScheduler |
+| Database | PostgreSQL — [Neon](https://neon.tech) serverless (persistent, free tier) |
+| AI / LLM | [Groq API](https://console.groq.com) — LLaMA 3.1 8B Instant |
+| Scraping | trafilatura, feedparser |
+| Clustering | rapidfuzz (token set ratio) |
+| Deploy | Vercel (frontend) + Render (backend) |
 
-## Struttura
+---
+
+## Architecture
 
 ```
-cybernews/
-├── backend/
-│   ├── main.py              # FastAPI app + endpoints
-│   ├── scheduler.py         # APScheduler pipeline ogni 30 min
-│   ├── pipeline/
-│   │   ├── discovery.py     # RSS fetching + dedup via SHA-256
-│   │   ├── clustering.py    # Raggruppamento per topic (rapidfuzz)
-│   │   ├── scraper.py       # Trafilatura full text extraction
-│   │   └── synthesizer.py   # Groq API prompt + JSON parsing
-│   ├── models.py            # SQLAlchemy models
-│   ├── database.py          # SQLite connection
-│   ├── config.py            # Feed RSS, impostazioni
-│   ├── seed_demo.py         # Dati demo per sviluppo frontend
-│   └── requirements.txt
-└── frontend/
-    ├── app/
-    │   ├── page.tsx               # Homepage con paginazione
-    │   ├── article/[id]/page.tsx  # Pagina articolo
-    │   ├── category/[tag]/page.tsx # Filtro per tag
-    │   ├── admin/page.tsx         # Pannello admin
-    │   └── api/rss-proxy/route.ts # Proxy RSS
-    ├── components/
-    │   ├── ArticleCard.tsx
-    │   ├── TagBadge.tsx
-    │   ├── SourcesList.tsx
-    │   └── BackendStatus.tsx
-    └── lib/
-        └── api.ts
+┌──────────────────────────────────────────────────────────┐
+│                      VERCEL (CDN)                        │
+│  Next.js 15 — SSR/ISR pages, Tailwind dark theme        │
+│  Homepage · Article · Category · Admin panel · RSS proxy │
+└─────────────────────────┬────────────────────────────────┘
+                          │  REST API (JSON)
+                          ▼
+┌──────────────────────────────────────────────────────────┐
+│                  RENDER (Web Service)                    │
+│  FastAPI — /articles  /tags  /rss  /admin/*  /health    │
+│                                                          │
+│  APScheduler ──► Pipeline (every 30 min)                │
+│    ├── Discovery  (feedparser → 7 RSS feeds)            │
+│    ├── Clustering (rapidfuzz similarity)                │
+│    ├── Scraping   (trafilatura + RSS fallback)          │
+│    └── Synthesis  (Groq API → LLaMA 3.1 8B → JSON)    │
+└─────────────────────────┬────────────────────────────────┘
+                          │  SQLAlchemy ORM
+                          ▼
+┌──────────────────────────────────────────────────────────┐
+│           NEON (Serverless PostgreSQL — EU Frankfurt)    │
+│  Articles · Sources · RssItems                          │
+└──────────────────────────────────────────────────────────┘
 ```
 
-## Avvio rapido
+---
 
-### Prerequisiti
+## Features
 
+- 🤖 **Fully automated** — no manual curation, pipeline runs on a schedule
+- 🔍 **Smart deduplication** — SHA-256 hashing prevents storing the same RSS item twice; fuzzy clustering prevents publishing the same story twice
+- 📰 **RSS output** — subscribe to AI-generated briefings in any feed reader
+- 🏷️ **Auto-tagging** — LLM assigns tags (ransomware, CVE, phishing, APT, zero-day, etc.)
+- ⭐ **Relevance scoring** — articles ranked by AI-assessed importance (0–10)
+- 🌙 **Dark UI** — clean cyberpunk-inspired design, fully responsive
+- 🛠️ **Admin panel** — manually trigger pipeline, view live stats, reset processed items
+- 🔒 **Resilient scraping** — gracefully falls back to RSS content when web scraping is blocked
+
+---
+
+## Running Locally
+
+### Prerequisites
 - Python 3.11+
 - Node.js 18+
-- Account Groq gratuito su [console.groq.com](https://console.groq.com)
+- A [Groq API key](https://console.groq.com) (free)
 
-### 1. Backend
+### Backend
 
 ```bash
 cd backend
-python -m venv venv
 
+python -m venv venv
 # Windows:
 venv\Scripts\activate
 # macOS/Linux:
@@ -70,87 +96,136 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Crea il file `backend/.env`:
-```
-GROQ_API_KEY=la_tua_api_key
+Create `backend/.env`:
+```env
+GROQ_API_KEY=your_groq_api_key_here
+# Optional: use a remote PostgreSQL URL (defaults to local SQLite)
+# DATABASE_URL=postgresql://user:pass@host/dbname
 ```
 
 ```bash
-# Seed database con articoli demo (opzionale)
-python seed_demo.py
-
-# Avvia il server
 uvicorn main:app --reload --port 8080
 ```
 
-API disponibile su `http://localhost:8080`
-Documentazione interattiva: `http://localhost:8080/docs`
+- API: `http://localhost:8080`
+- Interactive docs: `http://localhost:8080/docs`
 
-### 2. Frontend
+### Frontend
 
 ```bash
 cd frontend
 npm install
-npm run dev
 ```
 
-Crea il file `frontend/.env.local`:
-```
+Create `frontend/.env.local`:
+```env
 NEXT_PUBLIC_API_URL=http://localhost:8080
 ```
 
-Frontend disponibile su `http://localhost:3000`
-
-## API Endpoints
-
-| Metodo | Endpoint | Descrizione |
-|---|---|---|
-| GET | `/articles` | Lista articoli (paginata, filtrabile per tag) |
-| GET | `/articles/{id}` | Singolo articolo con corpo completo |
-| GET | `/tags` | Tutti i tag con conteggio |
-| GET | `/rss` | Feed RSS in uscita |
-| GET | `/health` | Health check |
-| GET | `/admin/stats` | Statistiche pipeline |
-| POST | `/admin/run-pipeline` | Esegui pipeline manualmente |
-
-### Parametri `/articles`
-
-- `tag` — filtra per tag (es. `?tag=ransomware`)
-- `limit` — numero risultati (default 20, max 100)
-- `offset` — paginazione
-
-## Pipeline
-
-```
-RSS Feeds → Discovery (SHA-256 dedup) → Clustering (rapidfuzz) → Scraping (trafilatura) → Sintesi (Groq API) → SQLite → API → Frontend
+```bash
+npm run dev
 ```
 
-La pipeline gira automaticamente ogni 30 minuti tramite APScheduler. Si può anche triggerare manualmente dall'endpoint `/admin/run-pipeline` o dal pannello admin su `/admin`.
+Frontend: `http://localhost:3000`
 
-## Configurazione
-
-Modifica `backend/config.py` per:
-- Aggiungere/rimuovere feed RSS
-- Cambiare modello Groq (`GROQ_MODEL`)
-- Modificare la frequenza di polling (`FETCH_INTERVAL_MINUTES`)
-- Cambiare la soglia di clustering (`SIMILARITY_THRESHOLD`)
+---
 
 ## Deploy
 
-### Frontend (Vercel)
+### 1. Database — Neon PostgreSQL (free, no expiry)
+
+1. Create a free project on [neon.tech](https://neon.tech)
+2. Copy the **Connection String** (starts with `postgresql://...`)
+
+### 2. Backend — Render
+
+1. **New → Web Service** → connect your GitHub repo
+2. **Root Directory:** `backend`
+3. **Build command:** `pip install -r requirements.txt`
+4. **Start command:** `uvicorn main:app --host 0.0.0.0 --port $PORT`
+5. **Environment Variables:**
+
+| Key | Value |
+|---|---|
+| `GROQ_API_KEY` | Your Groq API key |
+| `DATABASE_URL` | PostgreSQL connection string from Neon |
+
+### 3. Frontend — Vercel
 
 ```bash
 cd frontend
 npx vercel
 ```
 
-Imposta la variabile d'ambiente `NEXT_PUBLIC_API_URL` con l'URL del backend su Render.
+Set environment variable in Vercel dashboard:
 
-### Backend (Render)
+| Key | Value |
+|---|---|
+| `NEXT_PUBLIC_API_URL` | `https://your-render-service.onrender.com` |
 
-1. Crea un nuovo **Web Service** su [render.com](https://render.com)
-2. Collega il repo GitHub
-3. Imposta **Root Directory**: `backend`
-4. **Build command**: `pip install -r requirements.txt`
-5. **Start command**: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-6. In **Environment Variables** aggiungi `GROQ_API_KEY`
+### 4. Keep-alive (Render free tier)
+
+Render's free tier sleeps after 15 minutes of inactivity, causing ~30s cold starts.
+Set up a free uptime monitor on [UptimeRobot](https://uptimerobot.com) to ping `https://your-render-service.onrender.com/health` every 5 minutes — the backend stays warm at zero cost.
+
+---
+
+## API Reference
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/articles` | List articles — supports `?tag=`, `?limit=`, `?offset=` |
+| `GET` | `/articles/{id}` | Full article with markdown body and sources |
+| `GET` | `/tags` | All tags with article counts |
+| `GET` | `/rss` | RSS 2.0 feed (last 50 articles) |
+| `POST` | `/admin/run-pipeline` | Trigger pipeline immediately |
+| `POST` | `/admin/reset-items` | Re-queue all processed RSS items |
+| `GET` | `/admin/stats` | Live pipeline stats |
+| `GET` | `/health` | Health check — `{"status": "ok"}` |
+
+---
+
+## Project Structure
+
+```
+CyberNews/
+├── backend/
+│   ├── pipeline/
+│   │   ├── discovery.py     # RSS fetching, SHA-256 dedup, RSS content caching
+│   │   ├── clustering.py    # Fuzzy topic clustering (rapidfuzz)
+│   │   ├── scraper.py       # Web scraping + RSS summary fallback
+│   │   └── synthesizer.py  # Groq LLM call, JSON parsing, retry on rate limit
+│   ├── main.py              # FastAPI app, endpoints, CORS
+│   ├── models.py            # SQLAlchemy models (Article, Source, RssItem)
+│   ├── scheduler.py         # APScheduler — pipeline runner
+│   ├── database.py          # DB engine, SQLite/PostgreSQL compat, migrations
+│   ├── config.py            # RSS feeds, model name, thresholds
+│   └── requirements.txt
+└── frontend/
+    ├── app/
+    │   ├── page.tsx                  # Homepage — client-side, handles cold start
+    │   ├── article/[id]/page.tsx     # Article detail — ISR (revalidate 1h)
+    │   ├── category/[tag]/page.tsx   # Tag filter — ISR (revalidate 1min)
+    │   ├── admin/page.tsx            # Admin panel — live stats polling
+    │   └── api/rss-proxy/route.ts   # Serverless RSS proxy
+    ├── components/
+    │   ├── ArticleCard.tsx    # Article card with relevance bar and tags
+    │   ├── TagBadge.tsx       # Color-coded tag badge per category
+    │   ├── BackendStatus.tsx  # Offline banner with context-aware message
+    │   └── SourcesList.tsx    # External source links
+    └── lib/api.ts             # Type-safe API client
+```
+
+---
+
+## News Sources
+
+| Source | Feed |
+|---|---|
+| BleepingComputer | bleepingcomputer.com |
+| The Hacker News | thehackernews.com |
+| Krebs on Security | krebsonsecurity.com |
+| Dark Reading | darkreading.com |
+| CISA Advisories | cisa.gov |
+| Security Affairs | securityaffairs.com |
+| Graham Cluley | grahamcluley.com |

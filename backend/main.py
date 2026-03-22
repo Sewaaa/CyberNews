@@ -96,15 +96,18 @@ def rss_feed(db: Session = Depends(get_db)):
     rss = Element("rss", version="2.0")
     channel = SubElement(rss, "channel")
 
+    import os
+    frontend_url = os.getenv("FRONTEND_URL", "https://cybernews-bxml.onrender.com").rstrip("/")
+
     SubElement(channel, "title").text = "CyberNews — Cybersecurity in italiano"
-    SubElement(channel, "link").text = "https://cybernews.local"
+    SubElement(channel, "link").text = frontend_url
     SubElement(channel, "description").text = "Le notizie di cybersecurity più rilevanti, sintetizzate da AI"
     SubElement(channel, "language").text = "it"
 
     for article in articles:
         item = SubElement(channel, "item")
         SubElement(item, "title").text = article.title
-        SubElement(item, "link").text = f"https://cybernews.local/article/{article.id}"
+        SubElement(item, "link").text = f"{frontend_url}/article/{article.id}"
         SubElement(item, "description").text = article.summary or ""
         SubElement(item, "pubDate").text = article.published_at.strftime("%a, %d %b %Y %H:%M:%S +0000")
         SubElement(item, "guid").text = str(article.id)
