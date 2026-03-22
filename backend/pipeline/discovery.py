@@ -1,5 +1,6 @@
 import hashlib
 import logging
+import re
 from datetime import datetime
 from urllib.parse import urlparse
 
@@ -13,6 +14,20 @@ logger = logging.getLogger(__name__)
 
 def _hash_url(url: str) -> str:
     return hashlib.sha256(url.encode()).hexdigest()
+
+
+def _extract_rss_content(entry) -> str:
+    """Estrae il testo dal campo content o summary dell'entry RSS, strippando l'HTML."""
+    text = ""
+    # Prova prima content (più completo), poi summary
+    if hasattr(entry, "content") and entry.content:
+        text = entry.content[0].get("value", "")
+    if not text and hasattr(entry, "summary"):
+        text = entry.summary or ""
+    # Strip tag HTML
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text[:3000]  # stesso limite del scraper
 
 
 def fetch_new_items(db: Session) -> list[dict]:
@@ -44,12 +59,14 @@ def fetch_new_items(db: Session) -> list[dict]:
 
             title = entry.get("title", "").strip()
             domain = urlparse(feed_url).netloc
+            rss_content = _extract_rss_content(entry)
 
             item = RssItem(
                 url_hash=url_hash,
                 url=url,
                 title=title,
                 feed_source=domain,
+                rss_content=rss_content or None,
                 discovered_at=datetime.utcnow(),
                 processed=False,
             )
@@ -65,7 +82,10 @@ def get_unprocessed_items(db: Session) -> list[dict]:
     from models import RssItem
 
     rows = db.query(RssItem).filter(RssItem.processed == False).all()  # noqa: E712
-    return [{"id": r.id, "url": r.url, "title": r.title, "feed_source": r.feed_source} for r in rows]
+    return [
+        {"id": r.id, "url": r.url, "title": r.title, "feed_source": r.feed_source, "rss_content": r.rss_content or ""}
+        for r in rows
+    ]
 
 
 def mark_processed(db: Session, item_ids: list[int]) -> None:

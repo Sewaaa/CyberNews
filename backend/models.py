@@ -71,5 +71,6 @@ class RssItem(Base):
     url = Column(Text, nullable=False)
     title = Column(Text)
     feed_source = Column(Text)
+    rss_content = Column(Text)  # contenuto/riassunto dal feed RSS, usato come fallback
     discovered_at = Column(DateTime, default=datetime.utcnow)
     processed = Column(Boolean, default=False)

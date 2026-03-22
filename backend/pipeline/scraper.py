@@ -42,17 +42,28 @@ def scrape_url(url: str) -> str | None:
 def scrape_cluster(cluster: list[dict]) -> list[dict]:
     """
     Esegue lo scraping di tutti gli URL di un cluster.
-    Restituisce la lista degli item con campo 'text' aggiunto.
-    Esclude gli item dove lo scraping fallisce.
+    Se lo scraping fallisce, usa il contenuto RSS salvato in fase di discovery.
+    Esclude solo gli item senza nessuna fonte di testo disponibile.
     """
     results = []
     for item in cluster:
         url = item.get("url", "")
+        domain = urlparse(url).netloc
+
         text = scrape_url(url)
+
         if text:
-            domain = urlparse(url).netloc
-            results.append({**item, "text": text, "domain": domain})
+            logger.info(f"Scraping OK: {url}")
         else:
-            logger.warning(f"Skipping {url}: testo non disponibile")
+            # Fallback: usa il contenuto RSS salvato durante la discovery
+            rss_content = item.get("rss_content", "").strip()
+            if rss_content:
+                logger.info(f"Scraping fallito per {url}, uso contenuto RSS come fallback")
+                text = rss_content
+            else:
+                logger.warning(f"Skipping {url}: né scraping né contenuto RSS disponibili")
+                continue
+
+        results.append({**item, "text": text, "domain": domain})
 
     return results

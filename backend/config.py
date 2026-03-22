@@ -3,8 +3,9 @@ RSS_FEEDS = [
     "https://feeds.feedburner.com/TheHackersNews",
     "https://krebsonsecurity.com/feed/",
     "https://www.darkreading.com/rss.xml",
-    "https://threatpost.com/feed/",
     "https://www.cisa.gov/cybersecurity-advisories/feed.xml",
+    "https://securityaffairs.com/feed",
+    "https://grahamcluley.com/feed/",
 ]
 
 # LLM

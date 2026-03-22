@@ -20,4 +20,14 @@ def get_db():
 
 def init_db():
     from models import Article, Source, RssItem  # noqa: F401
+    from sqlalchemy import text
+
     Base.metadata.create_all(bind=engine)
+
+    # Migrazione: aggiunge rss_content se non esiste (DB già esistente)
+    with engine.connect() as conn:
+        try:
+            conn.execute(text("ALTER TABLE rss_items ADD COLUMN rss_content TEXT"))
+            conn.commit()
+        except Exception:
+            pass  # colonna già presente
