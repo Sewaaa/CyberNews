@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArticleSummary } from "@/lib/api";
 import TagBadge from "./TagBadge";
+import RelevanceDots from "./RelevanceDots";
 
 interface ArticleCardProps {
   article: ArticleSummary;
@@ -14,25 +15,6 @@ function formatDate(iso: string): string {
     hour: "2-digit",
     minute: "2-digit",
   });
-}
-
-function RelevanceBar({ score }: { score: number }) {
-  const pct = Math.min(Math.max(score, 0), 10) * 10;
-  const color =
-    score >= 8
-      ? "bg-green-500"
-      : score >= 5
-        ? "bg-yellow-500"
-        : "bg-zinc-600";
-
-  return (
-    <div className="flex items-center gap-1.5" title={`Rilevanza: ${score}/10`}>
-      <div className="w-16 h-1 bg-zinc-700 rounded-full overflow-hidden">
-        <div className={`h-full ${color} rounded-full`} style={{ width: `${pct}%` }} />
-      </div>
-      <span className="text-xs text-zinc-500">{score}/10</span>
-    </div>
-  );
 }
 
 export default function ArticleCard({ article }: ArticleCardProps) {
@@ -73,7 +55,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
 
       <div className="mt-4 flex items-center justify-between text-xs text-zinc-500">
         <div className="flex items-center gap-3">
-          <RelevanceBar score={article.relevance_score} />
+          <RelevanceDots score={article.relevance_score} />
           <span>{article.sources.length} font{article.sources.length !== 1 ? "i" : "e"}</span>
         </div>
         <time dateTime={article.published_at}>{formatDate(article.published_at)}</time>

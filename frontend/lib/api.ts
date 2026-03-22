@@ -51,11 +51,15 @@ async function apiFetch<T>(path: string): Promise<T> {
 
 export async function getArticles(params?: {
   tag?: string;
+  min_score?: number;
+  max_score?: number;
   limit?: number;
   offset?: number;
 }): Promise<ArticlesResponse> {
   const qs = new URLSearchParams();
   if (params?.tag) qs.set("tag", params.tag);
+  if (params?.min_score != null) qs.set("min_score", String(params.min_score));
+  if (params?.max_score != null) qs.set("max_score", String(params.max_score));
   if (params?.limit) qs.set("limit", String(params.limit));
   if (params?.offset) qs.set("offset", String(params.offset));
   const query = qs.toString() ? `?${qs}` : "";

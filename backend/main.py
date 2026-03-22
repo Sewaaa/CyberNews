@@ -41,6 +41,8 @@ app.add_middleware(
 @app.get("/articles")
 def list_articles(
     tag: Optional[str] = Query(None, description="Filtra per tag"),
+    min_score: Optional[int] = Query(None, ge=1, le=10, description="Score minimo (1-10)"),
+    max_score: Optional[int] = Query(None, ge=1, le=10, description="Score massimo (1-10)"),
     limit: int = Query(20, ge=1, le=100),
     offset: int = Query(0, ge=0),
     db: Session = Depends(get_db),
@@ -49,6 +51,10 @@ def list_articles(
 
     if tag:
         q = q.filter(Article.tags.like(f'%"{tag}"%'))
+    if min_score is not None:
+        q = q.filter(Article.relevance_score >= min_score)
+    if max_score is not None:
+        q = q.filter(Article.relevance_score <= max_score)
 
     total = q.count()
     articles = q.offset(offset).limit(limit).all()

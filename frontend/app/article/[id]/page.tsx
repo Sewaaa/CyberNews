@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getArticle } from "@/lib/api";
 import TagBadge from "@/components/TagBadge";
 import SourcesList from "@/components/SourcesList";
+import RelevanceDots from "@/components/RelevanceDots";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -66,7 +67,7 @@ export default async function ArticlePage({ params }: PageProps) {
         <div className="mt-4 flex items-center gap-4 text-sm text-zinc-500">
           <time dateTime={article.published_at}>{publishedAt}</time>
           <span>·</span>
-          <span>Rilevanza: {article.relevance_score}/10</span>
+          <RelevanceDots score={article.relevance_score} />
           <span>·</span>
           <span>{article.sources.length} fonte{article.sources.length !== 1 ? "i" : "e"}</span>
         </div>
