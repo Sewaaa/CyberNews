@@ -1,32 +1,35 @@
-import { getArticles, getTags } from "@/lib/api";
+"use client";
+
+import { useEffect, useState } from "react";
+import { getArticles, getTags, ArticleSummary, TagCount } from "@/lib/api";
 import ArticleCard from "@/components/ArticleCard";
 import TagBadge from "@/components/TagBadge";
 import Link from "next/link";
 
-export const revalidate = 60;
-
 const PAGE_SIZE = 10;
 
-interface HomePageProps {
-  searchParams: Promise<{ page?: string }>;
-}
+export default function HomePage() {
+  const [page, setPage] = useState(1);
+  const [articles, setArticles] = useState<ArticleSummary[]>([]);
+  const [total, setTotal] = useState(0);
+  const [tags, setTags] = useState<TagCount[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function HomePage({ searchParams }: HomePageProps) {
-  const { page: pageParam } = await searchParams;
-  const page = Math.max(1, parseInt(pageParam ?? "1", 10));
-  const offset = (page - 1) * PAGE_SIZE;
+  useEffect(() => {
+    setLoading(true);
+    const offset = (page - 1) * PAGE_SIZE;
+    Promise.all([
+      getArticles({ limit: PAGE_SIZE, offset }).catch(() => ({ total: 0, offset: 0, limit: PAGE_SIZE, items: [] })),
+      getTags().catch(() => []),
+    ]).then(([articlesRes, tagsRes]) => {
+      setArticles(articlesRes.items);
+      setTotal(articlesRes.total);
+      setTags(tagsRes);
+      setLoading(false);
+    });
+  }, [page]);
 
-  const [articlesRes, tags] = await Promise.all([
-    getArticles({ limit: PAGE_SIZE, offset }).catch(() => ({
-      total: 0,
-      offset: 0,
-      limit: PAGE_SIZE,
-      items: [],
-    })),
-    getTags().catch(() => []),
-  ]);
-
-  const totalPages = Math.ceil(articlesRes.total / PAGE_SIZE);
+  const totalPages = Math.ceil(total / PAGE_SIZE);
   const topTags = tags.slice(0, 12);
 
   return (
@@ -56,48 +59,53 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       )}
 
       {/* Articles */}
-      {articlesRes.items.length === 0 ? (
+      {loading ? (
+        <div className="space-y-4">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="border border-zinc-800 rounded-lg p-5 bg-zinc-900 animate-pulse">
+              <div className="h-5 bg-zinc-700 rounded w-3/4 mb-3" />
+              <div className="h-4 bg-zinc-800 rounded w-full mb-2" />
+              <div className="h-4 bg-zinc-800 rounded w-2/3" />
+            </div>
+          ))}
+        </div>
+      ) : articles.length === 0 ? (
         <div className="text-center py-20 text-zinc-500">
           <p className="text-lg mb-2">Nessun articolo ancora.</p>
           <p className="text-sm">
             Avvia la pipeline dal pannello{" "}
-            <a href="/admin" className="text-cyan-400 hover:underline">
-              Admin
-            </a>{" "}
+            <a href="/admin" className="text-cyan-400 hover:underline">Admin</a>{" "}
             per generare i primi articoli.
           </p>
         </div>
       ) : (
         <>
           <div className="space-y-4">
-            {articlesRes.items.map((article) => (
+            {articles.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}
           </div>
 
-          {/* Paginazione */}
           {totalPages > 1 && (
             <div className="mt-10 flex items-center justify-center gap-2">
               {page > 1 && (
-                <Link
-                  href={`/?page=${page - 1}`}
+                <button
+                  onClick={() => setPage(page - 1)}
                   className="px-4 py-2 text-sm rounded-lg border border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-white transition-colors"
                 >
                   ← Precedente
-                </Link>
+                </button>
               )}
-
               <span className="px-4 py-2 text-sm text-zinc-500">
                 Pagina {page} di {totalPages}
               </span>
-
               {page < totalPages && (
-                <Link
-                  href={`/?page=${page + 1}`}
+                <button
+                  onClick={() => setPage(page + 1)}
                   className="px-4 py-2 text-sm rounded-lg border border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-white transition-colors"
                 >
                   Successiva →
-                </Link>
+                </button>
               )}
             </div>
           )}
