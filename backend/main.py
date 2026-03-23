@@ -1,4 +1,5 @@
 import logging
+import threading
 from contextlib import asynccontextmanager
 from datetime import datetime
 from typing import Optional
@@ -21,6 +22,11 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     init_db()
     start_scheduler()
+    # Esegue la pipeline subito all'avvio (in background per non bloccare il server).
+    # Fondamentale su Render free tier: il server va in sleep e si risveglia
+    # ogni ~5 min tramite UptimeRobot — la pipeline partirebbe solo ogni 30 min
+    # con lo scheduler da solo, invece così parte ad ogni risveglio.
+    threading.Thread(target=run_pipeline, daemon=True).start()
     yield
     stop_scheduler()
 
