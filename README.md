@@ -183,8 +183,9 @@ Set up a free uptime monitor on [UptimeRobot](https://uptimerobot.com) to ping `
 | `GET` | `/rss` | RSS 2.0 feed (last 50 articles) |
 | `POST` | `/admin/run-pipeline` | Trigger pipeline immediately |
 | `POST` | `/admin/reset-items` | Re-queue all processed RSS items |
+| `DELETE` | `/admin/delete-all-articles` | Delete all articles and sources from DB |
 | `GET` | `/admin/stats` | Live pipeline stats |
-| `GET` | `/health` | Health check — `{"status": "ok"}` |
+| `GET` / `HEAD` | `/health` | Health check — `{"status": "ok"}` |
 
 ---
 
