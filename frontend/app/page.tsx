@@ -351,39 +351,40 @@ export default function HomePage() {
 
       {/* ── Filtri ── */}
       <section className="mb-6 md:mb-8">
-        {/* Riga unica: [🏷 Categoria] | [Rilevanza: Tutti Bassa Media Critica]
-            Desktop: tutto su una riga con separatore.
-            Mobile: scroll orizzontale senza a-capo. */}
-        <div className="flex items-center gap-2 mb-3 overflow-x-auto pb-0.5 -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible scrollbar-hide">
+        {/* Desktop: riga singola [Categoria | sep | Rilevanza: Tutti Bassa Media Critica]
+            Mobile: 2 righe — Categoria sopra, segmented control sotto */}
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-2 mb-3">
 
-          {/* Categoria — prima su desktop, inclusa nello scroll mobile */}
-          {topTags.length > 0 && (
-            <button onClick={() => setTagsOpen(!tagsOpen)}
-              className="shrink-0 tag-toggle-btn flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 transition-colors px-3 py-2 border border-blue-100 hover:border-blue-300 rounded-lg bg-white">
-              🏷 Categoria
-              <span className="opacity-60">{tagsOpen ? "▲" : "▼"}</span>
-            </button>
-          )}
+          {/* Riga 1 mobile / inline desktop: Categoria + etichetta desktop */}
+          <div className="flex items-center gap-2">
+            {topTags.length > 0 && (
+              <button onClick={() => setTagsOpen(!tagsOpen)}
+                className="shrink-0 tag-toggle-btn flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 transition-colors px-3 py-2 border border-blue-100 hover:border-blue-300 rounded-lg bg-white">
+                🏷 Categoria
+                <span className="opacity-60">{tagsOpen ? "▲" : "▼"}</span>
+              </button>
+            )}
+            {topTags.length > 0 && (
+              <div className="hidden md:block w-px h-5 bg-blue-100 dark:bg-blue-800 mx-1 shrink-0" />
+            )}
+            <span className="hidden md:inline text-xs text-gray-500 dark:text-slate-400 font-medium shrink-0">Rilevanza:</span>
+          </div>
 
-          {/* Separatore verticale — solo desktop */}
-          {topTags.length > 0 && (
-            <div className="hidden md:block w-px h-5 bg-blue-100 dark:bg-blue-800 mx-1 shrink-0" />
-          )}
-
-          {/* Label rilevanza — solo desktop */}
-          <span className="hidden md:inline text-xs text-gray-500 dark:text-slate-400 font-medium shrink-0">Rilevanza:</span>
-
-          {/* Bottoni filtro */}
-          {([0, 1, 2, 3] as const).map((lvl) => (
-            <button key={lvl} onClick={() => changeLevel(lvl)}
-              className={`shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold border transition-all ${
-                levelFilter === lvl
-                  ? "border-blue-600 bg-blue-600 text-white"
-                  : "filter-btn-inactive border-blue-200 text-gray-600 hover:border-blue-400 hover:text-blue-600 bg-white"
-              }`}>
-              {lvl === 0 ? "Tutti" : <>{THREAT_ICON[lvl]} {LEVEL_LABELS[lvl]}</>}
-            </button>
-          ))}
+          {/* Riga 2 mobile: segmented control 4 colonne uguali.
+              Desktop: flex normale con pillole arrotondate. */}
+          <div className="grid grid-cols-4 gap-1 md:flex md:flex-row md:gap-1.5">
+            {([0, 1, 2, 3] as const).map((lvl) => (
+              <button key={lvl} onClick={() => changeLevel(lvl)}
+                className={`flex items-center justify-center gap-1 px-2 md:px-3 py-2 rounded-lg md:rounded-full text-xs font-semibold border transition-all ${
+                  levelFilter === lvl
+                    ? "border-blue-600 bg-blue-600 text-white"
+                    : "filter-btn-inactive border-blue-200 text-gray-600 hover:border-blue-400 hover:text-blue-600 bg-white"
+                }`}>
+                <span className="hidden md:inline">{lvl > 0 && THREAT_ICON[lvl]}</span>
+                {LEVEL_LABELS[lvl]}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Tag espansi */}
