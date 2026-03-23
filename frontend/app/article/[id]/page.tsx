@@ -55,18 +55,19 @@ export default async function ArticlePage({ params }: PageProps) {
     <article className="max-w-3xl mx-auto fade-up">
 
       {/* ── Back ── */}
-      <div className="mb-6">
+      <div className="mb-5 md:mb-6">
         <a
           href="/"
-          className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors py-1"
         >
           ← Torna alla homepage
         </a>
       </div>
 
       {/* ── Header ── */}
-      <header className="mb-8">
-        <div className="flex flex-wrap gap-2 mb-4">
+      <header className="mb-6 md:mb-8">
+        {/* Tags + pill */}
+        <div className="flex flex-wrap gap-2 mb-3 md:mb-4">
           <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold border ${THREAT_PILL[level]}`}>
             {THREAT_ICON[level]} Rilevanza {THREAT_LABEL[level]}
           </span>
@@ -75,54 +76,62 @@ export default async function ArticlePage({ params }: PageProps) {
           ))}
         </div>
 
-        <h1 className="text-3xl font-extrabold text-[#0B1F3A] leading-tight mb-5">
+        {/* Title */}
+        <h1 className="text-2xl md:text-3xl font-extrabold text-[#0B1F3A] leading-tight mb-4 md:mb-5">
           {article.title}
         </h1>
 
-        <div className={`mb-6 rounded-2xl overflow-hidden max-h-80 shadow-blue-md ${article.image_url ? "bg-blue-50" : "img-placeholder"}`} style={{ minHeight: article.image_url ? undefined : "12rem" }}>
+        {/* Hero image */}
+        <div
+          className={`mb-5 md:mb-6 rounded-2xl overflow-hidden shadow-blue-md ${article.image_url ? "bg-blue-50" : "img-placeholder"}`}
+          style={{ maxHeight: article.image_url ? undefined : "10rem", minHeight: "8rem" }}
+        >
           {article.image_url ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={article.image_url}
               alt={article.title}
-              className="w-full h-full object-cover"
+              className="w-full object-cover max-h-52 md:max-h-80"
             />
           ) : null}
         </div>
 
+        {/* Summary box */}
         {article.summary && (
-          <div className="byte-box bg-blue-50 border border-blue-200 rounded-2xl p-5 mb-6 flex gap-4 items-start">
-            {/* Byte mascot */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/byte-mascot.png"
-              alt="Byte"
-              className="shrink-0 w-24 h-24 object-contain float-anim"
-            />
-            <div>
-              <p className="byte-label text-[11px] text-blue-500 font-bold uppercase tracking-widest mb-1.5">
-                In sintesi
-              </p>
-              <p className="byte-text text-base text-blue-700 leading-relaxed">
-                {article.summary}
-              </p>
+          <div className="byte-box bg-blue-50 border border-blue-200 rounded-2xl p-4 md:p-5 mb-5 md:mb-6">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-start">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/byte-mascot.png"
+                alt="mascotte"
+                className="shrink-0 w-16 h-16 sm:w-24 sm:h-24 object-contain float-anim self-center sm:self-start"
+              />
+              <div>
+                <p className="byte-label text-[11px] text-blue-500 font-bold uppercase tracking-widest mb-1.5">
+                  In sintesi
+                </p>
+                <p className="byte-text text-sm md:text-base text-blue-700 leading-relaxed">
+                  {article.summary}
+                </p>
+              </div>
             </div>
           </div>
         )}
 
-        <div className="flex items-center gap-4 text-sm text-gray-500 flex-wrap">
-          <time dateTime={article.published_at}>{publishedAt}</time>
+        {/* Metadata */}
+        <div className="flex items-center gap-3 text-gray-500 flex-wrap">
+          <time dateTime={article.published_at} className="text-xs md:text-sm">{publishedAt}</time>
           <span className="text-gray-300">·</span>
           <RelevanceDots score={article.relevance_score} />
           <span className="text-gray-300">·</span>
-          <a href="#fonti" className="text-blue-600 dark:text-blue-400 hover:underline">
+          <a href="#fonti" className="text-blue-600 dark:text-blue-400 hover:underline text-xs md:text-sm">
             {article.sources.length} fonte{article.sources.length !== 1 ? "i" : ""}
           </a>
         </div>
       </header>
 
       {/* ── Divider ── */}
-      <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent mb-8" />
+      <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent mb-6 md:mb-8" />
 
       {/* ── Body ── */}
       <div className="prose-cyber">
@@ -130,7 +139,7 @@ export default async function ArticlePage({ params }: PageProps) {
       </div>
 
       {/* ── Sources ── */}
-      <div id="fonti" className="mt-10 pt-8 border-t border-blue-100">
+      <div id="fonti" className="mt-8 md:mt-10 pt-6 md:pt-8 border-t border-blue-100">
         <SourcesList sources={article.sources} />
       </div>
     </article>

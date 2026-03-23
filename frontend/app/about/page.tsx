@@ -56,10 +56,8 @@ export default function AboutPage() {
     <div className="fade-up">
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden rounded-3xl bg-[#0B1F3A] px-8 py-16 mb-16">
+      <section className="relative overflow-hidden rounded-3xl bg-[#0B1F3A] px-6 py-12 md:px-8 md:py-16 mb-12 md:mb-16">
         <div className="absolute inset-0 dot-grid-bg opacity-20" />
-
-        {/* Cyan glow blob */}
         <div className="absolute top-1/2 right-8 -translate-y-1/2 w-72 h-72 bg-[#06E6D9] opacity-10 blur-3xl rounded-full pointer-events-none" />
 
         <div className="relative z-10 md:flex items-center gap-14">
@@ -68,56 +66,53 @@ export default function AboutPage() {
             <span className="text-[#06E6D9] text-xs font-bold tracking-widest uppercase mb-4 block">
               🛡️ La piattaforma
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-6">
+            <h1 className="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-5 md:mb-6">
               Sempre un passo avanti<br />
               <span className="text-[#06E6D9]">su ogni minaccia.</span>
             </h1>
-            <p className="text-blue-200 text-lg leading-relaxed mb-8 max-w-lg">
+            <p className="text-blue-200 text-base md:text-lg leading-relaxed mb-6 md:mb-8 max-w-lg">
               Scansiona ogni giorno 7+ fonti top di cybersecurity, raggruppa gli articoli duplicati
               e li sintetizza con AI in un unico briefing — chiaro, completo, gratuito.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/"
-                className="px-6 py-3 bg-[#06E6D9] text-[#0B1F3A] rounded-full font-bold text-sm hover:bg-cyan-300 transition-colors"
+                className="px-5 py-2.5 md:px-6 md:py-3 bg-[#06E6D9] text-[#0B1F3A] rounded-full font-bold text-sm hover:bg-cyan-300 transition-colors"
               >
                 Esplora le notizie →
               </Link>
               <Link
                 href="/rss"
-                className="px-6 py-3 border border-blue-400 text-blue-200 rounded-full font-semibold text-sm hover:border-[#06E6D9] hover:text-[#06E6D9] transition-colors"
+                className="px-5 py-2.5 md:px-6 md:py-3 border border-blue-400 text-blue-200 rounded-full font-semibold text-sm hover:border-[#06E6D9] hover:text-[#06E6D9] transition-colors"
               >
                 Feed RSS
               </Link>
             </div>
 
             {/* Trust badges */}
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-6 md:mt-8 flex flex-wrap gap-3">
               {["7+ Fonti", "Sintesi AI", "Aggiornato 24/7"].map((b) => (
-                <span
-                  key={b}
-                  className="text-xs text-blue-300 border border-blue-700 rounded-full px-3 py-1 bg-blue-900/40"
-                >
+                <span key={b} className="text-xs text-blue-300 border border-blue-700 rounded-full px-3 py-1 bg-blue-900/40">
                   {b}
                 </span>
               ))}
             </div>
           </div>
 
-          {/* Byte mascot */}
-          <div className="shrink-0 mt-10 md:mt-0 flex justify-center">
-            <ByteMascot size={300} />
+          {/* Mascot */}
+          <div className="shrink-0 mt-8 md:mt-0 flex justify-center">
+            <ByteMascot size={220} />
           </div>
         </div>
       </section>
 
       {/* ── Features ── */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-extrabold text-[#0B1F3A] mb-2">Come funziona</h2>
-        <p className="text-gray-500 mb-8">Tutto automatizzato, tutto trasparente.</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <section className="mb-12 md:mb-16">
+        <h2 className="text-xl md:text-2xl font-extrabold text-[#0B1F3A] mb-2">Come funziona</h2>
+        <p className="text-gray-500 mb-6 md:mb-8">Tutto automatizzato, tutto trasparente.</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
           {FEATURES.map((f) => (
-            <div key={f.title} className="card-blue p-6">
+            <div key={f.title} className="card-blue p-5 md:p-6">
               <div className="text-3xl mb-3">{f.icon}</div>
               <h3 className="font-bold text-[#0B1F3A] mb-1.5">{f.title}</h3>
               <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
@@ -127,14 +122,14 @@ export default function AboutPage() {
       </section>
 
       {/* ── Sources ── */}
-      <section className="mb-16">
-        <h2 className="text-2xl font-extrabold text-[#0B1F3A] mb-2">Le fonti</h2>
-        <p className="text-gray-500 mb-8">Monitorati 24/7 da Byte.</p>
-        <div className="flex flex-wrap gap-3">
+      <section className="mb-12 md:mb-16">
+        <h2 className="text-xl md:text-2xl font-extrabold text-[#0B1F3A] mb-2">Le fonti</h2>
+        <p className="text-gray-500 mb-6 md:mb-8">Monitorate 24/7.</p>
+        <div className="flex flex-wrap gap-2 md:gap-3">
           {SOURCES.map((s) => (
             <span
               key={s.name}
-              className="flex items-center gap-2 px-4 py-2 bg-white border border-blue-100 rounded-xl text-sm font-medium text-[#0B1F3A] shadow-blue-sm"
+              className="flex items-center gap-2 px-3 md:px-4 py-2 bg-white border border-blue-100 rounded-xl text-sm font-medium text-[#0B1F3A] shadow-blue-sm"
             >
               <span>{s.icon}</span>
               {s.name}
@@ -144,12 +139,12 @@ export default function AboutPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="bg-blue-50 border border-blue-100 rounded-3xl p-10 text-center">
+      <section className="bg-blue-50 border border-blue-100 rounded-3xl p-8 md:p-10 text-center">
         <div className="text-4xl mb-4">👻</div>
-        <h2 className="text-2xl font-extrabold text-[#0B1F3A] mb-3">
+        <h2 className="text-xl md:text-2xl font-extrabold text-[#0B1F3A] mb-3">
           Ci siamo per te
         </h2>
-        <p className="text-gray-500 mb-6 max-w-md mx-auto">
+        <p className="text-gray-500 mb-6 max-w-md mx-auto text-sm md:text-base">
           Torna alla homepage e scopri le ultime minacce del giorno, già sintetizzate e pronte da leggere.
         </p>
         <Link

@@ -19,7 +19,6 @@ const LEVEL_RANGES: Record<number, { min_score?: number; max_score?: number }> =
 const LEVEL_LABELS: Record<number, string> = { 0: "Tutti", 1: "Bassa", 2: "Media", 3: "Critica" };
 const THREAT_ICON:  Record<number, string> = { 1: "🟢", 2: "🟡", 3: "🔴" };
 
-/** Restituisce le classi CSS per il pill rilevanza, con varianti dark */
 function pillCls(level: number) {
   if (level === 3) return "pill-high  bg-red-50    text-red-700    border border-red-200";
   if (level === 2) return "pill-medium bg-yellow-50 text-yellow-700 border border-yellow-200";
@@ -49,7 +48,7 @@ function FeaturedLargeCard({ article }: { article: ArticleSummary }) {
   const level = getLevel(article.relevance_score);
   return (
     <Link href={`/article/${article.id}`} className="card-blue block overflow-hidden group h-full">
-      <div className={`w-full h-52 overflow-hidden card-img-bg ${article.image_url ? "bg-blue-50" : "img-placeholder"}`}>
+      <div className={`w-full h-40 md:h-52 overflow-hidden card-img-bg ${article.image_url ? "bg-blue-50" : "img-placeholder"}`}>
         {article.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={article.image_url} alt=""
@@ -57,17 +56,17 @@ function FeaturedLargeCard({ article }: { article: ArticleSummary }) {
             onError={(e) => { (e.target as HTMLImageElement).parentElement!.classList.add("img-placeholder"); (e.target as HTMLImageElement).style.display = "none"; }} />
         ) : null}
       </div>
-      <div className="p-6">
-        <div className="flex items-center gap-2 mb-3">
+      <div className="p-4 md:p-6">
+        <div className="flex items-center gap-2 mb-2 md:mb-3">
           <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${pillCls(level)}`}>
             {THREAT_ICON[level]} {LEVEL_LABELS[level]}
           </span>
           <time className="text-xs text-gray-400 card-meta">{formatDateShort(article.published_at)}</time>
         </div>
-        <h3 className="card-title font-bold text-[#0B1F3A] text-lg leading-snug line-clamp-2 mb-4 group-hover:text-blue-600 transition-colors">
+        <h3 className="card-title font-bold text-[#0B1F3A] text-base md:text-lg leading-snug line-clamp-2 mb-3 md:mb-4 group-hover:text-blue-600 transition-colors">
           {article.title}
         </h3>
-        <div className="flex flex-wrap gap-1.5 mb-4">
+        <div className="hidden sm:flex flex-wrap gap-1.5 mb-4">
           {article.tags.slice(0, 3).map((tag) => <TagBadge key={tag} tag={tag} linked={false} />)}
         </div>
         <div className="flex items-center justify-between text-xs text-gray-400 card-meta">
@@ -83,70 +82,48 @@ function FeaturedLargeCard({ article }: { article: ArticleSummary }) {
 function FeaturedSmallCard({ article }: { article: ArticleSummary }) {
   const level = getLevel(article.relevance_score);
   return (
-    <Link href={`/article/${article.id}`} className="card-blue flex items-start gap-3 p-4 group" style={{ borderRadius: "16px" }}>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-1.5 mb-1.5">
-          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${pillCls(level)}`}>
-            {THREAT_ICON[level]} {LEVEL_LABELS[level]}
-          </span>
-        </div>
-        <h4 className="card-title text-sm font-semibold text-[#0B1F3A] line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors">
-          {article.title}
-        </h4>
-        <div className="mt-2 flex items-center justify-between">
-          <time className="text-xs text-gray-400 card-meta">{formatDateShort(article.published_at)}</time>
-          <span className="text-xs text-blue-600 font-medium">→</span>
-        </div>
-      </div>
+    <Link href={`/article/${article.id}`} className="card-blue flex items-start gap-3 p-3 md:p-4 group h-full" style={{ borderRadius: "16px" }}>
       {article.image_url && (
-        <div className="shrink-0 w-16 h-14 rounded-xl overflow-hidden bg-blue-50 card-img-bg">
+        <div className="shrink-0 w-12 h-12 md:w-16 md:h-14 rounded-xl overflow-hidden bg-blue-50 card-img-bg">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={article.image_url} alt="" className="w-full h-full object-cover"
             onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = "none"; }} />
         </div>
       )}
+      <div className="flex-1 min-w-0">
+        <span className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium ${pillCls(level)} mb-1`}>
+          {THREAT_ICON[level]}
+        </span>
+        <h4 className="card-title text-xs font-semibold text-[#0B1F3A] line-clamp-2 leading-snug group-hover:text-blue-600 transition-colors">
+          {article.title}
+        </h4>
+        <div className="mt-1.5 flex items-center justify-between">
+          <time className="text-xs text-gray-400 card-meta">{formatDateShort(article.published_at)}</time>
+          <span className="text-xs text-blue-600 font-medium">→</span>
+        </div>
+      </div>
     </Link>
   );
 }
 
-/* ─── Byte's Daily Briefing ───────────────────────────────────────────────── */
+/* ─── Daily Briefing ──────────────────────────────────────────────────────── */
 function DailyBriefing({ articles }: { articles: ArticleSummary[] }) {
   const top5 = articles.slice(0, 5);
   if (top5.length === 0) return null;
   return (
-    <section className="relative bg-[#0B1F3A] rounded-3xl overflow-hidden my-14">
+    <section className="relative bg-[#0B1F3A] rounded-3xl overflow-hidden my-10 md:my-14">
       <div className="absolute inset-0 dot-grid-bg opacity-20" />
-      <div className="relative z-10 px-8 py-12 md:flex items-center gap-10">
+      <div className="relative z-10 px-5 py-8 md:px-8 md:py-12 md:flex items-center gap-10">
 
-        {/* Byte mascot — grande e prominente */}
-        <div className="shrink-0 flex justify-center mb-8 md:mb-0 md:order-last">
-          <div className="relative w-96 h-96 float-anim">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/byte-mascot.png"
-              alt="La mascotte di CyberNews"
-              className="w-full h-full object-contain drop-shadow-2xl"
-              onError={(e) => {
-                const el = e.target as HTMLImageElement;
-                el.style.display = "none";
-                if (el.parentElement)
-                  el.parentElement.innerHTML = `<div style="width:384px;height:384px;border-radius:50%;background:rgba(6,230,217,0.15);display:flex;align-items:center;justify-content:center;font-size:140px;">👻</div>`;
-              }}
-            />
-            {/* Glow */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-56 h-16 bg-[#06E6D9] opacity-20 blur-2xl rounded-full" />
-          </div>
-        </div>
-
-        {/* Content */}
+        {/* Content — top on mobile, left on desktop */}
         <div className="flex-1 min-w-0">
-          <h2 className="no-dark text-white font-extrabold text-2xl mb-6">Le minacce di oggi</h2>
-          <ol className="space-y-3 mb-7">
+          <h2 className="no-dark text-white font-extrabold text-xl md:text-2xl mb-4 md:mb-6">Le minacce di oggi</h2>
+          <ol className="space-y-2.5 md:space-y-3 mb-5 md:mb-7">
             {top5.map((a, i) => {
               const level = getLevel(a.relevance_score);
               return (
                 <li key={a.id}>
-                  <Link href={`/article/${a.id}`} className="flex items-center gap-3 group">
+                  <Link href={`/article/${a.id}`} className="flex items-center gap-3 group py-0.5">
                     <span className="shrink-0 w-6 h-6 rounded-full bg-blue-600/30 text-[#06E6D9] text-xs font-bold flex items-center justify-center">
                       {i + 1}
                     </span>
@@ -167,6 +144,25 @@ function DailyBriefing({ articles }: { articles: ArticleSummary[] }) {
             Vedi tutte le notizie →
           </Link>
         </div>
+
+        {/* Mascot — below content on mobile, right on desktop */}
+        <div className="shrink-0 flex justify-center mt-8 md:mt-0">
+          <div className="relative float-anim w-48 h-48 md:w-96 md:h-96">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/byte-mascot.png"
+              alt="La mascotte di CyberNews"
+              className="w-full h-full object-contain drop-shadow-2xl"
+              onError={(e) => {
+                const el = e.target as HTMLImageElement;
+                el.style.display = "none";
+                if (el.parentElement)
+                  el.parentElement.innerHTML = `<div style="width:100%;height:100%;border-radius:50%;background:rgba(6,230,217,0.15);display:flex;align-items:center;justify-content:center;font-size:4rem;">👻</div>`;
+              }}
+            />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-10 md:w-56 md:h-16 bg-[#06E6D9] opacity-20 blur-2xl rounded-full" />
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -177,7 +173,7 @@ function GridCard({ article }: { article: ArticleSummary }) {
   const level = getLevel(article.relevance_score);
   return (
     <article className="card-blue group flex flex-col overflow-hidden">
-      <div className={`w-full h-36 overflow-hidden card-img-bg shrink-0 ${article.image_url ? "bg-blue-50" : "img-placeholder"}`}>
+      <div className={`w-full h-24 md:h-36 overflow-hidden card-img-bg shrink-0 ${article.image_url ? "bg-blue-50" : "img-placeholder"}`}>
         {article.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={article.image_url} alt=""
@@ -185,24 +181,25 @@ function GridCard({ article }: { article: ArticleSummary }) {
             onError={(e) => { (e.target as HTMLImageElement).parentElement!.classList.add("img-placeholder"); (e.target as HTMLImageElement).style.display = "none"; }} />
         ) : null}
       </div>
-      <div className="p-5 flex flex-col flex-1">
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${pillCls(level)}`}>
-            {THREAT_ICON[level]} {LEVEL_LABELS[level]}
+      <div className="p-3 md:p-5 flex flex-col flex-1">
+        <div className="flex items-center justify-between gap-1 mb-2 md:mb-3">
+          <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-semibold ${pillCls(level)}`}>
+            {THREAT_ICON[level]}
+            <span className="hidden sm:inline ml-0.5">{LEVEL_LABELS[level]}</span>
           </span>
           <time className="text-xs text-gray-400 card-meta">{formatDate(article.published_at)}</time>
         </div>
         <Link href={`/article/${article.id}`}
-          className="card-title font-bold text-[#0B1F3A] leading-snug line-clamp-2 mb-3 hover:text-blue-600 transition-colors">
+          className="card-title font-bold text-[#0B1F3A] text-xs md:text-sm leading-snug line-clamp-2 mb-2 md:mb-3 hover:text-blue-600 transition-colors">
           {article.title}
         </Link>
-        <div className="flex flex-wrap gap-1.5 mb-4">
+        {/* Tags — hidden on mobile */}
+        <div className="hidden sm:flex flex-wrap gap-1.5 mb-4">
           {article.tags.slice(0, 3).map((tag) => <TagBadge key={tag} tag={tag} />)}
         </div>
-        <div className="mt-auto flex items-center justify-between text-xs text-gray-400 card-meta">
-          <div className="flex items-center gap-2">
+        <div className="mt-auto flex items-center justify-between text-xs text-gray-400 card-meta pt-2">
+          <div className="flex items-center gap-1.5">
             <RelevanceDots score={article.relevance_score} showLabel={false} />
-            <span>{article.sources.length} fonte{article.sources.length !== 1 ? "i" : ""}</span>
           </div>
           <Link href={`/article/${article.id}`} className="text-blue-600 font-semibold hover:translate-x-1 transition-transform inline-block">
             Leggi →
@@ -216,14 +213,14 @@ function GridCard({ article }: { article: ArticleSummary }) {
 /* ─── Skeleton ────────────────────────────────────────────────────────────── */
 function SkeletonGrid() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
       {[...Array(6)].map((_, i) => (
-        <div key={i} className="card-blue p-5">
-          <div className="h-36 skeleton rounded-xl mb-4" />
-          <div className="h-3 skeleton rounded w-1/4 mb-4" />
-          <div className="h-5 skeleton rounded w-full mb-2" />
-          <div className="h-5 skeleton rounded w-3/4 mb-4" />
-          <div className="h-16 skeleton rounded-xl mb-4" />
+        <div key={i} className="card-blue p-3 md:p-5">
+          <div className="h-24 md:h-36 skeleton rounded-xl mb-3 md:mb-4" />
+          <div className="h-3 skeleton rounded w-1/4 mb-3 md:mb-4" />
+          <div className="h-4 skeleton rounded w-full mb-2" />
+          <div className="h-4 skeleton rounded w-3/4 mb-3 md:mb-4" />
+          <div className="hidden sm:block h-12 skeleton rounded-xl mb-4" />
           <div className="h-3 skeleton rounded w-1/2" />
         </div>
       ))}
@@ -269,10 +266,10 @@ export default function HomePage() {
 
   function changeLevel(lvl: number) { setLevelFilter(lvl); setPage(1); }
 
-  const totalPages   = Math.ceil(total / PAGE_SIZE);
-  const topTags      = tags.slice(0, 15);
-  const featuredLarge = inEvidenza[0];
-  const featuredSmall = inEvidenza.slice(1, 4);
+  const totalPages      = Math.ceil(total / PAGE_SIZE);
+  const topTags         = tags.slice(0, 15);
+  const featuredLarge   = inEvidenza[0];
+  const featuredSmall   = inEvidenza.slice(1, 4);
   const briefingArticles = allLatest
     .filter((a) => getLevel(a.relevance_score) >= 2)
     .sort((a, b) => b.relevance_score - a.relevance_score);
@@ -282,21 +279,23 @@ export default function HomePage() {
 
       {/* ── In Evidenza ── */}
       {inEvidenza.length > 0 && (
-        <section className="mb-14">
-          <div className="flex items-center gap-3 mb-6">
-            <h2 className="no-dark text-xl font-extrabold text-red-600 dark:text-red-400">⚠ In Evidenza</h2>
+        <section className="mb-10 md:mb-14">
+          <div className="flex items-center gap-3 mb-4 md:mb-6">
+            <h2 className="no-dark text-lg md:text-xl font-extrabold text-red-600 dark:text-red-400">⚠ In Evidenza</h2>
             <span className="evidenza-badge text-xs text-gray-400 border border-blue-100 rounded-full px-2.5 py-0.5 bg-blue-50">
               ultime {EVIDENZA_HOURS}h
             </span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+          {/* Mobile: large card + 2-col small cards stacked. Desktop: 3-col grid */}
+          <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-3 md:gap-5">
             {featuredLarge && (
               <div className="md:col-span-2">
                 <FeaturedLargeCard article={featuredLarge} />
               </div>
             )}
             {featuredSmall.length > 0 && (
-              <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
                 {featuredSmall.map((a) => <FeaturedSmallCard key={a.id} article={a} />)}
               </div>
             )}
@@ -305,12 +304,12 @@ export default function HomePage() {
       )}
 
       {/* ── Filtri ── */}
-      <section className="mb-8">
+      <section className="mb-6 md:mb-8">
         <div className="flex items-center gap-2 flex-wrap mb-4">
           <span className="text-xs text-gray-500 dark:text-slate-400 font-medium mr-1">Rilevanza:</span>
           {([0, 1, 2, 3] as const).map((lvl) => (
             <button key={lvl} onClick={() => changeLevel(lvl)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold border transition-all ${
                 levelFilter === lvl
                   ? "border-blue-600 bg-blue-600 text-white"
                   : "filter-btn-inactive border-blue-200 text-gray-600 hover:border-blue-400 hover:text-blue-600 bg-white"
@@ -323,7 +322,7 @@ export default function HomePage() {
         {topTags.length > 0 && (
           <div>
             <button onClick={() => setTagsOpen(!tagsOpen)}
-              className="tag-toggle-btn flex items-center gap-2 text-xs font-medium text-gray-500 hover:text-blue-600 transition-colors px-3 py-1.5 border border-blue-100 hover:border-blue-300 rounded-lg bg-white">
+              className="tag-toggle-btn flex items-center gap-2 text-xs font-medium text-gray-500 hover:text-blue-600 transition-colors px-3 py-2 border border-blue-100 hover:border-blue-300 rounded-lg bg-white">
               <span>🏷 Filtra per categoria</span>
               <span>{tagsOpen ? "▲" : "▼"}</span>
             </button>
@@ -338,20 +337,19 @@ export default function HomePage() {
 
       {/* ── Ultime notizie ── */}
       <section className="mb-4">
-        <h2 className="text-xl font-extrabold text-[#0B1F3A] dark:text-slate-100 mb-6">Ultime notizie</h2>
+        <h2 className="text-lg md:text-xl font-extrabold text-[#0B1F3A] dark:text-slate-100 mb-4 md:mb-6">Ultime notizie</h2>
 
         {loading ? <SkeletonGrid /> : articles.length === 0 ? (
-          <div className="text-center py-24">
-            {/* Empty state con mascotte grande */}
+          <div className="text-center py-20 md:py-24">
             <div className="flex justify-center mb-6">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/byte-mascot.png" alt="Byte" className="w-40 h-40 object-contain float-anim opacity-60"
+              <img src="/byte-mascot.png" alt="mascotte" className="w-32 h-32 md:w-40 md:h-40 object-contain float-anim opacity-60"
                 onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
             </div>
-            <p className="text-lg font-semibold text-gray-500 dark:text-slate-400 mb-2">
+            <p className="text-base md:text-lg font-semibold text-gray-500 dark:text-slate-400 mb-2">
               {levelFilter > 0
                 ? `Nessun articolo con rilevanza "${LEVEL_LABELS[levelFilter]}".`
-                : "Byte non ha ancora trovato notizie..."}
+                : "Nessuna notizia ancora..."}
             </p>
             {levelFilter === 0 && (
               <p className="text-sm text-gray-400 dark:text-slate-500">
@@ -362,23 +360,23 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
               {articles.map((article) => <GridCard key={article.id} article={article} />)}
             </div>
 
             {totalPages > 1 && (
-              <div className="mt-10 flex items-center justify-center gap-2">
+              <div className="mt-8 md:mt-10 flex items-center justify-center gap-2">
                 {page > 1 && (
                   <button onClick={() => setPage(page - 1)}
-                    className="page-btn-prev px-5 py-2 text-sm rounded-full border border-blue-200 text-[#0B1F3A] font-medium hover:border-blue-400 hover:bg-blue-50 transition-all">
-                    ← Precedente
+                    className="page-btn-prev px-4 md:px-5 py-2.5 text-sm rounded-full border border-blue-200 text-[#0B1F3A] font-medium hover:border-blue-400 hover:bg-blue-50 transition-all">
+                    ← Prec.
                   </button>
                 )}
                 <span className="px-4 py-2 text-sm text-gray-400 dark:text-slate-500">{page} / {totalPages}</span>
                 {page < totalPages && (
                   <button onClick={() => setPage(page + 1)}
-                    className="px-5 py-2 text-sm rounded-full bg-[#0B1F3A] text-white font-medium hover:bg-blue-700 transition-colors">
-                    Successiva →
+                    className="px-4 md:px-5 py-2.5 text-sm rounded-full bg-[#0B1F3A] text-white font-medium hover:bg-blue-700 transition-colors">
+                    Succ. →
                   </button>
                 )}
               </div>
@@ -387,7 +385,7 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* ── Byte's Daily Briefing ── */}
+      {/* ── Daily Briefing ── */}
       <DailyBriefing articles={briefingArticles} />
     </div>
   );

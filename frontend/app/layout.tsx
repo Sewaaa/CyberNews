@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
 import BackendStatus from "@/components/BackendStatus";
-import ThemeToggle from "@/components/ThemeToggle";
-import NavLinks from "@/components/NavLinks";
+import Header from "@/components/Header";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,41 +16,18 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="it">
-      <body className={`${inter.className} bg-[#F8FAFF] dark:bg-[#060F1E] text-[#0B1F3A] dark:text-slate-200 min-h-screen`}>
+      <body className={`${inter.className} bg-[#F8FAFF] dark:bg-[#0d1117] text-[#0B1F3A] dark:text-slate-200 min-h-screen`}>
         <BackendStatus />
+        <Header />
 
-        {/* ── Navbar ── frosted glass sticky */}
-        <header className="sticky top-0 z-50 glass border-b border-blue-100 dark:border-blue-900/50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
-              <span className="font-extrabold text-xl tracking-tight text-[#0B1F3A] dark:text-slate-100">
-                Cyber<span className="text-blue-600">News</span>
-              </span>
-            </Link>
-
-            {/* Nav */}
-            <nav className="flex items-center gap-0.5 text-sm">
-              <NavLinks />
-              <ThemeToggle />
-              <Link
-                href="/rss"
-                className="ml-1 px-4 py-1.5 rounded-full bg-[#0B1F3A] text-white text-sm font-semibold hover:bg-blue-700 transition-colors shadow-blue-sm"
-              >
-                📡 Feed RSS
-              </Link>
-            </nav>
-          </div>
-        </header>
-
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">{children}</main>
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-8">{children}</main>
 
         {/* ── Footer ── */}
-        <footer className="mt-20 border-t border-blue-100 dark:border-blue-900/50 bg-white dark:bg-[#060F1E]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 mb-10">
+        <footer className="mt-16 md:mt-20 border-t border-blue-100 dark:border-blue-900/50 bg-white dark:bg-[#010409]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 md:py-12">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-10">
               {/* Brand */}
-              <div className="sm:col-span-1">
+              <div className="col-span-2 sm:col-span-1">
                 <div className="mb-3">
                   <span className="font-extrabold text-lg text-[#0B1F3A] dark:text-slate-100">
                     Cyber<span className="text-blue-600">News</span>
@@ -62,8 +38,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </p>
               </div>
 
-              {/* Fonti */}
-              <div>
+              {/* Fonti — hidden on mobile */}
+              <div className="hidden sm:block">
                 <h4 className="font-semibold text-[#0B1F3A] dark:text-slate-200 mb-3 text-sm">Fonti</h4>
                 <ul className="space-y-2 text-sm text-gray-500 dark:text-slate-400">
                   <li>BleepingComputer</li>
@@ -97,7 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* Bottom bar */}
             <div className="pt-6 border-t border-blue-100 dark:border-blue-900/50 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <p className="text-xs text-gray-400 dark:text-slate-500">
+              <p className="text-xs text-gray-400 dark:text-slate-500 text-center sm:text-left">
                 © 2026 CyberNews — Articoli generati da AI · fonti sempre citate
               </p>
               <div className="flex items-center gap-2">

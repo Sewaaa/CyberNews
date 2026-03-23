@@ -275,3 +275,40 @@ body {
   font-style: italic;
   margin-bottom: 1rem;
 }
+
+/* ─── Mobile / Touch Optimizations ──────────────────────────────────────────── */
+
+/* Disable hover lift on touch devices (no hover = no visual feedback needed) */
+@media (hover: none) {
+  .card-blue:hover {
+    transform: none;
+    box-shadow: var(--shadow-blue-md);
+    border-color: #DBEAFE;
+  }
+  .dark .card-blue:hover {
+    transform: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    border-color: #30363d;
+  }
+}
+
+/* Mobile prose: slightly smaller headings for readability */
+@media (max-width: 639px) {
+  .prose-cyber h1 { font-size: 1.4rem; }
+  .prose-cyber h2 { font-size: 1.2rem; }
+  .prose-cyber h3 { font-size: 1.05rem; }
+  .prose-cyber p  { line-height: 1.75; }
+
+  /* Prevent horizontal overflow on code blocks */
+  .prose-cyber pre {
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* Safe area insets for notched phones (iOS) */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  footer {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+}
