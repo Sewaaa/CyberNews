@@ -83,7 +83,14 @@ def get_unprocessed_items(db: Session) -> list[dict]:
 
     rows = db.query(RssItem).filter(RssItem.processed == False).all()  # noqa: E712
     return [
-        {"id": r.id, "url": r.url, "title": r.title, "feed_source": r.feed_source, "rss_content": r.rss_content or ""}
+        {
+            "id": r.id,
+            "url": r.url,
+            "title": r.title,
+            "feed_source": r.feed_source,
+            "rss_content": r.rss_content or "",
+            "discovered_at": r.discovered_at,
+        }
         for r in rows
     ]
 

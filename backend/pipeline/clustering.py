@@ -3,7 +3,9 @@ from rapidfuzz import fuzz
 
 logger = logging.getLogger(__name__)
 
-SIMILARITY_THRESHOLD = 75  # su scala 0-100 per rapidfuzz
+SIMILARITY_THRESHOLD = 60  # su scala 0-100 per rapidfuzz
+# 60 è più realistico: testate diverse scrivono titoli molto diversi per la stessa notizia,
+# token_set_ratio raramente supera 75 tra pubblicazioni differenti.
 
 
 def _normalize(title: str) -> str:
