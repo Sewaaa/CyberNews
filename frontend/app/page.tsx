@@ -172,38 +172,43 @@ function DailyBriefing({ articles }: { articles: ArticleSummary[] }) {
 function GridCard({ article }: { article: ArticleSummary }) {
   const level = getLevel(article.relevance_score);
   return (
-    <article className="card-blue group flex flex-col overflow-hidden">
-      <div className={`w-full h-24 md:h-36 overflow-hidden card-img-bg shrink-0 ${article.image_url ? "bg-blue-50" : "img-placeholder"}`}>
-        {article.image_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={article.image_url} alt=""
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            onError={(e) => { (e.target as HTMLImageElement).parentElement!.classList.add("img-placeholder"); (e.target as HTMLImageElement).style.display = "none"; }} />
-        ) : null}
-      </div>
-      <div className="p-3 md:p-5 flex flex-col flex-1">
-        <div className="flex items-center justify-between gap-1 mb-2 md:mb-3">
-          <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-semibold ${pillCls(level)}`}>
-            {THREAT_ICON[level]}
-            <span className="hidden sm:inline ml-0.5">{LEVEL_LABELS[level]}</span>
-          </span>
-          <time className="text-xs text-gray-400 card-meta">{formatDate(article.published_at)}</time>
+    <article className="card-blue group overflow-hidden">
+      {/* Mobile: riga orizzontale (thumbnail sx, testo dx). Desktop: colonna verticale */}
+      <div className="flex md:flex-col h-full">
+
+        {/* Thumbnail */}
+        <div className={`shrink-0 w-24 self-stretch md:w-full md:h-36 overflow-hidden card-img-bg ${article.image_url ? "bg-blue-50" : "img-placeholder"}`}>
+          {article.image_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={article.image_url} alt=""
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              onError={(e) => { (e.target as HTMLImageElement).parentElement!.classList.add("img-placeholder"); (e.target as HTMLImageElement).style.display = "none"; }} />
+          ) : null}
         </div>
-        <Link href={`/article/${article.id}`}
-          className="card-title font-bold text-[#0B1F3A] text-xs md:text-sm leading-snug line-clamp-2 mb-2 md:mb-3 hover:text-blue-600 transition-colors">
-          {article.title}
-        </Link>
-        {/* Tags — hidden on mobile */}
-        <div className="hidden sm:flex flex-wrap gap-1.5 mb-4">
-          {article.tags.slice(0, 3).map((tag) => <TagBadge key={tag} tag={tag} />)}
-        </div>
-        <div className="mt-auto flex items-center justify-between text-xs text-gray-400 card-meta pt-2">
-          <div className="flex items-center gap-1.5">
-            <RelevanceDots score={article.relevance_score} showLabel={false} />
+
+        {/* Content */}
+        <div className="p-3 md:p-5 flex flex-col flex-1 min-w-0">
+          <div className="flex items-center gap-1.5 mb-1.5 md:mb-2">
+            <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-semibold ${pillCls(level)}`}>
+              {THREAT_ICON[level]}
+              <span className="hidden md:inline ml-0.5">{LEVEL_LABELS[level]}</span>
+            </span>
+            <time className="text-xs text-gray-400 card-meta">{formatDate(article.published_at)}</time>
           </div>
-          <Link href={`/article/${article.id}`} className="text-blue-600 font-semibold hover:translate-x-1 transition-transform inline-block">
-            Leggi →
+          <Link href={`/article/${article.id}`}
+            className="card-title font-bold text-[#0B1F3A] text-xs md:text-sm leading-snug line-clamp-2 md:line-clamp-2 mb-1.5 md:mb-3 hover:text-blue-600 transition-colors">
+            {article.title}
           </Link>
+          {/* Tags — solo desktop */}
+          <div className="hidden md:flex flex-wrap gap-1.5 mb-4">
+            {article.tags.slice(0, 3).map((tag) => <TagBadge key={tag} tag={tag} />)}
+          </div>
+          <div className="mt-auto flex items-center justify-between text-xs text-gray-400 card-meta pt-1.5 md:pt-2">
+            <RelevanceDots score={article.relevance_score} showLabel={false} />
+            <Link href={`/article/${article.id}`} className="text-blue-600 font-semibold hover:translate-x-1 transition-transform inline-block">
+              Leggi →
+            </Link>
+          </div>
         </div>
       </div>
     </article>
@@ -213,15 +218,19 @@ function GridCard({ article }: { article: ArticleSummary }) {
 /* ─── Skeleton ────────────────────────────────────────────────────────────── */
 function SkeletonGrid() {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
       {[...Array(6)].map((_, i) => (
-        <div key={i} className="card-blue p-3 md:p-5">
-          <div className="h-24 md:h-36 skeleton rounded-xl mb-3 md:mb-4" />
-          <div className="h-3 skeleton rounded w-1/4 mb-3 md:mb-4" />
-          <div className="h-4 skeleton rounded w-full mb-2" />
-          <div className="h-4 skeleton rounded w-3/4 mb-3 md:mb-4" />
-          <div className="hidden sm:block h-12 skeleton rounded-xl mb-4" />
-          <div className="h-3 skeleton rounded w-1/2" />
+        <div key={i} className="card-blue overflow-hidden">
+          <div className="flex md:flex-col">
+            <div className="shrink-0 w-24 self-stretch md:w-full md:h-36 skeleton" />
+            <div className="p-3 md:p-5 flex-1">
+              <div className="h-3 skeleton rounded w-1/3 mb-2" />
+              <div className="h-4 skeleton rounded w-full mb-1.5" />
+              <div className="h-4 skeleton rounded w-4/5 mb-3" />
+              <div className="hidden md:block h-12 skeleton rounded-xl mb-4" />
+              <div className="h-3 skeleton rounded w-1/2" />
+            </div>
+          </div>
         </div>
       ))}
     </div>
@@ -360,7 +369,7 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
               {articles.map((article) => <GridCard key={article.id} article={article} />)}
             </div>
 
