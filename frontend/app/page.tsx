@@ -351,9 +351,29 @@ export default function HomePage() {
 
       {/* ── Filtri ── */}
       <section className="mb-6 md:mb-8">
-        {/* Scroll orizzontale su mobile — nessun a-capo */}
-        <div className="flex items-center gap-2 mb-4 overflow-x-auto pb-0.5 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap md:overflow-visible scrollbar-hide">
-          <span className="hidden md:inline text-xs text-gray-500 dark:text-slate-400 font-medium mr-1 shrink-0">Rilevanza:</span>
+        {/* Riga unica: [🏷 Categoria] | [Rilevanza: Tutti Bassa Media Critica]
+            Desktop: tutto su una riga con separatore.
+            Mobile: scroll orizzontale senza a-capo. */}
+        <div className="flex items-center gap-2 mb-3 overflow-x-auto pb-0.5 -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible scrollbar-hide">
+
+          {/* Categoria — prima su desktop, inclusa nello scroll mobile */}
+          {topTags.length > 0 && (
+            <button onClick={() => setTagsOpen(!tagsOpen)}
+              className="shrink-0 tag-toggle-btn flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 transition-colors px-3 py-2 border border-blue-100 hover:border-blue-300 rounded-lg bg-white">
+              🏷 Categoria
+              <span className="opacity-60">{tagsOpen ? "▲" : "▼"}</span>
+            </button>
+          )}
+
+          {/* Separatore verticale — solo desktop */}
+          {topTags.length > 0 && (
+            <div className="hidden md:block w-px h-5 bg-blue-100 dark:bg-blue-800 mx-1 shrink-0" />
+          )}
+
+          {/* Label rilevanza — solo desktop */}
+          <span className="hidden md:inline text-xs text-gray-500 dark:text-slate-400 font-medium shrink-0">Rilevanza:</span>
+
+          {/* Bottoni filtro */}
           {([0, 1, 2, 3] as const).map((lvl) => (
             <button key={lvl} onClick={() => changeLevel(lvl)}
               className={`shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold border transition-all ${
@@ -366,18 +386,10 @@ export default function HomePage() {
           ))}
         </div>
 
-        {topTags.length > 0 && (
-          <div>
-            <button onClick={() => setTagsOpen(!tagsOpen)}
-              className="tag-toggle-btn flex items-center gap-2 text-xs font-medium text-gray-500 hover:text-blue-600 transition-colors px-3 py-2 border border-blue-100 hover:border-blue-300 rounded-lg bg-white">
-              <span>🏷 Filtra per categoria</span>
-              <span>{tagsOpen ? "▲" : "▼"}</span>
-            </button>
-            {tagsOpen && (
-              <div className="mt-3 flex flex-wrap gap-2">
-                {topTags.map(({ tag }) => <TagBadge key={tag} tag={tag} />)}
-              </div>
-            )}
+        {/* Tag espansi */}
+        {tagsOpen && topTags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-2">
+            {topTags.map(({ tag }) => <TagBadge key={tag} tag={tag} />)}
           </div>
         )}
       </section>
