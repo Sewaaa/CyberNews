@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getArticles, getTags, ArticleSummary, TagCount } from "@/lib/api";
 import TagBadge from "@/components/TagBadge";
+import RelevanceDots from "@/components/RelevanceDots";
 
 const PAGE_SIZE = 9;
 const EVIDENZA_HOURS = 48;
@@ -237,12 +238,9 @@ function GridCard({ article }: { article: ArticleSummary }) {
           <div className="hidden md:flex flex-wrap gap-1.5 mb-3">
             {article.tags.slice(0, 3).map((tag) => <TagBadge key={tag} tag={tag} />)}
           </div>
-          {/* Barra inferiore: pill + tempo + leggi */}
+          {/* Barra inferiore: 3 pallini + tempo + leggi */}
           <div className="mt-auto flex items-center gap-2 pt-2 border-t border-blue-50 dark:border-blue-900/20">
-            <span className={`shrink-0 inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs font-semibold ${pillCls(level)}`}>
-              {THREAT_ICON[level]}
-              <span className="hidden md:inline ml-0.5">{LEVEL_LABELS[level]}</span>
-            </span>
+            <RelevanceDots score={article.relevance_score} showLabel={false} />
             <time className="text-xs text-gray-400 card-meta flex-1 truncate">{timeAgo(article.published_at)}</time>
             <Link href={`/article/${article.id}`} className="shrink-0 text-blue-600 font-semibold text-xs hover:translate-x-1 transition-transform inline-block">
               Leggi →
