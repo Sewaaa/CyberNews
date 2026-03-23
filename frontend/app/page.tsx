@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getArticles, getTags, ArticleSummary, TagCount } from "@/lib/api";
 import TagBadge from "@/components/TagBadge";
-import RelevanceDots from "@/components/RelevanceDots";
 
 const PAGE_SIZE = 9;
 const EVIDENZA_HOURS = 48;
@@ -39,8 +38,19 @@ function formatDateShort(iso: string) {
   return new Date(iso).toLocaleDateString("it-IT", { day: "2-digit", month: "short" });
 }
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("it-IT", { day: "2-digit", month: "short", year: "numeric" });
+function timeAgo(iso: string): string {
+  const diff = Date.now() - new Date(iso).getTime();
+  const minutes = Math.floor(diff / 60_000);
+  const hours   = Math.floor(diff / 3_600_000);
+
+  if (minutes < 2)  return "pochi minuti fa";
+  if (minutes < 60) return `${minutes} min fa`;
+  if (hours   < 24) return `${hours} or${hours === 1 ? "a" : "e"} fa`;
+
+  // Più di 24h: data + orario
+  return new Date(iso).toLocaleDateString("it-IT", {
+    day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit",
+  });
 }
 
 /* ─── Featured Large Card ─────────────────────────────────────────────────── */
@@ -218,24 +228,23 @@ function GridCard({ article }: { article: ArticleSummary }) {
 
         {/* Content */}
         <div className="p-3 md:p-5 flex flex-col flex-1 min-w-0">
-          <div className="flex items-center gap-1.5 mb-1.5 md:mb-2">
-            <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-semibold ${pillCls(level)}`}>
-              {THREAT_ICON[level]}
-              <span className="hidden md:inline ml-0.5">{LEVEL_LABELS[level]}</span>
-            </span>
-            <time className="text-xs text-gray-400 card-meta">{formatDate(article.published_at)}</time>
-          </div>
+          {/* Titolo — primo elemento */}
           <Link href={`/article/${article.id}`}
-            className="card-title font-bold text-[#0B1F3A] text-xs md:text-sm leading-snug line-clamp-2 md:line-clamp-2 mb-1.5 md:mb-3 hover:text-blue-600 transition-colors">
+            className="card-title font-bold text-[#0B1F3A] text-xs md:text-sm leading-snug line-clamp-2 mb-2 md:mb-3 hover:text-blue-600 transition-colors">
             {article.title}
           </Link>
           {/* Tags — solo desktop */}
-          <div className="hidden md:flex flex-wrap gap-1.5 mb-4">
+          <div className="hidden md:flex flex-wrap gap-1.5 mb-3">
             {article.tags.slice(0, 3).map((tag) => <TagBadge key={tag} tag={tag} />)}
           </div>
-          <div className="mt-auto flex items-center justify-between text-xs text-gray-400 card-meta pt-1.5 md:pt-2">
-            <RelevanceDots score={article.relevance_score} showLabel={false} />
-            <Link href={`/article/${article.id}`} className="text-blue-600 font-semibold hover:translate-x-1 transition-transform inline-block">
+          {/* Barra inferiore: pill + tempo + leggi */}
+          <div className="mt-auto flex items-center gap-2 pt-2 border-t border-blue-50 dark:border-blue-900/20">
+            <span className={`shrink-0 inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-xs font-semibold ${pillCls(level)}`}>
+              {THREAT_ICON[level]}
+              <span className="hidden md:inline ml-0.5">{LEVEL_LABELS[level]}</span>
+            </span>
+            <time className="text-xs text-gray-400 card-meta flex-1 truncate">{timeAgo(article.published_at)}</time>
+            <Link href={`/article/${article.id}`} className="shrink-0 text-blue-600 font-semibold text-xs hover:translate-x-1 transition-transform inline-block">
               Leggi →
             </Link>
           </div>
