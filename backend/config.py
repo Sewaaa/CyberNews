@@ -11,7 +11,7 @@ RSS_FEEDS = [
 ]
 
 # LLM
-GROQ_MODEL = "llama-3.1-8b-instant"
+GROQ_MODEL = "llama-3.3-70b-versatile"
 
 # Database — usa variabile d'ambiente (PostgreSQL su Render) oppure SQLite in locale
 _db_url = os.getenv("DATABASE_URL", "sqlite:///./cybernews.db")
