@@ -7,9 +7,9 @@ export function getLevel(score: number): RelevanceLevel {
 }
 
 const LEVEL_CONFIG = {
-  1: { label: "Bassa",   dotColor: "bg-zinc-500",   textColor: "text-zinc-500"   },
-  2: { label: "Media",   dotColor: "bg-yellow-500", textColor: "text-yellow-500" },
-  3: { label: "Critica", dotColor: "bg-red-500",    textColor: "text-red-400"    },
+  1: { label: "Bassa",   dotColor: "bg-green-500",  textColor: "text-green-600"  },
+  2: { label: "Media",   dotColor: "bg-yellow-500", textColor: "text-yellow-600" },
+  3: { label: "Critica", dotColor: "bg-red-500",    textColor: "text-red-600"    },
 } as const;
 
 interface Props {
@@ -27,7 +27,7 @@ export default function RelevanceDots({ score, showLabel = true }: Props) {
         {([1, 2, 3] as RelevanceLevel[]).map((i) => (
           <div
             key={i}
-            className={`w-2.5 h-2.5 rounded-full ${i <= level ? dotColor : "bg-zinc-800"}`}
+            className={`w-2 h-2 rounded-full ${i <= level ? dotColor : "bg-blue-100"}`}
           />
         ))}
       </div>

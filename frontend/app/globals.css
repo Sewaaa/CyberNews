@@ -2,42 +2,139 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Markdown body styling */
+/* ─── CSS Custom Properties ─────────────────────────────────────────────────── */
+:root {
+  --navy:           #0B1F3A;
+  --navy-deep:      #060F1E;
+  --cyber-cyan:     #06E6D9;
+  --blue-600:       #2563EB;
+  --shadow-blue-md: 0 4px 16px rgba(37,99,235,0.12), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-blue-lg: 0 8px 32px rgba(37,99,235,0.18), 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-blue-xl: 0 20px 60px rgba(37,99,235,0.22), 0 4px 16px rgba(0,0,0,0.08);
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────────── */
+body {
+  background-color: #F8FAFF;
+  color: #0B1F3A;
+}
+
+/* ─── Dot Grid Texture ───────────────────────────────────────────────────────── */
+.dot-grid-bg {
+  background-image: radial-gradient(circle, rgba(37,99,235,0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ─── Frosted Glass ──────────────────────────────────────────────────────────── */
+.glass {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* ─── Card with Blue Shadow ──────────────────────────────────────────────────── */
+.card-blue {
+  background: #ffffff;
+  border: 1px solid #DBEAFE;
+  border-radius: 20px;
+  box-shadow: var(--shadow-blue-md);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.card-blue:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-blue-xl);
+  border-color: #93C5FD;
+}
+
+/* ─── Breaking Ticker ────────────────────────────────────────────────────────── */
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 40s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Float Animation ────────────────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+.float-anim {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ─── Fade Up ────────────────────────────────────────────────────────────────── */
+.fade-up {
+  animation: fadeUp 0.4s ease-out;
+}
+
+/* ─── Skeleton Pulse (light theme) ──────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, #DBEAFE 25%, #EFF6FF 50%, #DBEAFE 75%);
+  background-size: 200% 100%;
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─── Prose for Article Pages (light theme) ──────────────────────────────────── */
 .prose-cyber h1,
 .prose-cyber h2,
 .prose-cyber h3 {
-  @apply text-white font-semibold;
+  color: #0B1F3A;
+  font-weight: 700;
 }
 
-.prose-cyber h1 { @apply text-2xl mt-8 mb-4; }
-.prose-cyber h2 { @apply text-xl mt-6 mb-3; }
-.prose-cyber h3 { @apply text-lg mt-4 mb-2; }
+.prose-cyber h1 { font-size: 1.75rem; margin-top: 2rem;   margin-bottom: 1rem; }
+.prose-cyber h2 { font-size: 1.4rem;  margin-top: 1.5rem; margin-bottom: 0.75rem; }
+.prose-cyber h3 { font-size: 1.15rem; margin-top: 1rem;   margin-bottom: 0.5rem; }
 
-.prose-cyber p { @apply text-zinc-300 leading-relaxed mb-4; }
+.prose-cyber p             { color: #374151; line-height: 1.8; margin-bottom: 1rem; }
+.prose-cyber ul,
+.prose-cyber ol            { color: #374151; margin-bottom: 1rem; padding-left: 1.25rem; }
+.prose-cyber li            { margin-bottom: 0.25rem; }
 
-.prose-cyber ul { @apply list-disc list-inside mb-4 space-y-1; }
-.prose-cyber ol { @apply list-decimal list-inside mb-4 space-y-1; }
-.prose-cyber li { @apply text-zinc-300; }
+.prose-cyber a             { color: #2563EB; text-decoration: underline; }
+.prose-cyber a:hover       { color: #1E40AF; }
 
-.prose-cyber a {
-  @apply text-cyan-400 hover:text-cyan-300 underline;
-}
-
-.prose-cyber strong { @apply text-white font-semibold; }
-.prose-cyber em { @apply italic; }
+.prose-cyber strong        { color: #0B1F3A; font-weight: 600; }
+.prose-cyber em            { font-style: italic; }
 
 .prose-cyber code {
-  @apply bg-zinc-800 text-cyan-300 px-1.5 py-0.5 rounded text-sm font-mono;
+  background: #EFF6FF;
+  color: #1E40AF;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
 }
 
 .prose-cyber pre {
-  @apply bg-zinc-800 rounded-lg p-4 mb-4 overflow-x-auto;
+  background: #0B1F3A;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  overflow-x: auto;
 }
 
 .prose-cyber pre code {
-  @apply bg-transparent p-0;
+  background: transparent;
+  color: #06E6D9;
+  padding: 0;
 }
 
 .prose-cyber blockquote {
-  @apply border-l-4 border-cyan-700 pl-4 text-zinc-400 italic mb-4;
+  border-left: 4px solid #2563EB;
+  padding-left: 1rem;
+  color: #4B5563;
+  font-style: italic;
+  margin-bottom: 1rem;
 }

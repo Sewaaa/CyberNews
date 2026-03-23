@@ -22,10 +22,26 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
+function getLevel(score: number) {
+  if (score >= 8) return 3;
+  if (score >= 5) return 2;
+  return 1;
+}
+
+const THREAT_PILL: Record<number, string> = {
+  1: "bg-green-50 text-green-700 border-green-200",
+  2: "bg-yellow-50 text-yellow-700 border-yellow-200",
+  3: "bg-red-50 text-red-700 border-red-200",
+};
+const THREAT_ICON: Record<number, string> = { 1: "🟢", 2: "🟡", 3: "🔴" };
+const THREAT_LABEL: Record<number, string> = { 1: "Bassa", 2: "Media", 3: "Critica" };
+
 export default async function ArticlePage({ params }: PageProps) {
   const { id } = await params;
   const article = await getArticle(Number(id)).catch(() => null);
   if (!article) notFound();
+
+  const level = getLevel(article.relevance_score);
 
   const publishedAt = new Date(article.published_at).toLocaleDateString("it-IT", {
     day: "2-digit",
@@ -36,19 +52,35 @@ export default async function ArticlePage({ params }: PageProps) {
   });
 
   return (
-    <article className="max-w-3xl mx-auto">
-      {/* Header */}
+    <article className="max-w-3xl mx-auto fade-up">
+
+      {/* ── Back ── */}
+      <div className="mb-6">
+        <a
+          href="/"
+          className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors"
+        >
+          ← Torna alla homepage
+        </a>
+      </div>
+
+      {/* ── Header ── */}
       <header className="mb-8">
         <div className="flex flex-wrap gap-2 mb-4">
+          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold border ${THREAT_PILL[level]}`}>
+            {THREAT_ICON[level]} Rilevanza {THREAT_LABEL[level]}
+          </span>
           {article.tags.map((tag) => (
             <TagBadge key={tag} tag={tag} />
           ))}
         </div>
 
-        <h1 className="text-3xl font-bold text-white leading-tight mb-4">{article.title}</h1>
+        <h1 className="text-3xl font-extrabold text-[#0B1F3A] leading-tight mb-5">
+          {article.title}
+        </h1>
 
         {article.image_url && (
-          <div className="mb-6 rounded-lg overflow-hidden bg-zinc-800 max-h-72">
+          <div className="mb-6 rounded-2xl overflow-hidden bg-blue-50 max-h-80 shadow-blue-md">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={article.image_url}
@@ -59,33 +91,36 @@ export default async function ArticlePage({ params }: PageProps) {
         )}
 
         {article.summary && (
-          <p className="text-xl text-zinc-400 leading-relaxed border-l-4 border-cyan-700 pl-4">
-            {article.summary}
-          </p>
+          <div className="bg-blue-50 border-l-4 border-blue-500 rounded-r-2xl p-4 mb-6">
+            <p className="text-sm text-blue-700 font-semibold mb-2 flex items-center gap-1.5">
+              🤖 Byte dice:
+            </p>
+            <p className="text-base text-blue-600 italic leading-relaxed">
+              {article.summary}
+            </p>
+          </div>
         )}
 
-        <div className="mt-4 flex items-center gap-4 text-sm text-zinc-500">
+        <div className="flex items-center gap-4 text-sm text-gray-500 flex-wrap">
           <time dateTime={article.published_at}>{publishedAt}</time>
-          <span>·</span>
+          <span className="text-gray-300">·</span>
           <RelevanceDots score={article.relevance_score} />
-          <span>·</span>
-          <span>{article.sources.length} fonte{article.sources.length !== 1 ? "i" : "e"}</span>
+          <span className="text-gray-300">·</span>
+          <span>{article.sources.length} fonte{article.sources.length !== 1 ? "i" : ""}</span>
         </div>
       </header>
 
-      {/* Body */}
+      {/* ── Divider ── */}
+      <div className="h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent mb-8" />
+
+      {/* ── Body ── */}
       <div className="prose-cyber">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{article.body}</ReactMarkdown>
       </div>
 
-      {/* Sources */}
-      <SourcesList sources={article.sources} />
-
-      {/* Back */}
-      <div className="mt-10">
-        <a href="/" className="text-sm text-cyan-400 hover:text-cyan-300 hover:underline">
-          ← Torna alla homepage
-        </a>
+      {/* ── Sources ── */}
+      <div className="mt-10 pt-8 border-t border-blue-100">
+        <SourcesList sources={article.sources} />
       </div>
     </article>
   );
