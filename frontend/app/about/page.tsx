@@ -140,7 +140,10 @@ export default function AboutPage() {
 
       {/* ── CTA ── */}
       <section className="bg-blue-50 border border-blue-100 rounded-3xl p-8 md:p-10 text-center">
-        <div className="text-4xl mb-4">👻</div>
+        <div className="flex justify-center mb-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/ologramm_nobg.png" alt="" className="w-20 h-20 md:w-24 md:h-24 object-contain float-anim" />
+        </div>
         <h2 className="text-xl md:text-2xl font-extrabold text-[#0B1F3A] mb-3">
           Ci siamo per te
         </h2>

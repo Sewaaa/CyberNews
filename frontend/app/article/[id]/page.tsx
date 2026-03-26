@@ -85,9 +85,9 @@ export default async function ArticlePage({ params }: PageProps) {
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-start">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/fs_nobg.png"
+                src="/testa_nobg.png"
                 alt="mascotte"
-                className="shrink-0 w-16 h-16 sm:w-24 sm:h-24 object-contain float-anim self-center sm:self-start"
+                className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 object-contain float-anim self-center sm:self-start"
               />
               <div>
                 <p className="byte-label text-[11px] text-blue-500 font-bold uppercase tracking-widest mb-1.5">
