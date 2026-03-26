@@ -35,7 +35,7 @@ export default function RssPage() {
         </div>
         <p className="text-gray-500 dark:text-slate-400 leading-relaxed">
           RSS è un formato standard che ti permette di ricevere automaticamente i nuovi articoli
-          di CyberNews nel tuo lettore preferito, senza doverti ricordare di tornare sul sito.
+          di FoxScan nel tuo lettore preferito, senza doverti ricordare di tornare sul sito.
         </p>
       </div>
 
@@ -78,7 +78,7 @@ export default function RssPage() {
           </li>
           <li className="flex gap-3">
             <span className="text-blue-600 dark:text-cyan-400 font-bold shrink-0">4.</span>
-            Da quel momento riceverai automaticamente ogni nuovo articolo generato da CyberNews.
+            Da quel momento riceverai automaticamente ogni nuovo articolo generato da FoxScan.
           </li>
         </ol>
       </div>

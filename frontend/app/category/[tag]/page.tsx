@@ -11,7 +11,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps) {
   const { tag } = await params;
   return {
-    title: `#${tag} — CyberNews`,
+    title: `#${tag} — FoxScan`,
     description: `Articoli di cybersecurity sul tema ${tag}`,
   };
 }

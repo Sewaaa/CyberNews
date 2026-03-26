@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import ByteMascot from "@/components/ByteMascot";
 
 export const metadata: Metadata = {
-  title: "Chi siamo — CyberNews",
+  title: "Chi siamo — FoxScan",
   description:
-    "CyberNews è una piattaforma AI-powered che aggrega e sintetizza le notizie di cybersecurity più rilevanti da 7+ fonti top.",
+    "FoxScan è una piattaforma AI-powered che aggrega e sintetizza le notizie di cybersecurity più rilevanti da 7+ fonti top.",
 };
 
 const SOURCES = [
@@ -42,7 +42,7 @@ const FEATURES = [
   {
     icon: "📡",
     title: "Feed RSS",
-    desc: "Integra CyberNews nel tuo lettore RSS preferito con un click.",
+    desc: "Integra FoxScan nel tuo lettore RSS preferito con un click.",
   },
   {
     icon: "🛡️",

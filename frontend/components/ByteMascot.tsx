@@ -13,8 +13,8 @@ export default function ByteMascot({ size = 176, className = "" }: Props) {
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/byte-mascot.png"
-        alt="La mascotte di CyberNews"
+        src="/fs_nobg.png"
+        alt="La mascotte di FoxScan"
         className="w-full h-full object-contain drop-shadow-2xl"
         onError={(e) => {
           const el = e.target as HTMLImageElement;

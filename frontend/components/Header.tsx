@@ -23,9 +23,8 @@ export default function Header() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <span className="font-extrabold text-xl tracking-tight text-[#0B1F3A] dark:text-slate-100">
-            Cyber<span className="text-blue-600">News</span>
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo_nobg.png" alt="FoxScan" className="h-8 object-contain" />
         </Link>
 
         {/* Desktop nav */}

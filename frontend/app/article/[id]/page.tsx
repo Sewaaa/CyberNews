@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps) {
   const article = await getArticle(Number(id)).catch(() => null);
   if (!article) return { title: "Articolo non trovato" };
   return {
-    title: `${article.title} — CyberNews`,
+    title: `${article.title} — FoxScan`,
     description: article.summary ?? undefined,
   };
 }
@@ -28,13 +28,6 @@ function getLevel(score: number) {
   return 1;
 }
 
-const THREAT_PILL: Record<number, string> = {
-  1: "bg-green-50 text-green-700 border-green-200",
-  2: "bg-yellow-50 text-yellow-700 border-yellow-200",
-  3: "bg-red-50 text-red-700 border-red-200",
-};
-const THREAT_ICON: Record<number, string> = { 1: "🟢", 2: "🟡", 3: "🔴" };
-const THREAT_LABEL: Record<number, string> = { 1: "Bassa", 2: "Media", 3: "Critica" };
 
 export default async function ArticlePage({ params }: PageProps) {
   const { id } = await params;
@@ -66,16 +59,6 @@ export default async function ArticlePage({ params }: PageProps) {
 
       {/* ── Header ── */}
       <header className="mb-6 md:mb-8">
-        {/* Tags + pill */}
-        <div className="flex flex-wrap gap-2 mb-3 md:mb-4">
-          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-semibold border ${THREAT_PILL[level]}`}>
-            {THREAT_ICON[level]} Rilevanza {THREAT_LABEL[level]}
-          </span>
-          {article.tags.map((tag) => (
-            <TagBadge key={tag} tag={tag} />
-          ))}
-        </div>
-
         {/* Title */}
         <h1 className="text-2xl md:text-3xl font-extrabold text-[#0B1F3A] leading-tight mb-4 md:mb-5">
           {article.title}
@@ -102,7 +85,7 @@ export default async function ArticlePage({ params }: PageProps) {
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-start">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/byte-mascot.png"
+                src="/fs_nobg.png"
                 alt="mascotte"
                 className="shrink-0 w-16 h-16 sm:w-24 sm:h-24 object-contain float-anim self-center sm:self-start"
               />

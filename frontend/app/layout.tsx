@@ -8,9 +8,10 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "CyberNews — AI Cybersecurity Intelligence",
+  title: "FoxScan — AI Cybersecurity Intelligence",
   description:
     "Le notizie di cybersecurity più rilevanti, sintetizzate automaticamente da AI in un unico articolo completo.",
+  icons: { icon: "/testa_nobg.png" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -29,9 +30,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {/* Brand */}
               <div className="col-span-2 sm:col-span-1">
                 <div className="mb-3">
-                  <span className="font-extrabold text-lg text-[#0B1F3A] dark:text-slate-100">
-                    Cyber<span className="text-blue-600">News</span>
-                  </span>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/logo_nobg.png" alt="FoxScan" className="h-8 object-contain" />
                 </div>
                 <p className="text-sm text-gray-500 dark:text-slate-400 leading-relaxed">
                   Il tuo guardiano cyber, 24/7. Notizie sintetizzate dall&apos;AI, sempre aggiornate.
@@ -74,7 +74,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {/* Bottom bar */}
             <div className="pt-6 border-t border-blue-100 dark:border-blue-900/50 flex flex-col sm:flex-row items-center justify-between gap-3">
               <p className="text-xs text-gray-400 dark:text-slate-500 text-center sm:text-left">
-                © 2026 CyberNews — Articoli generati da AI · fonti sempre citate
+                © 2026 FoxScan — Articoli generati da AI · fonti sempre citate
               </p>
               <div className="flex items-center gap-2">
                 <span className="text-xs text-gray-400 dark:text-slate-500 px-2.5 py-1 bg-blue-50 dark:bg-blue-900/30 rounded-full border border-blue-100 dark:border-blue-800">

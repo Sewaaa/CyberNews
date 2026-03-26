@@ -198,8 +198,8 @@ function DailyBriefing({ articles }: { articles: ArticleSummary[] }) {
           <div className="relative float-anim w-48 h-48 md:w-96 md:h-96">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/byte-mascot.png"
-              alt="La mascotte di CyberNews"
+              src="/fs_nobg.png"
+              alt="La mascotte di FoxScan"
               className="w-full h-full object-contain drop-shadow-2xl"
               onError={(e) => {
                 const el = e.target as HTMLImageElement;
@@ -437,7 +437,7 @@ export default function HomePage() {
           <div className="text-center py-20 md:py-24">
             <div className="flex justify-center mb-6">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/byte-mascot.png" alt="mascotte" className="w-32 h-32 md:w-40 md:h-40 object-contain float-anim opacity-60"
+              <img src="/fs_nobg.png" alt="mascotte" className="w-32 h-32 md:w-40 md:h-40 object-contain float-anim opacity-60"
                 onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
             </div>
             <p className="text-base md:text-lg font-semibold text-gray-500 dark:text-slate-400 mb-2">
