@@ -8,7 +8,6 @@ import ThemeToggle from "./ThemeToggle";
 const NAV_LINKS = [
   { href: "/",      label: "Home" },
   { href: "/about", label: "Chi siamo" },
-  { href: "/admin", label: "Admin" },
 ];
 
 export default function Header() {
