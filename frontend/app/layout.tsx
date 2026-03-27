@@ -59,7 +59,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <h4 className="font-semibold text-[#0B1F3A] dark:text-slate-200 mb-3 text-sm">Piattaforma</h4>
                 <ul className="space-y-2 text-sm text-gray-500 dark:text-slate-400">
                   <li><Link href="/rss" className="hover:text-blue-600 transition-colors">Feed RSS</Link></li>
-                  <li><Link href="/admin" className="hover:text-blue-600 transition-colors">Pannello Admin</Link></li>
                   <li><Link href="/about" className="hover:text-blue-600 transition-colors">Chi siamo</Link></li>
                 </ul>
               </div>
