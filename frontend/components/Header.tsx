@@ -24,7 +24,10 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo_nobg.png" alt="FoxScan" className="h-8 object-contain" />
+          <img src="/testa_nobg.png" alt="" className="h-8 w-8 object-contain" />
+          <span className="font-extrabold text-xl tracking-tight">
+            <span className="text-orange-500">Fox</span><span className="text-blue-600">Scan</span>
+          </span>
         </Link>
 
         {/* Desktop nav */}

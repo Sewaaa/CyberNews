@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: "FoxScan — AI Cybersecurity Intelligence",
   description:
     "Le notizie di cybersecurity più rilevanti, sintetizzate automaticamente da AI in un unico articolo completo.",
-  icons: { icon: "/testa_nobg.png" },
+  icons: { icon: "/fs_nobg.png" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -30,8 +30,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               {/* Brand */}
               <div className="col-span-2 sm:col-span-1">
                 <div className="mb-3">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/logo_nobg.png" alt="FoxScan" className="h-8 object-contain" />
+                  <div className="flex items-center gap-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/testa_nobg.png" alt="" className="h-7 w-7 object-contain" />
+                    <span className="font-extrabold text-lg tracking-tight">
+                      <span className="text-orange-500">Fox</span><span className="text-blue-600">Scan</span>
+                    </span>
+                  </div>
                 </div>
                 <p className="text-sm text-gray-500 dark:text-slate-400 leading-relaxed">
                   Il tuo guardiano cyber, 24/7. Notizie sintetizzate dall&apos;AI, sempre aggiornate.

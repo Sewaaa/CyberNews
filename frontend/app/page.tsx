@@ -195,7 +195,7 @@ function DailyBriefing({ articles }: { articles: ArticleSummary[] }) {
 
         {/* Mascot — below content on mobile, right on desktop */}
         <div className="shrink-0 flex justify-center mt-8 md:mt-0">
-          <div className="relative float-anim w-48 h-48 md:w-96 md:h-96">
+          <div className="relative victory-anim w-48 h-48 md:w-96 md:h-96">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/podio_nobg.png"
@@ -334,9 +334,7 @@ export default function HomePage() {
       {inEvidenza.length > 0 && (
         <section className="mb-10 md:mb-14">
           <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/dito_nobg.png" alt="" className="w-8 h-8 md:w-10 md:h-10 object-contain -rotate-12" />
-            <h2 className="no-dark text-lg md:text-xl font-extrabold text-red-600 dark:text-red-400">In Evidenza</h2>
+            <h2 className="no-dark text-lg md:text-xl font-extrabold text-red-600 dark:text-red-400">⚠ In Evidenza</h2>
             <span className="evidenza-badge text-xs text-gray-400 border border-blue-100 rounded-full px-2.5 py-0.5 bg-blue-50">
               ultime {EVIDENZA_HOURS}h
             </span>
