@@ -99,9 +99,10 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Mascot */}
+          {/* Logo */}
           <div className="shrink-0 mt-8 md:mt-0 flex justify-center">
-            <ByteMascot size={220} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo_nobg.png" alt="FoxScan" className="w-48 md:w-64 object-contain float-anim" />
           </div>
         </div>
       </section>
