@@ -24,9 +24,9 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/testa_nobg.png" alt="" className="h-8 w-8 object-contain" />
+          <img src="/testa_nobg.png" alt="" className="h-10 w-10 object-contain" />
           <span className="font-extrabold text-xl tracking-tight">
-            <span className="text-orange-500 dark:text-white">Fox</span><span className="text-blue-600">Scan</span>
+            <span className="text-white" style={{textShadow:"0 1px 4px rgba(11,31,58,0.55)"}}>Fox</span><span className="text-blue-600">Scan</span>
           </span>
         </Link>
 

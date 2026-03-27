@@ -25,7 +25,7 @@ export default function RssPage() {
   }
 
   return (
-    <div className="max-w-2xl space-y-10">
+    <div className="max-w-2xl mx-auto space-y-10">
 
       {/* Header */}
       <div>

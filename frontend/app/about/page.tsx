@@ -60,9 +60,9 @@ export default function AboutPage() {
         <div className="absolute inset-0 dot-grid-bg opacity-20" />
         <div className="absolute top-1/2 right-8 -translate-y-1/2 w-72 h-72 bg-[#06E6D9] opacity-10 blur-3xl rounded-full pointer-events-none" />
 
-        <div className="relative z-10 md:flex items-center gap-14">
+        <div className="relative z-10 md:grid md:grid-cols-2 md:items-center md:gap-10">
           {/* Text */}
-          <div className="flex-1">
+          <div>
             <span className="text-[#06E6D9] text-xs font-bold tracking-widest uppercase mb-4 block">
               🛡️ La piattaforma
             </span>
@@ -140,14 +140,14 @@ export default function AboutPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="bg-blue-50 border border-blue-100 rounded-3xl p-8 md:p-10 text-center">
+      <div className="flex justify-center mt-2 mb-4">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[#0B1F3A] text-white rounded-full font-bold hover:bg-blue-700 transition-colors shadow-blue-md"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#0B1F3A] dark:bg-blue-700 text-white rounded-full font-bold hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors shadow-blue-md"
         >
           Vai alle notizie →
         </Link>
-      </section>
+      </div>
 
     </div>
   );
