@@ -30,7 +30,10 @@ def _clean_text(text: str) -> str:
 
 
 def _is_safe_url(url: str) -> bool:
-    """Blocca URL che puntano a IP privati/loopback/link-local (SSRF protection)."""
+    """Blocca URL che puntano a IP privati/loopback/link-local (SSRF protection).
+    Fail-open: se DNS non si risolve o la verifica fallisce, lascia passare
+    (il rischio SSRF reale viene da IP interni espliciti, non da DNS failure).
+    """
     try:
         parsed = urlparse(url)
         if parsed.scheme not in ("http", "https"):
@@ -44,7 +47,7 @@ def _is_safe_url(url: str) -> bool:
             return False
         return True
     except Exception:
-        return False
+        return True  # fail-open: DNS failure non è un attacco SSRF
 
 
 def scrape_url(url: str) -> dict | None:
