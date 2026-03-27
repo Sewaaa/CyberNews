@@ -1,20 +1,22 @@
-# CyberNews 🛡️
+# FoxScan
 
-> AI-powered cybersecurity news aggregator — automatically discovers, clusters, and synthesizes the latest security news into concise Italian-language briefings.
+> AI-powered cybersecurity intelligence — automatically discovers, clusters, and synthesizes the latest security news into concise Italian-language briefings.
 
-**[🌐 Live Demo](https://cybernews.vercel.app)** &nbsp;·&nbsp; **[📡 API Docs](https://cybernews-bxml.onrender.com/docs)** &nbsp;·&nbsp; **[🔗 RSS Feed](https://cybernews-bxml.onrender.com/rss)**
+**[Live Demo](https://foxscan.vercel.app)** &nbsp;·&nbsp; **[API Docs](https://cybernews-bxml.onrender.com/docs)** &nbsp;·&nbsp; **[RSS Feed](https://cybernews-bxml.onrender.com/rss)**
 
 ---
 
 ## What it does
 
-CyberNews runs a fully automated pipeline every 30 minutes:
+FoxScan runs a fully automated pipeline every 30 minutes:
 
 1. **Discovery** — polls 7 RSS feeds from top cybersecurity sources and deduplicates via SHA-256
-2. **Clustering** — groups related stories by topic using fuzzy string similarity (rapidfuzz)
+2. **Clustering** — groups related stories by topic using fuzzy string similarity (rapidfuzz, threshold 55)
 3. **Scraping** — extracts full article text via trafilatura, with RSS summary as automatic fallback
-4. **Synthesis** — sends each cluster to Groq LLaMA 3.1 8B, which returns a structured Italian briefing: title, summary, markdown body, tags, and relevance score
-5. **Serving** — exposes articles via a REST API consumed by the Next.js frontend
+4. **Synthesis** — sends each cluster to Groq LLaMA 3.3 70B, which returns a structured Italian briefing: title, summary, markdown body, tags, and relevance score
+5. **Merging** — if a similar article already exists (< 24h), it re-synthesizes with the new source merged in rather than creating a duplicate
+6. **Images** — fetches a contextual cover image from Unsplash based on article tags
+7. **Serving** — exposes articles via a REST API consumed by the Next.js frontend
 
 ---
 
@@ -24,10 +26,11 @@ CyberNews runs a fully automated pipeline every 30 minutes:
 |---|---|
 | Frontend | Next.js 15 (App Router), Tailwind CSS, TypeScript |
 | Backend | FastAPI, SQLAlchemy, APScheduler |
-| Database | PostgreSQL — [Neon](https://neon.tech) serverless (persistent, free tier) |
-| AI / LLM | [Groq API](https://console.groq.com) — LLaMA 3.1 8B Instant |
+| Database | PostgreSQL (Neon serverless, persistent, free tier) / SQLite locally |
+| AI / LLM | Groq API — LLaMA 3.3 70B Versatile |
 | Scraping | trafilatura, feedparser |
 | Clustering | rapidfuzz (token set ratio) |
+| Images | Unsplash API |
 | Deploy | Vercel (frontend) + Render (backend) |
 
 ---
@@ -38,7 +41,7 @@ CyberNews runs a fully automated pipeline every 30 minutes:
 ┌──────────────────────────────────────────────────────────┐
 │                      VERCEL (CDN)                        │
 │  Next.js 15 — SSR/ISR pages, Tailwind dark theme        │
-│  Homepage · Article · Category · Admin panel · RSS proxy │
+│  Homepage · Article · Category · About · Admin · RSS    │
 └─────────────────────────┬────────────────────────────────┘
                           │  REST API (JSON)
                           ▼
@@ -47,10 +50,12 @@ CyberNews runs a fully automated pipeline every 30 minutes:
 │  FastAPI — /articles  /tags  /rss  /admin/*  /health    │
 │                                                          │
 │  APScheduler ──► Pipeline (every 30 min)                │
-│    ├── Discovery  (feedparser → 7 RSS feeds)            │
-│    ├── Clustering (rapidfuzz similarity)                │
-│    ├── Scraping   (trafilatura + RSS fallback)          │
-│    └── Synthesis  (Groq API → LLaMA 3.1 8B → JSON)    │
+│    ├── Discovery    (feedparser → 7 RSS feeds)          │
+│    ├── Clustering   (rapidfuzz similarity)              │
+│    ├── Scraping     (trafilatura + RSS fallback)        │
+│    ├── Synthesis    (Groq → LLaMA 3.3 70B → JSON)      │
+│    ├── Merging      (re-synthesis if duplicate < 24h)   │
+│    └── Image finder (Unsplash contextual cover)         │
 └─────────────────────────┬────────────────────────────────┘
                           │  SQLAlchemy ORM
                           ▼
@@ -64,17 +69,21 @@ CyberNews runs a fully automated pipeline every 30 minutes:
 
 ## Features
 
-- 🤖 **Fully automated** — no manual curation, pipeline runs on a schedule
-- 🔍 **Smart deduplication** — SHA-256 hashing prevents storing the same RSS item twice; fuzzy clustering prevents publishing the same story twice
-- 📰 **RSS output** — subscribe to AI-generated briefings in any feed reader
-- 🏷️ **Auto-tagging** — LLM assigns tags (ransomware, CVE, phishing, APT, espionage, etc.)
-- 🔴 **Relevance dots** — articles ranked with 3-level visual indicator (gray/yellow/red)
-- ⚠️ **"In Evidenza"** — critical articles (score 8–10) pinned at top for 48h in a horizontal strip
-- 🖼️ **Article images** — og:image extracted from source pages, displayed as thumbnails
-- 🌙 **Dark UI** — clean cyberpunk-inspired design, fully responsive
-- 🛠️ **Admin panel** — trigger pipeline, view live stats, reset items, delete all articles
-- 🔒 **Resilient scraping** — gracefully falls back to RSS content when web scraping is blocked
-- 🎛️ **Collapsible tag filter** — filter by category or relevance level
+- **Fully automated** — no manual curation, pipeline runs on a schedule every 30 minutes
+- **Smart deduplication** — SHA-256 hashing prevents storing the same RSS item twice; fuzzy clustering prevents publishing the same story twice
+- **Source merging** — when a new source covers the same story, the article is re-synthesized to include all perspectives
+- **Contextual images** — each article gets a cover image fetched from Unsplash based on its tags
+- **RSS output** — subscribe to AI-generated briefings in any feed reader
+- **Auto-tagging** — LLM assigns tags (ransomware, CVE, phishing, APT, espionage, etc.)
+- **Relevance dots** — articles ranked with 3-level visual indicator (gray / orange / red)
+- **"In Evidenza"** — critical articles (score 8–10) pinned at top for 48h in a horizontal strip
+- **Daily briefing** — "Top criticità di oggi" section with the day's most relevant threats
+- **About page** — overview of the platform, sources, and pipeline
+- **Dark / light mode** — toggle between themes, cyberpunk-inspired design, fully responsive
+- **Admin panel** — trigger pipeline, view live stats, reset items, delete all articles
+- **Resilient scraping** — gracefully falls back to RSS content when web scraping is blocked
+- **Auto-retry on cold start** — frontend retries article fetching automatically while the backend wakes up on Render free tier
+- **Collapsible tag filter** — filter by category or relevance level
 
 ---
 
@@ -84,6 +93,7 @@ CyberNews runs a fully automated pipeline every 30 minutes:
 - Python 3.11+
 - Node.js 18+
 - A [Groq API key](https://console.groq.com) (free)
+- An [Unsplash API key](https://unsplash.com/developers) (free, optional — images will be skipped if absent)
 
 ### Backend
 
@@ -102,6 +112,7 @@ pip install -r requirements.txt
 Create `backend/.env`:
 ```env
 GROQ_API_KEY=your_groq_api_key_here
+UNSPLASH_ACCESS_KEY=your_unsplash_key_here
 # Optional: use a remote PostgreSQL URL (defaults to local SQLite)
 # DATABASE_URL=postgresql://user:pass@host/dbname
 ```
@@ -135,7 +146,7 @@ Frontend: `http://localhost:3000`
 
 ## Deploy
 
-### 1. Database — Neon PostgreSQL (free, no expiry)
+### 1. Database — Neon PostgreSQL (free, persistent)
 
 1. Create a free project on [neon.tech](https://neon.tech)
 2. Copy the **Connection String** (starts with `postgresql://...`)
@@ -151,7 +162,9 @@ Frontend: `http://localhost:3000`
 | Key | Value |
 |---|---|
 | `GROQ_API_KEY` | Your Groq API key |
+| `UNSPLASH_ACCESS_KEY` | Your Unsplash API key |
 | `DATABASE_URL` | PostgreSQL connection string from Neon |
+| `FRONTEND_URL` | `https://your-vercel-app.vercel.app` |
 
 ### 3. Frontend — Vercel
 
@@ -168,8 +181,7 @@ Set environment variable in Vercel dashboard:
 
 ### 4. Keep-alive (Render free tier)
 
-Render's free tier sleeps after 15 minutes of inactivity, causing ~30s cold starts.
-Set up a free uptime monitor on [UptimeRobot](https://uptimerobot.com) to ping `https://your-render-service.onrender.com/health` every 5 minutes — the backend stays warm at zero cost.
+Render's free tier sleeps after 15 minutes of inactivity. Set up a free uptime monitor on [UptimeRobot](https://uptimerobot.com) to ping `https://your-render-service.onrender.com/health` every 5 minutes — the backend stays warm at zero cost. The frontend handles the remaining cold-start delay with automatic retry logic.
 
 ---
 
@@ -192,31 +204,38 @@ Set up a free uptime monitor on [UptimeRobot](https://uptimerobot.com) to ping `
 ## Project Structure
 
 ```
-CyberNews/
+FoxScan/
 ├── backend/
 │   ├── pipeline/
-│   │   ├── discovery.py     # RSS fetching, SHA-256 dedup, RSS content caching
-│   │   ├── clustering.py    # Fuzzy topic clustering (rapidfuzz)
-│   │   ├── scraper.py       # Web scraping + RSS summary fallback
-│   │   └── synthesizer.py  # Groq LLM call, JSON parsing, retry on rate limit
-│   ├── main.py              # FastAPI app, endpoints, CORS
-│   ├── models.py            # SQLAlchemy models (Article, Source, RssItem)
-│   ├── scheduler.py         # APScheduler — pipeline runner
-│   ├── database.py          # DB engine, SQLite/PostgreSQL compat, migrations
-│   ├── config.py            # RSS feeds, model name, thresholds
+│   │   ├── discovery.py      # RSS fetching, SHA-256 dedup, RSS content caching
+│   │   ├── clustering.py     # Fuzzy topic clustering (rapidfuzz)
+│   │   ├── scraper.py        # Web scraping + RSS summary fallback
+│   │   ├── synthesizer.py    # Groq LLM call, JSON parsing, retry on rate limit
+│   │   ├── merger.py         # Re-synthesis when duplicate source found < 24h
+│   │   └── image_finder.py   # Unsplash cover image fetch per article
+│   ├── main.py               # FastAPI app, endpoints, CORS
+│   ├── models.py             # SQLAlchemy models (Article, Source, RssItem)
+│   ├── scheduler.py          # APScheduler — pipeline runner with threading lock
+│   ├── database.py           # DB engine, SQLite/PostgreSQL compat, migrations
+│   ├── config.py             # RSS feeds, model name, thresholds
 │   └── requirements.txt
 └── frontend/
     ├── app/
     │   ├── page.tsx                  # Homepage — client-side, handles cold start
+    │   ├── about/page.tsx            # Chi siamo — platform overview
     │   ├── article/[id]/page.tsx     # Article detail — ISR (revalidate 1h)
     │   ├── category/[tag]/page.tsx   # Tag filter — ISR (revalidate 1min)
     │   ├── admin/page.tsx            # Admin panel — live stats polling
-    │   └── api/rss-proxy/route.ts   # Serverless RSS proxy
+    │   └── api/rss-proxy/route.ts    # Serverless RSS proxy
     ├── components/
+    │   ├── Header.tsx         # FoxScan header with mascot branding
+    │   ├── NavLinks.tsx       # Navigation links
     │   ├── ArticleCard.tsx    # Article card with image, relevance dots, tags
-    │   ├── RelevanceDots.tsx  # 3-dot visual relevance indicator (gray/yellow/red)
+    │   ├── RelevanceDots.tsx  # 3-dot visual relevance indicator
     │   ├── TagBadge.tsx       # Color-coded tag badge per category
+    │   ├── ByteMascot.tsx     # Animated Fox mascot component
     │   ├── BackendStatus.tsx  # Offline banner with context-aware message
+    │   ├── ThemeToggle.tsx    # Dark / light mode toggle
     │   └── SourcesList.tsx    # External source links
     └── lib/api.ts             # Type-safe API client
 ```
@@ -225,7 +244,7 @@ CyberNews/
 
 ## News Sources
 
-| Source | Feed |
+| Source | Domain |
 |---|---|
 | BleepingComputer | bleepingcomputer.com |
 | The Hacker News | thehackernews.com |
