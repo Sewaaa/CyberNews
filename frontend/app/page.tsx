@@ -297,6 +297,7 @@ export default function HomePage() {
   const [tags, setTags] = useState<TagCount[]>([]);
   const [loading, setLoading] = useState(true);
   const [tagsOpen, setTagsOpen] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     getArticles({ min_score: 8, limit: 6 })
@@ -305,22 +306,28 @@ export default function HomePage() {
     getArticles({ limit: 20 })
       .then((res) => setAllLatest(res.items))
       .catch(() => {});
-  }, []);
+  }, [retryCount]);
 
   useEffect(() => {
     setLoading(true);
     const offset = (page - 1) * PAGE_SIZE;
     const scoreParams = LEVEL_RANGES[levelFilter];
     Promise.all([
-      getArticles({ limit: PAGE_SIZE, offset, ...scoreParams }).catch(() => ({ total: 0, offset: 0, limit: PAGE_SIZE, items: [] })),
-      getTags().catch(() => []),
+      getArticles({ limit: PAGE_SIZE, offset, ...scoreParams }),
+      getTags(),
     ]).then(([articlesRes, tagsRes]) => {
       setArticles(articlesRes.items);
       setTotal(articlesRes.total);
       setTags(tagsRes);
       setLoading(false);
+    }).catch(() => {
+      setLoading(false);
+      if (retryCount < 4) {
+        const delay = 5000 * (retryCount + 1); // 5s, 10s, 15s, 20s
+        setTimeout(() => setRetryCount((r) => r + 1), delay);
+      }
     });
-  }, [page, levelFilter]);
+  }, [page, levelFilter, retryCount]);
 
   function changeLevel(lvl: number) { setLevelFilter(lvl); setPage(1); }
 
