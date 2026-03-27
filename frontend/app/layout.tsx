@@ -34,24 +34,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/testa_nobg.png" alt="" className="h-7 w-7 object-contain" />
                     <span className="font-extrabold text-lg tracking-tight">
-                      <span className="text-orange-500">Fox</span><span className="text-blue-600">Scan</span>
+                      <span className="text-orange-500 dark:text-white">Fox</span><span className="text-blue-600">Scan</span>
                     </span>
                   </div>
                 </div>
                 <p className="text-sm text-gray-500 dark:text-slate-400 leading-relaxed">
                   Il tuo guardiano cyber, 24/7. Notizie sintetizzate dall&apos;AI, sempre aggiornate.
                 </p>
-              </div>
-
-              {/* Fonti — hidden on mobile */}
-              <div className="hidden sm:block">
-                <h4 className="font-semibold text-[#0B1F3A] dark:text-slate-200 mb-3 text-sm">Fonti</h4>
-                <ul className="space-y-2 text-sm text-gray-500 dark:text-slate-400">
-                  <li>BleepingComputer</li>
-                  <li>The Hacker News</li>
-                  <li>Krebs on Security</li>
-                  <li>Dark Reading</li>
-                </ul>
               </div>
 
               {/* Categorie */}

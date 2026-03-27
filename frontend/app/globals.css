@@ -57,6 +57,14 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-5px); }
+}
+.float-slow {
+  animation: float-slow 4.5s ease-in-out infinite;
+}
+
 /* ─── Victory Animation (podio) ──────────────────────────────────────────────── */
 @keyframes victory {
   0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
@@ -254,6 +262,7 @@ body {
 
 .prose-cyber a             { color: #2563EB; text-decoration: underline; }
 .prose-cyber a:hover       { color: #1E40AF; }
+.prose-cyber hr            { display: none; }
 
 .prose-cyber strong        { color: #0B1F3A; font-weight: 600; }
 .prose-cyber em            { font-style: italic; }

@@ -26,7 +26,7 @@ export default function Header() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/testa_nobg.png" alt="" className="h-8 w-8 object-contain" />
           <span className="font-extrabold text-xl tracking-tight">
-            <span className="text-orange-500">Fox</span><span className="text-blue-600">Scan</span>
+            <span className="text-orange-500 dark:text-white">Fox</span><span className="text-blue-600">Scan</span>
           </span>
         </Link>
 

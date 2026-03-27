@@ -153,23 +153,23 @@ function DailyBriefing({ articles }: { articles: ArticleSummary[] }) {
   const top5 = articles.slice(0, 5);
   if (top5.length === 0) return null;
   return (
-    <section className="relative bg-[#0B1F3A] rounded-3xl overflow-hidden my-10 md:my-14">
-      <div className="absolute inset-0 dot-grid-bg opacity-20" />
+    <section className="relative bg-blue-50 dark:bg-[#0B1F3A] border border-blue-100 dark:border-transparent rounded-3xl overflow-hidden my-10 md:my-14">
+      <div className="absolute inset-0 dot-grid-bg opacity-10 dark:opacity-20" />
       <div className="relative z-10 px-5 py-8 md:px-8 md:py-12 md:flex items-center gap-10">
 
         {/* Content — top on mobile, left on desktop */}
         <div className="flex-1 min-w-0">
-          <h2 className="no-dark text-white font-extrabold text-xl md:text-2xl mb-4 md:mb-6">Top criticità di oggi</h2>
+          <h2 className="no-dark text-[#0B1F3A] dark:text-white font-extrabold text-xl md:text-2xl mb-4 md:mb-6">Top criticità di oggi</h2>
           <ol className="space-y-2.5 md:space-y-3 mb-5 md:mb-7">
             {top5.map((a, i) => {
               const level = getLevel(a.relevance_score);
               return (
                 <li key={a.id}>
                   <Link href={`/article/${a.id}`} className="flex items-center gap-3 group py-0.5">
-                    <span className="shrink-0 w-6 h-6 rounded-full bg-blue-600/30 text-[#06E6D9] text-xs font-bold flex items-center justify-center">
+                    <span className="shrink-0 w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-600/30 text-blue-600 dark:text-[#06E6D9] text-xs font-bold flex items-center justify-center">
                       {i + 1}
                     </span>
-                    <span className="text-sm text-blue-100 group-hover:text-white transition-colors line-clamp-1 flex-1">
+                    <span className="text-sm text-blue-900 dark:text-blue-100 group-hover:text-[#0B1F3A] dark:group-hover:text-white transition-colors line-clamp-1 flex-1">
                       {a.title}
                     </span>
                     <span className="shrink-0 flex gap-0.5 items-center">
@@ -179,7 +179,7 @@ function DailyBriefing({ articles }: { articles: ArticleSummary[] }) {
                             ? level === 1 ? "bg-green-400"
                               : level === 2 ? "bg-orange-400"
                               : "bg-red-400"
-                            : "bg-white/15"
+                            : "bg-blue-200 dark:bg-white/15"
                         }`} />
                       ))}
                     </span>
@@ -195,7 +195,7 @@ function DailyBriefing({ articles }: { articles: ArticleSummary[] }) {
 
         {/* Mascot — below content on mobile, right on desktop */}
         <div className="shrink-0 flex justify-center mt-8 md:mt-0">
-          <div className="relative victory-anim w-48 h-48 md:w-96 md:h-96">
+          <div className="relative float-anim w-48 h-48 md:w-64 md:h-64">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/podio_nobg.png"
@@ -250,7 +250,7 @@ function GridCard({ article }: { article: ArticleSummary }) {
             <RelevanceDots score={article.relevance_score} showLabel={false} />
             <time className="text-xs text-gray-400 card-meta flex-1 truncate">{timeAgo(article.published_at)}</time>
             <Link href={`/article/${article.id}`} className="shrink-0 text-blue-600 font-semibold text-xs hover:translate-x-1 transition-transform inline-block">
-              Leggi →
+              Leggi
             </Link>
           </div>
         </div>
@@ -284,6 +284,10 @@ function SkeletonGrid() {
 /* ─── Main Page ───────────────────────────────────────────────────────────── */
 export default function HomePage() {
   const [page, setPage] = useState(1);
+  const goToPage = (n: number) => {
+    setPage(n);
+    setTimeout(() => document.getElementById("ultime-notizie")?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+  };
   const [levelFilter, setLevelFilter] = useState(0);
   const [articles, setArticles] = useState<ArticleSummary[]>([]);
   const [inEvidenza, setInEvidenza] = useState<ArticleSummary[]>([]);
@@ -334,7 +338,7 @@ export default function HomePage() {
       {inEvidenza.length > 0 && (
         <section className="mb-10 md:mb-14">
           <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
-            <h2 className="no-dark text-lg md:text-xl font-extrabold text-red-600 dark:text-red-400">⚠ In Evidenza</h2>
+            <h2 className="no-dark text-lg md:text-xl font-extrabold text-red-600 dark:text-red-500">⚠ In Evidenza</h2>
             <span className="evidenza-badge text-xs text-gray-400 border border-blue-100 rounded-full px-2.5 py-0.5 bg-blue-50">
               ultime {EVIDENZA_HOURS}h
             </span>
@@ -430,7 +434,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Ultime notizie ── */}
-      <section className="mb-4">
+      <section id="ultime-notizie" className="mb-4 scroll-mt-20">
         <h2 className="text-lg md:text-xl font-extrabold text-[#0B1F3A] dark:text-slate-100 mb-4 md:mb-6">Ultime notizie</h2>
 
         {loading ? <SkeletonGrid /> : articles.length === 0 ? (
@@ -461,14 +465,14 @@ export default function HomePage() {
             {totalPages > 1 && (
               <div className="mt-8 md:mt-10 flex items-center justify-center gap-2">
                 {page > 1 && (
-                  <button onClick={() => setPage(page - 1)}
+                  <button onClick={() => goToPage(page - 1)}
                     className="page-btn-prev px-4 md:px-5 py-2.5 text-sm rounded-full border border-blue-200 text-[#0B1F3A] font-medium hover:border-blue-400 hover:bg-blue-50 transition-all">
                     ← Prec.
                   </button>
                 )}
                 <span className="px-4 py-2 text-sm text-gray-400 dark:text-slate-500">{page} / {totalPages}</span>
                 {page < totalPages && (
-                  <button onClick={() => setPage(page + 1)}
+                  <button onClick={() => goToPage(page + 1)}
                     className="px-4 md:px-5 py-2.5 text-sm rounded-full bg-[#0B1F3A] text-white font-medium hover:bg-blue-700 transition-colors">
                     Succ. →
                   </button>

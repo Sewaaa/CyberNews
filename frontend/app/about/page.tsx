@@ -141,16 +141,6 @@ export default function AboutPage() {
 
       {/* ── CTA ── */}
       <section className="bg-blue-50 border border-blue-100 rounded-3xl p-8 md:p-10 text-center">
-        <div className="flex justify-center mb-4">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/ologramm_nobg.png" alt="" className="w-20 h-20 md:w-24 md:h-24 object-contain float-anim" />
-        </div>
-        <h2 className="text-xl md:text-2xl font-extrabold text-[#0B1F3A] mb-3">
-          Ci siamo per te
-        </h2>
-        <p className="text-gray-500 mb-6 max-w-md mx-auto text-sm md:text-base">
-          Torna alla homepage e scopri le ultime minacce del giorno, già sintetizzate e pronte da leggere.
-        </p>
         <Link
           href="/"
           className="inline-flex items-center gap-2 px-6 py-3 bg-[#0B1F3A] text-white rounded-full font-bold hover:bg-blue-700 transition-colors shadow-blue-md"
