@@ -124,11 +124,14 @@ export default function AdminPage() {
       const data = await res.json();
       if (data.status === "already_running") {
         setMessage("Pipeline già in esecuzione. Attendi il completamento.");
+        await loadStats(adminKey);
       } else {
         setMessage("Pipeline avviata in background. Gli articoli appariranno man mano — la pagina si aggiorna ogni 15s.");
         setPipelineRunning(true);
+        // Non caricare subito gli stats: il thread non è ancora partito
+        // e pipeline_running risulterebbe false, resettando il bottone.
+        // Il polling da 15s aggiornerà lo stato correttamente.
       }
-      await loadStats(adminKey);
     } catch {
       setMessage("Errore nell'avvio della pipeline. Assicurati che il backend sia avviato.");
     } finally {
