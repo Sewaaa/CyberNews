@@ -89,7 +89,7 @@ def scrape_cluster(cluster: list[dict]) -> list[dict]:
     Se lo scraping fallisce, usa il contenuto RSS salvato in fase di discovery.
     """
     results = []
-    with ThreadPoolExecutor(max_workers=5) as executor:
+    with ThreadPoolExecutor(max_workers=2) as executor:
         futures = {executor.submit(_scrape_item, item): item for item in cluster}
         for future in as_completed(futures):
             result = future.result()

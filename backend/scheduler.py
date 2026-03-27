@@ -1,3 +1,4 @@
+import gc
 import json
 import logging
 import threading
@@ -7,7 +8,7 @@ from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 from sqlalchemy.orm import Session
 
-from config import FETCH_INTERVAL_MINUTES, MAX_ARTICLES_PER_CLUSTER
+from config import FETCH_INTERVAL_MINUTES, MAX_ARTICLES_PER_CLUSTER, MAX_ITEMS_PER_RUN
 from database import SessionLocal
 from pipeline.clustering import cluster_items
 from pipeline.discovery import fetch_new_items, get_unprocessed_items, mark_processed
@@ -49,11 +50,14 @@ def run_pipeline(db: Session | None = None) -> dict:
         new = fetch_new_items(db)
         stats["discovered"] = len(new)
 
-        # Step 2: Recupera tutti i pending
+        # Step 2: Recupera tutti i pending (cap per evitare OOM)
         pending = get_unprocessed_items(db)
         if not pending:
             logger.info("Nessun item da processare")
             return stats
+        if len(pending) > MAX_ITEMS_PER_RUN:
+            logger.info(f"Troppi item ({len(pending)}), processo solo i primi {MAX_ITEMS_PER_RUN}")
+            pending = pending[:MAX_ITEMS_PER_RUN]
 
         # Step 3: Prova a fondere ogni item con articoli recenti (ultime 24h).
         # Se un item copre la stessa notizia di un articolo già pubblicato,
@@ -71,6 +75,7 @@ def run_pipeline(db: Session | None = None) -> dict:
             except Exception as e:
                 logger.error(f"Errore nel merge di item {item['id']}: {e}")
                 to_cluster.append(item)
+            gc.collect()
 
         # Step 4: Clustering degli item rimasti (nessun articolo esistente trovato)
         clusters = cluster_items(to_cluster)
@@ -87,6 +92,7 @@ def run_pipeline(db: Session | None = None) -> dict:
                 logger.error(f"Errore su cluster {ids}: {e}")
                 stats["errors"] += 1
                 mark_processed(db, ids)  # marchia comunque per evitare loop
+            gc.collect()
             time.sleep(2)  # piccola pausa tra cluster; il retry 429 gestisce i rate limit
 
     finally:

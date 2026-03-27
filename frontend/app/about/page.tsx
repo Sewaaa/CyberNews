@@ -67,7 +67,7 @@ export default function AboutPage() {
               🛡️ La piattaforma
             </span>
             <h1 className="text-3xl md:text-4xl font-extrabold text-white leading-tight mb-5 md:mb-6">
-              Sempre un passo avanti su ogni minaccia.
+              Sempre un passo avanti <span className="text-[#06E6D9]">su ogni minaccia.</span>
             </h1>
             <p className="text-blue-200 text-base md:text-lg leading-relaxed mb-6 md:mb-8 max-w-lg">
               Scansiona ogni giorno 7+ fonti top di cybersecurity, raggruppa gli articoli duplicati

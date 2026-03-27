@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Flame } from "lucide-react";
 import { getArticles, getTags, ArticleSummary, TagCount } from "@/lib/api";
 import TagBadge from "@/components/TagBadge";
 import RelevanceDots from "@/components/RelevanceDots";
@@ -338,7 +339,7 @@ export default function HomePage() {
       {inEvidenza.length > 0 && (
         <section className="mb-10 md:mb-14">
           <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
-            <h2 className="no-dark text-lg md:text-xl font-extrabold text-red-600 dark:text-red-500">{"⚠\uFE0E"} In Evidenza</h2>
+            <h2 className="no-dark text-lg md:text-xl font-extrabold text-red-600 dark:text-red-500 flex items-center gap-1.5"><Flame size={20} className="shrink-0" /> In Evidenza</h2>
             <span className="evidenza-badge text-xs text-gray-400 border border-blue-100 rounded-full px-2.5 py-0.5 bg-blue-50">
               ultime {EVIDENZA_HOURS}h
             </span>
