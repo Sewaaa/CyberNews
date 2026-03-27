@@ -196,7 +196,7 @@ function DailyBriefing({ articles }: { articles: ArticleSummary[] }) {
 
         {/* Mascot — below content on mobile, right on desktop */}
         <div className="shrink-0 flex justify-center mt-8 md:mt-0">
-          <div className="relative float-anim w-48 h-48 md:w-64 md:h-64">
+          <div className="relative w-48 h-48 md:w-64 md:h-64">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/podio_nobg.png"
