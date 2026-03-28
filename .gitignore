@@ -22,3 +22,7 @@ Thumbs.db
 todo.txt
 CLAUDE.md
 info.txt
+
+# Collegamenti web (Windows .url, macOS .webloc)
+*.url
+*.webloc

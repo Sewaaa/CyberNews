@@ -2,7 +2,7 @@
 
 > AI-powered cybersecurity intelligence — automatically discovers, clusters, and synthesizes the latest security news into concise Italian-language briefings.
 
-**[Live Demo](https://foxscan.vercel.app)** &nbsp;·&nbsp; **[API Docs](https://cybernews-bxml.onrender.com/docs)** &nbsp;·&nbsp; **[RSS Feed](https://cybernews-bxml.onrender.com/rss)**
+🌐 **[foxscan.vercel.app](https://foxscan.vercel.app)** &nbsp;·&nbsp; **[API Docs](https://cybernews-bxml.onrender.com/docs)** &nbsp;·&nbsp; **[RSS Feed](https://foxscan.vercel.app/rss)**
 
 ---
 
