@@ -390,10 +390,10 @@ export default function HomePage() {
               </motion.div>
             )}
 
-            {/* TopCriticalWidget — col 3, row 1-2 (su mobile va in fondo) */}
+            {/* TopCriticalWidget — col 3, row 1-2 (solo desktop) */}
             {briefingArticles.length > 0 && (
               <motion.div
-                className="md:col-start-3 md:row-start-1 md:row-span-2"
+                className="hidden md:block md:col-start-3 md:row-start-1 md:row-span-2"
                 variants={cardItem} initial="hidden" animate="show"
               >
                 <TopCriticalWidget articles={briefingArticles} />
