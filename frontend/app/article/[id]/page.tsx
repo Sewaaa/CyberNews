@@ -99,12 +99,12 @@ export default async function ArticlePage({ params }: PageProps) {
         {/* Summary box */}
         {article.summary && (
           <div className="byte-box bg-blue-50 border border-blue-200 rounded-2xl p-4 md:p-5 mb-5 md:mb-6">
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-stretch">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-start">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/sintesi_nobg.png"
                 alt="mascotte"
-                className="shrink-0 w-24 h-24 sm:w-auto sm:h-full object-contain float-slow self-center sm:self-stretch"
+                className="shrink-0 w-24 h-24 sm:w-28 sm:h-28 object-contain float-slow self-center sm:self-start"
               />
               <div>
                 <p className="byte-label text-[11px] text-blue-500 font-bold uppercase tracking-widest mb-1.5">
