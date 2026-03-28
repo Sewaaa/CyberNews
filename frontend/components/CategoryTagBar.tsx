@@ -57,7 +57,11 @@ export default function CategoryTagBar({ tags, activeTag }: Props) {
   };
 
   return (
-    <div className="flex items-center gap-1 mb-8">
+    <div className="mb-8">
+      <p className="text-center text-xs font-mono uppercase tracking-widest text-gray-400 dark:text-slate-500 mb-3">
+        Notizie · dal più recente
+      </p>
+    <div className="flex items-center gap-1">
       {/* Freccia sinistra */}
       <button
         onClick={() => scroll("left")}
@@ -116,6 +120,7 @@ export default function CategoryTagBar({ tags, activeTag }: Props) {
       >
         <ChevronRight size={12} />
       </button>
+    </div>
     </div>
   );
 }
