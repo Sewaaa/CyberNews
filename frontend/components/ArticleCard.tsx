@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { ArticleSummary } from "@/lib/api";
 import TagBadge from "./TagBadge";
