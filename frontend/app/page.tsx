@@ -195,10 +195,10 @@ function GridCard({ article }: { article: ArticleSummary }) {
   return (
     <Link
       href={`/article/${article.id}`}
-      className={`card-blue flex flex-col group overflow-hidden ${level === 3 ? "critical-pulse" : ""}`}
+      className={`card-blue flex flex-row md:flex-col group overflow-hidden ${level === 3 ? "critical-pulse" : ""}`}
     >
-      {/* Image — always on top, uniform height */}
-      <div className={`w-full h-36 overflow-hidden card-img-bg relative ${article.image_url ? "bg-blue-50" : "img-placeholder"}`}>
+      {/* Image — orizzontale su mobile, verticale su desktop */}
+      <div className={`shrink-0 w-28 self-stretch md:w-full md:h-36 overflow-hidden card-img-bg relative ${article.image_url ? "bg-blue-50" : "img-placeholder"}`}>
         {article.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -212,7 +212,7 @@ function GridCard({ article }: { article: ArticleSummary }) {
           />
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src="/testa_nobg.png" alt="" className="w-full h-full object-contain p-6 opacity-10" />
+          <img src="/testa_nobg.png" alt="" className="w-full h-full object-contain p-4 md:p-6 opacity-10" />
         )}
         {level === 3 && (
           <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-red-500 to-transparent opacity-80" />
@@ -220,14 +220,14 @@ function GridCard({ article }: { article: ArticleSummary }) {
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col flex-1">
-        <span className="card-title font-grotesk font-bold text-[#0B1F3A] text-sm leading-snug line-clamp-2 mb-3 group-hover:text-blue-600 dark:group-hover:text-[#00FFE5] transition-colors">
+      <div className="p-3 md:p-4 flex flex-col flex-1 min-w-0">
+        <span className="card-title font-grotesk font-bold text-[#0B1F3A] text-xs md:text-sm leading-snug line-clamp-2 mb-2 md:mb-3 group-hover:text-blue-600 dark:group-hover:text-[#00FFE5] transition-colors">
           {article.title}
         </span>
-        <div className="flex flex-wrap gap-1 mb-3">
+        <div className="hidden md:flex flex-wrap gap-1 mb-3">
           {article.tags.slice(0, 2).map((tag) => <TagBadge key={tag} tag={tag} linked={false} />)}
         </div>
-        <div className="mt-auto flex items-center gap-2 pt-2.5 border-t border-blue-50 dark:border-white/5">
+        <div className="mt-auto flex items-center gap-2 pt-2 border-t border-blue-50 dark:border-white/5">
           <RelevanceDots score={article.relevance_score} showLabel={false} />
           <time className="text-xs text-gray-400 card-meta flex-1 truncate">{timeAgo(article.published_at)}</time>
           <span className="shrink-0 text-blue-600 dark:text-[#00FFE5]/80 font-semibold text-xs group-hover:translate-x-0.5 transition-transform inline-block">

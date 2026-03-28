@@ -110,9 +110,17 @@ export default async function ArticlePage({ params }: PageProps) {
                 <p className="byte-label text-[11px] text-blue-500 font-bold uppercase tracking-widest mb-1.5">
                   In sintesi
                 </p>
-                <p className="byte-text text-sm md:text-base text-blue-700 leading-relaxed">
-                  {article.summary}
-                </p>
+                <div className="byte-text text-sm md:text-base text-blue-700 leading-relaxed">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      p: ({ children }) => <span>{children}</span>,
+                      strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+                    }}
+                  >
+                    {article.summary}
+                  </ReactMarkdown>
+                </div>
               </div>
             </div>
           </div>
