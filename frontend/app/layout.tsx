@@ -61,29 +61,34 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* ── Footer ── */}
         <footer className="relative z-10 mt-16 md:mt-24 border-t border-blue-100 dark:border-white/5 bg-white dark:bg-transparent overflow-hidden">
-          {/* Cyber grid texture in dark mode */}
           <div className="absolute inset-0 cyber-grid-bg dark:opacity-100 opacity-0 pointer-events-none" />
 
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-10 md:py-14">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-10 mb-8 md:mb-12">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-10 md:pt-14 pb-6">
+
+            {/* Main grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-10 mb-8 md:mb-10">
 
               {/* Brand */}
               <div className="col-span-2 sm:col-span-1">
-                <div className="mb-4 flex items-center gap-2.5">
+                <div className="mb-3 flex items-center gap-2.5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/testa_nobg.png"
-                    alt=""
-                    className="h-9 w-9 object-contain neon-glow-logo"
-                  />
+                  <img src="/testa_nobg.png" alt="" className="h-9 w-9 object-contain neon-glow-logo" />
                   <span className="font-extrabold text-xl tracking-tight font-grotesk">
                     <span className="text-[#0B1F3A] dark:text-white">Fox</span>
                     <span className="text-blue-600 dark:text-[#00FFE5]">Scan</span>
                   </span>
                 </div>
-                <p className="text-sm text-gray-500 dark:text-slate-500 leading-relaxed">
-                  Il tuo guardiano cyber, 24/7. Notizie sintetizzate dall&apos;AI, sempre aggiornate.
+                <p className="text-sm text-gray-500 dark:text-slate-500 leading-relaxed mb-3">
+                  Il tuo guardiano cyber, 24/7. Notizie di cybersecurity sintetizzate dall&apos;AI, aggiornate ogni 30 minuti.
                 </p>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className="text-[11px] text-gray-400 dark:text-[#00FFE5]/40 px-2.5 py-0.5 rounded-full border border-blue-100 dark:border-[#00FFE5]/10 bg-blue-50 dark:bg-transparent">
+                    AI‑Powered
+                  </span>
+                  <span className="text-[11px] text-gray-400 dark:text-slate-600 px-2.5 py-0.5 rounded-full border border-blue-100 dark:border-white/5 bg-blue-50 dark:bg-transparent">
+                    Open Source
+                  </span>
+                </div>
               </div>
 
               {/* Categorie */}
@@ -91,18 +96,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <h4 className="font-grotesk font-semibold text-[#0B1F3A] dark:text-slate-400 mb-3 text-xs uppercase tracking-widest">
                   Categorie
                 </h4>
-                <ul className="space-y-2.5 text-sm text-gray-500 dark:text-slate-500">
+                <ul className="space-y-2 text-sm text-gray-500 dark:text-slate-500">
                   {[
-                    ["/category/malware",    "Malware"],
-                    ["/category/ransomware", "Ransomware"],
-                    ["/category/breach",     "Data Breach"],
-                    ["/category/CVE",        "CVE"],
+                    ["/category/malware",       "Malware"],
+                    ["/category/ransomware",    "Ransomware"],
+                    ["/category/breach",        "Data Breach"],
+                    ["/category/CVE",           "CVE"],
+                    ["/category/vulnerability", "Vulnerability"],
+                    ["/category/APT",           "APT"],
                   ].map(([href, label]) => (
                     <li key={href}>
-                      <Link
-                        href={href}
-                        className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors"
-                      >
+                      <Link href={href} className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
                         {label}
                       </Link>
                     </li>
@@ -115,10 +119,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <h4 className="font-grotesk font-semibold text-[#0B1F3A] dark:text-slate-400 mb-3 text-xs uppercase tracking-widest">
                   Piattaforma
                 </h4>
-                <ul className="space-y-2.5 text-sm text-gray-500 dark:text-slate-500">
+                <ul className="space-y-2 text-sm text-gray-500 dark:text-slate-500">
                   <li>
-                    <Link href="/rss" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
-                      Feed RSS
+                    <Link href="/" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                      Home
                     </Link>
                   </li>
                   <li>
@@ -126,28 +130,65 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       Chi siamo
                     </Link>
                   </li>
+                  <li>
+                    <Link href="/rss" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                      Feed RSS
+                    </Link>
+                  </li>
                 </ul>
+              </div>
+
+              {/* Legale */}
+              <div>
+                <h4 className="font-grotesk font-semibold text-[#0B1F3A] dark:text-slate-400 mb-3 text-xs uppercase tracking-widest">
+                  Legale
+                </h4>
+                <ul className="space-y-2 text-sm text-gray-500 dark:text-slate-500">
+                  <li>
+                    <Link href="/privacy" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                      Privacy Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy#cookie" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                      Cookie Policy
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/privacy#disclaimer" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                      Disclaimer AI
+                    </Link>
+                  </li>
+                </ul>
+                <p className="mt-3 text-[11px] text-gray-400 dark:text-slate-600 leading-relaxed">
+                  Nessun cookie di profilazione. Solo cookie tecnici.
+                </p>
               </div>
             </div>
 
+            {/* Disclaimer AI */}
+            <div className="py-4 border-t border-b border-blue-100 dark:border-white/5 mb-5">
+              <p className="text-[11px] text-gray-400 dark:text-slate-600 leading-relaxed text-center">
+                Gli articoli sono sintetizzati da AI (LLaMA 3.3) — le fonti originali sono sempre citate. I contenuti hanno scopo puramente informativo e non costituiscono consulenza professionale di sicurezza informatica.
+                I diritti sulle fonti originali appartengono ai rispettivi editori.
+              </p>
+            </div>
+
             {/* Bottom bar */}
-            <div className="pt-6 border-t border-blue-100 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2">
-                <p className="text-xs text-gray-400 dark:text-slate-600 text-center sm:text-left">
-                  © 2026 FoxScan
-                </p>
-                <span className="hidden sm:inline text-gray-300 dark:text-slate-700">·</span>
-                <p className="text-xs text-gray-400 dark:text-slate-600 text-center sm:text-left">
-                  Articoli sintetizzati da AI — fonti originali sempre citate
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-500 dark:text-[#00FFE5]/40 px-3 py-1 rounded-full border border-blue-100 dark:border-[#00FFE5]/10 bg-blue-50 dark:bg-[#00FFE5]/4">
-                  AI‑Powered
-                </span>
-                <span className="text-xs text-gray-500 dark:text-slate-600 px-3 py-1 rounded-full border border-blue-100 dark:border-white/5 bg-blue-50 dark:bg-white/[0.02]">
-                  Aggiornamento continuo
-                </span>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+              <p className="text-xs text-gray-400 dark:text-slate-600">
+                © 2026 FoxScan — Tutti i diritti riservati
+              </p>
+              <div className="flex items-center gap-3 text-xs text-gray-400 dark:text-slate-600">
+                <Link href="/privacy" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                  Privacy
+                </Link>
+                <span>·</span>
+                <Link href="/privacy#cookie" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                  Cookie
+                </Link>
+                <span>·</span>
+                <span>Reg. UE 2016/679 (GDPR)</span>
               </div>
             </div>
           </div>

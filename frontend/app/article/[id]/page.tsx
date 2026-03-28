@@ -98,24 +98,33 @@ export default async function ArticlePage({ params }: PageProps) {
 
         {/* Summary box */}
         {article.summary && (
-          <div className="byte-box bg-blue-50 border border-blue-200 rounded-2xl p-4 md:p-5 mb-5 md:mb-6">
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-start">
+          <div className="byte-box relative overflow-hidden rounded-2xl mb-5 md:mb-6 border border-blue-200 dark:border-[#00FFE5]/15 bg-gradient-to-br from-blue-50 to-slate-50 dark:from-[#0a1628] dark:to-[#080e1e]">
+            {/* Accent left bar */}
+            <div className="absolute left-0 inset-y-0 w-1 bg-gradient-to-b from-blue-400 via-blue-500 to-blue-300 dark:from-[#00FFE5]/60 dark:via-[#00FFE5]/80 dark:to-[#00FFE5]/40 rounded-l-2xl" />
+
+            <div className="flex items-start gap-4 px-5 py-4 md:px-6 md:py-5">
+              {/* Mascot */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/sintesi_nobg.png"
-                alt="mascotte"
-                className="shrink-0 w-20 h-20 sm:w-28 sm:h-28 object-contain float-slow self-center sm:self-start"
+                alt=""
+                className="shrink-0 w-16 h-16 md:w-20 md:h-20 object-contain float-slow self-center opacity-90"
               />
-              <div>
-                <p className="byte-label text-[11px] text-blue-500 font-bold uppercase tracking-widest mb-1.5">
-                  In sintesi
-                </p>
-                <div className="byte-text text-sm md:text-base text-blue-700 leading-relaxed">
+
+              {/* Content */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="byte-label text-[10px] font-bold uppercase tracking-[0.15em] text-blue-500 dark:text-[#00FFE5]/80">
+                    In sintesi
+                  </span>
+                  <span className="h-px flex-1 bg-blue-200 dark:bg-[#00FFE5]/15" />
+                </div>
+                <div className="byte-text text-sm md:text-[0.925rem] text-blue-800 dark:text-slate-300 leading-relaxed">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={{
                       p: ({ children }) => <span>{children}</span>,
-                      strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+                      strong: ({ children }) => <strong className="font-semibold text-blue-900 dark:text-white">{children}</strong>,
                     }}
                   >
                     {article.summary}
