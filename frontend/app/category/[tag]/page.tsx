@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getArticles, getTags } from "@/lib/api";
 import ArticleCard from "@/components/ArticleCard";
-import TagBadge from "@/components/TagBadge";
+import TagBadge, { TAG_COLORS, DEFAULT_TAG_COLOR } from "@/components/TagBadge";
 
 export const revalidate = 60;
 
@@ -33,30 +33,40 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <div>
-      <div className="mb-8">
+      <div className="mb-6">
         <p className="text-sm text-gray-500 dark:text-slate-400 mb-2">Categoria</p>
-        <h1 className="text-3xl font-bold text-[#0B1F3A] dark:text-slate-100 mb-2 flex items-center gap-3">
+        <h1 className="text-3xl font-bold text-[#0B1F3A] dark:text-slate-100">
           <TagBadge tag={decoded} linked={false} />
-          <span className="text-gray-400 dark:text-zinc-400 text-lg font-normal">
-            {articlesRes.total} articol{articlesRes.total !== 1 ? "i" : "o"}
-          </span>
         </h1>
       </div>
 
-      {/* Altre categorie */}
-      <div className="mb-8 flex flex-wrap gap-2">
+      {/* Barra tag orizzontale */}
+      <div className="mb-8 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+        {/* Tutti */}
         <Link
           href="/category/tutti"
-          className="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-800 border border-blue-200 dark:bg-white/10 dark:text-slate-200 dark:border-white/10 hover:opacity-80 transition-opacity"
+          className="shrink-0 px-3 py-1 rounded-full text-xs font-semibold border transition-all bg-blue-100 text-blue-800 border-blue-200 dark:bg-white/10 dark:text-slate-200 dark:border-white/10 opacity-60 hover:opacity-100"
         >
           Tutti
         </Link>
-        {allTags
-          .filter((t) => t.tag !== decoded)
-          .slice(0, 10)
-          .map(({ tag: t }) => (
-            <TagBadge key={t} tag={t} />
-          ))}
+        {/* Tag attivo + altri */}
+        {allTags.map(({ tag: t }) => {
+          const isActive = t === decoded;
+          const color = TAG_COLORS[t] ?? DEFAULT_TAG_COLOR;
+          return (
+            <Link
+              key={t}
+              href={`/category/${encodeURIComponent(t)}`}
+              className={`shrink-0 px-3 py-1 rounded-full text-xs font-semibold border transition-all ${color} ${
+                isActive
+                  ? "ring-2 ring-offset-1 ring-current opacity-100 scale-105"
+                  : "opacity-60 hover:opacity-100"
+              }`}
+            >
+              {t}
+            </Link>
+          );
+        })}
       </div>
 
       {articlesRes.items.length === 0 ? (

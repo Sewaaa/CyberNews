@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { getArticles, getTags, ArticleSummary, TagCount } from "@/lib/api";
 import ArticleCard from "@/components/ArticleCard";
-import TagBadge from "@/components/TagBadge";
+import { TAG_COLORS, DEFAULT_TAG_COLOR } from "@/components/TagBadge";
 import CyberLoader from "@/components/CyberLoader";
 
 const PAGE_SIZE = 15;
@@ -64,24 +64,32 @@ export default function TuttiPage() {
       {/* Header */}
       <div className="mb-8">
         <p className="text-sm text-gray-500 dark:text-slate-400 mb-2">Categoria</p>
-        <h1 className="text-3xl font-bold text-[#0B1F3A] dark:text-slate-100 mb-2 flex items-center gap-3">
+        <h1 className="text-3xl font-bold text-[#0B1F3A] dark:text-slate-100 mb-2">
           <span className="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-800 border border-blue-200 dark:bg-white/10 dark:text-slate-200 dark:border-white/10">
             Tutti
           </span>
-          {total !== null && (
-            <span className="text-gray-400 dark:text-zinc-400 text-lg font-normal">
-              {total} articol{total !== 1 ? "i" : "o"}
-            </span>
-          )}
         </h1>
       </div>
 
-      {/* Altre categorie */}
+      {/* Barra tag orizzontale */}
       {tags.length > 0 && (
-        <div className="mb-8 flex flex-wrap gap-2">
-          {tags.slice(0, 10).map(({ tag }) => (
-            <TagBadge key={tag} tag={tag} />
-          ))}
+        <div className="mb-8 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+          {/* Tutti — attivo */}
+          <span className="shrink-0 px-3 py-1 rounded-full text-xs font-semibold border bg-blue-100 text-blue-800 border-blue-200 dark:bg-white/10 dark:text-slate-200 dark:border-white/10 ring-2 ring-offset-1 ring-current scale-105">
+            Tutti
+          </span>
+          {tags.map(({ tag }) => {
+            const color = TAG_COLORS[tag] ?? DEFAULT_TAG_COLOR;
+            return (
+              <Link
+                key={tag}
+                href={`/category/${encodeURIComponent(tag)}`}
+                className={`shrink-0 px-3 py-1 rounded-full text-xs font-semibold border transition-all ${color} opacity-60 hover:opacity-100`}
+              >
+                {tag}
+              </Link>
+            );
+          })}
         </div>
       )}
 
