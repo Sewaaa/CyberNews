@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const TAG_COLORS: Record<string, string> = {
+export const TAG_COLORS: Record<string, string> = {
   malware:       "bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-900/60",
   ransomware:    "bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/40 dark:text-orange-400 dark:border-orange-900/60",
   breach:        "bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-950/40 dark:text-yellow-400 dark:border-yellow-900/60",
@@ -13,7 +13,7 @@ const TAG_COLORS: Record<string, string> = {
   espionage:     "bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-900/60",
 };
 
-const DEFAULT_COLOR = "bg-gray-50 text-gray-600 border-gray-200 dark:bg-gray-900/40 dark:text-gray-400 dark:border-gray-800";
+export const DEFAULT_TAG_COLOR = "bg-gray-50 text-gray-600 border-gray-200 dark:bg-gray-900/40 dark:text-gray-400 dark:border-gray-800";
 
 interface TagBadgeProps {
   tag: string;
@@ -21,7 +21,7 @@ interface TagBadgeProps {
 }
 
 export default function TagBadge({ tag, linked = true }: TagBadgeProps) {
-  const color = TAG_COLORS[tag] ?? DEFAULT_COLOR;
+  const color = TAG_COLORS[tag] ?? DEFAULT_TAG_COLOR;
   const cls = `inline-block px-2 py-0.5 rounded-full text-xs font-medium border ${color}`;
 
   if (linked) {

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Flame, Zap, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getArticles, getTags, ArticleSummary, TagCount } from "@/lib/api";
-import TagBadge from "@/components/TagBadge";
+import TagBadge, { TAG_COLORS, DEFAULT_TAG_COLOR } from "@/components/TagBadge";
 import RelevanceDots from "@/components/RelevanceDots";
 import CyberLoader from "@/components/CyberLoader";
 
@@ -430,19 +430,21 @@ export default function HomePage() {
         {/* Seconda riga: tag pill (collassabile) */}
         {catOpen && topTags.length > 0 && (
           <div className="flex flex-wrap gap-1.5 pb-2.5 border-t border-blue-100/40 dark:border-white/5 pt-2.5">
-            {topTags.map(({ tag }) => (
-              <button
-                key={tag}
-                onClick={() => changeTag(tagFilter === tag ? null : tag)}
-                className={`shrink-0 whitespace-nowrap text-xs px-3 py-1 rounded-full border font-medium transition-all ${
-                  tagFilter === tag
-                    ? "border-blue-600 bg-blue-600 text-white dark:border-[#00FFE5] dark:bg-transparent dark:text-[#00FFE5]"
-                    : "filter-btn-inactive border-blue-200 dark:border-white/8 text-gray-600 dark:text-slate-400 hover:border-blue-400 hover:text-blue-600 dark:hover:border-[#00FFE5]/40 dark:hover:text-[#00FFE5]"
-                }`}
-              >
-                {tag}
-              </button>
-            ))}
+            {topTags.map(({ tag }) => {
+              const color = TAG_COLORS[tag] ?? DEFAULT_TAG_COLOR;
+              const isActive = tagFilter === tag;
+              return (
+                <button
+                  key={tag}
+                  onClick={() => changeTag(isActive ? null : tag)}
+                  className={`inline-block px-2.5 py-1 rounded-full text-xs font-medium border transition-all ${color} ${
+                    isActive ? "ring-2 ring-offset-1 ring-current" : "opacity-75 hover:opacity-100"
+                  }`}
+                >
+                  {tag}
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
