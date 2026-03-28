@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(true); // default dark
 
   useEffect(() => {
     const stored = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const isDark = stored === "dark" || (!stored && prefersDark);
+    // Default to dark unless user explicitly chose light
+    const isDark = stored ? stored === "dark" : true;
     setDark(isDark);
     document.documentElement.classList.toggle("dark", isDark);
   }, []);
@@ -25,11 +25,12 @@ export default function ThemeToggle() {
       onClick={toggle}
       aria-label="Cambia tema"
       title={dark ? "Passa al tema chiaro" : "Passa al tema scuro"}
-      className="w-6 h-6 rounded-md flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:text-slate-500 dark:hover:bg-blue-900/40 transition-all"
+      className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:text-slate-500 dark:hover:text-[#00FFE5] dark:hover:bg-[#00FFE5]/8 transition-all"
     >
       {dark ? (
         /* sole */
-        <svg xmlns="http://www.w3.org/2000/svg" style={{width:13,height:13}} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="5"/>
           <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
           <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
@@ -38,7 +39,8 @@ export default function ThemeToggle() {
         </svg>
       ) : (
         /* luna */
-        <svg xmlns="http://www.w3.org/2000/svg" style={{width:13,height:13}} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
       )}
