@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getArticles, getTags } from "@/lib/api";
 import ArticleCard from "@/components/ArticleCard";
 import TagBadge from "@/components/TagBadge";
