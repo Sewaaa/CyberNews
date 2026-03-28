@@ -455,7 +455,7 @@ export default function HomePage() {
           <div className="text-center py-20 md:py-24">
             <div className="flex justify-center mb-6">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/braccia_nobg.png" alt="mascotte" className="w-32 h-32 md:w-40 md:h-40 object-contain float-anim opacity-70"
+              <img src="/error_nobg.png" alt="mascotte" className="w-32 h-32 md:w-40 md:h-40 object-contain float-anim opacity-70"
                 onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
             </div>
             <p className="text-base md:text-lg font-semibold text-gray-500 dark:text-slate-400 mb-2">
