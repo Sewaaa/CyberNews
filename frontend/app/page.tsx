@@ -379,8 +379,8 @@ export default function HomePage() {
         </motion.section>
       )}
 
-      {/* ── Sticky Filter Bar ────────────────────────────────────────────── */}
-      <div className="sticky top-16 z-40 -mx-4 sm:-mx-6 px-4 sm:px-6 glass border-b border-blue-100/60 dark:border-white/5">
+      {/* ── Filter Bar ───────────────────────────────────────────────────── */}
+      <div>
 
         {/* Prima riga: rilevanza + bottone Categoria */}
         <div className="flex items-center gap-1.5 py-2.5 overflow-x-auto scrollbar-hide">
