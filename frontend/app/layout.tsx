@@ -174,7 +174,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {/* Disclaimer AI */}
             <div className="py-4 border-t border-b border-blue-100 dark:border-white/5 mb-5">
               <p className="text-[11px] text-gray-400 dark:text-slate-600 leading-relaxed text-center">
-                Gli articoli sono sintetizzati da AI (LLaMA 3.3) — le fonti originali sono sempre citate. I contenuti hanno scopo puramente informativo e non costituiscono consulenza professionale di sicurezza informatica.
+                Gli articoli sono sintetizzati da intelligenza artificiale — le fonti originali sono sempre citate. I contenuti hanno scopo puramente informativo e non costituiscono consulenza professionale di sicurezza informatica.
                 I diritti sulle fonti originali appartengono ai rispettivi editori.
               </p>
             </div>
