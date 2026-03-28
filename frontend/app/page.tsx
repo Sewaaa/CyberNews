@@ -124,7 +124,7 @@ function SecondaryCard({ article }: { article: ArticleSummary }) {
   return (
     <Link
       href={`/article/${article.id}`}
-      className={`card-blue flex items-stretch group overflow-hidden border-t-2 ${accentBorder}`}
+      className={`card-blue flex items-stretch group overflow-hidden border-t-2 h-full ${accentBorder}`}
       style={{ borderRadius: "16px" }}
     >
       {article.image_url && (
@@ -162,20 +162,20 @@ function TopCriticalWidget({ articles }: { articles: ArticleSummary[] }) {
         <Zap size={14} className="text-blue-600 dark:text-[#00FFE5] shrink-0" />
         <span className="font-grotesk font-bold text-sm text-[#0B1F3A] dark:text-white">Top criticità</span>
       </div>
-      <ol className="space-y-3 flex-1">
+      <ol className="flex flex-col justify-between flex-1 gap-1">
         {top5.map((a, i) => {
           const level = getLevel(a.relevance_score);
           const dotColor =
-            level === 3 ? "bg-red-400" :
-            level === 2 ? "bg-orange-400" :
+            level === 3 ? "bg-red-600" :
+            level === 2 ? "bg-amber-400" :
                           "bg-green-400";
           return (
             <li key={a.id}>
-              <Link href={`/article/${a.id}`} className="flex items-start gap-2.5 group">
-                <span className="shrink-0 w-5 h-5 mt-0.5 rounded-full bg-blue-100 dark:bg-[#00FFE5]/12 text-blue-700 dark:text-[#00FFE5] text-[10px] font-bold flex items-center justify-center font-mono">
+              <Link href={`/article/${a.id}`} className="flex items-start gap-2.5 group py-1">
+                <span className="shrink-0 w-5 h-5 mt-0.5 rounded-full bg-blue-100 dark:bg-white/10 text-blue-700 dark:text-[#00FFE5] text-[10px] font-bold flex items-center justify-center font-mono">
                   {i + 1}
                 </span>
-                <p className="flex-1 min-w-0 text-xs text-[#0B1F3A] dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-white transition-colors line-clamp-2 leading-snug">
+                <p className="flex-1 min-w-0 text-xs text-[#0B1F3A] dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-white transition-colors leading-snug">
                   {a.title}
                 </p>
                 <span className={`shrink-0 w-1.5 h-1.5 mt-1.5 rounded-full ${dotColor}`} />
@@ -364,13 +364,13 @@ export default function HomePage() {
           {/* Secondary articles — sotto il blocco hero */}
           {secondaryArticles.length > 0 && (
             <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 items-stretch"
               variants={cardGrid}
               initial="hidden"
               animate="show"
             >
               {secondaryArticles.map((a) => (
-                <motion.div key={a.id} variants={cardItem}>
+                <motion.div key={a.id} variants={cardItem} className="h-full">
                   <SecondaryCard article={a} />
                 </motion.div>
               ))}
