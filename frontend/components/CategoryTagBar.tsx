@@ -47,8 +47,14 @@ export default function CategoryTagBar({ tags, activeTag }: Props) {
     container.scrollBy({ left: offset, behavior: "smooth" });
   }, [activeTag]);
 
-  const scroll = (dir: "left" | "right") =>
-    scrollRef.current?.scrollBy({ left: dir === "left" ? -220 : 220, behavior: "smooth" });
+  const scroll = (dir: "left" | "right") => {
+    const container = scrollRef.current;
+    if (!container) return;
+    // Calcola la larghezza di 8 tag (elementi figli)
+    const items = Array.from(container.children) as HTMLElement[];
+    const eight = items.slice(0, 8).reduce((sum, el) => sum + el.offsetWidth + 8, 0); // 8px = gap-2
+    container.scrollBy({ left: dir === "left" ? -eight : eight, behavior: "smooth" });
+  };
 
   return (
     <div className="flex items-center gap-1 mb-8">
