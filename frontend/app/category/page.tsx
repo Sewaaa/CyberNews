@@ -35,6 +35,19 @@ export default async function CategoryIndexPage() {
         </p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {/* Tutti — sempre primo */}
+          <Link
+            href="/category/tutti"
+            className="card-blue p-4 flex items-center justify-between group hover:border-blue-300 dark:hover:border-[#00FFE5]/30 transition-colors"
+          >
+            <span className="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-800 border border-blue-200 dark:bg-white/10 dark:text-slate-200 dark:border-white/10">
+              Tutti
+            </span>
+            <span className="text-xs text-gray-400 dark:text-slate-500 font-mono group-hover:text-blue-600 dark:group-hover:text-[#00FFE5] transition-colors">
+              tutti gli articoli →
+            </span>
+          </Link>
+
           {tags.map(({ tag, count }) => (
             <Link
               key={tag}

@@ -44,6 +44,12 @@ export default async function CategoryPage({ params }: PageProps) {
 
       {/* Altre categorie */}
       <div className="mb-8 flex flex-wrap gap-2">
+        <Link
+          href="/category/tutti"
+          className="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-800 border border-blue-200 dark:bg-white/10 dark:text-slate-200 dark:border-white/10 hover:opacity-80 transition-opacity"
+        >
+          Tutti
+        </Link>
         {allTags
           .filter((t) => t.tag !== decoded)
           .slice(0, 10)
