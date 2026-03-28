@@ -14,7 +14,7 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval'",  // richiesto da Next.js
       "style-src 'self' 'unsafe-inline'",                 // richiesto da Tailwind
-      "img-src 'self' images.unsplash.com data: blob:",
+      "img-src 'self' https: data: blob:",
       `connect-src 'self' ${API_URL}`,
       "font-src 'self' https://fonts.gstatic.com",
       "frame-ancestors 'none'",
