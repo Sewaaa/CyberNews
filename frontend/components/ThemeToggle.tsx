@@ -25,7 +25,7 @@ export default function ThemeToggle() {
       onClick={toggle}
       aria-label="Cambia tema"
       title={dark ? "Passa al tema chiaro" : "Passa al tema scuro"}
-      className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-600 dark:text-[#9A8570] hover:text-orange-600 hover:bg-orange-50/80 dark:hover:text-[#F97316] dark:hover:bg-white/5 transition-all"
+      className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-600 dark:text-slate-400 hover:text-blue-600 hover:bg-blue-50/80 dark:hover:text-[#00FFE5] dark:hover:bg-white/5 transition-all"
     >
       {dark ? (
         /* sole */

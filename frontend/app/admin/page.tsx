@@ -142,7 +142,7 @@ export default function AdminPage() {
   if (!unlocked) {
     return (
       <div className="max-w-sm mx-auto mt-16">
-        <h1 className="text-2xl font-bold text-[#1C0E00] dark:text-slate-100 mb-6">Pannello Admin</h1>
+        <h1 className="text-2xl font-bold text-[#0B1F3A] dark:text-slate-100 mb-6">Pannello Admin</h1>
         <form onSubmit={handleLogin} className="border border-blue-100 dark:border-zinc-800 rounded-xl p-6 bg-white dark:bg-zinc-900 shadow-blue-sm space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-zinc-300 mb-1">
@@ -152,7 +152,7 @@ export default function AdminPage() {
               type="password"
               value={keyInput}
               onChange={(e) => setKeyInput(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-200 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-800 text-[#1C0E00] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-200 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-800 text-[#0B1F3A] dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="••••••••"
               autoFocus
             />
@@ -175,7 +175,7 @@ export default function AdminPage() {
   return (
     <div className="max-w-2xl">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-[#1C0E00] dark:text-slate-100">Pannello Admin</h1>
+        <h1 className="text-2xl font-bold text-[#0B1F3A] dark:text-slate-100">Pannello Admin</h1>
         <button
           onClick={handleLogout}
           className="text-sm text-gray-400 dark:text-zinc-500 hover:text-gray-600 dark:hover:text-zinc-300 transition-colors"
@@ -199,14 +199,14 @@ export default function AdminPage() {
         ].map(({ label, value }) => (
           <div key={label} className="border border-blue-100 dark:border-zinc-800 rounded-xl p-4 bg-white dark:bg-zinc-900 shadow-blue-sm">
             <p className="text-xs text-gray-400 dark:text-zinc-500 uppercase tracking-wide mb-1">{label}</p>
-            <p className="text-xl font-semibold text-[#1C0E00] dark:text-white">{String(value)}</p>
+            <p className="text-xl font-semibold text-[#0B1F3A] dark:text-white">{String(value)}</p>
           </div>
         ))}
       </div>
 
       {/* Pipeline trigger */}
       <div className="border border-blue-100 dark:border-zinc-800 rounded-xl p-6 bg-white dark:bg-zinc-900 mb-6 shadow-blue-sm">
-        <h2 className="text-lg font-semibold text-[#1C0E00] dark:text-white mb-2">Pipeline manuale</h2>
+        <h2 className="text-lg font-semibold text-[#0B1F3A] dark:text-white mb-2">Pipeline manuale</h2>
         <p className="text-sm text-gray-500 dark:text-zinc-400 mb-4">
           Esegui subito la pipeline di discovery + clustering + sintesi. Normalmente gira in
           automatico ogni 30 minuti.
