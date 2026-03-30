@@ -66,7 +66,7 @@ export default function CategoryTagBar({ tags, activeTag }: Props) {
       <button
         onClick={() => scroll("left")}
         disabled={!canLeft}
-        className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full border border-blue-100 dark:border-white/10 text-gray-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-[#00FFE5] hover:border-blue-300 dark:hover:border-[#00FFE5]/30 transition-all disabled:opacity-20 disabled:cursor-default"
+        className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full border border-orange-100 dark:border-white/10 text-gray-400 dark:text-[#6B5743] hover:text-orange-600 dark:hover:text-[#F97316] hover:border-orange-300 dark:hover:border-[#F97316]/30 transition-all disabled:opacity-20 disabled:cursor-default"
         aria-label="Scorri sinistra"
       >
         <ChevronLeft size={12} />
@@ -81,9 +81,9 @@ export default function CategoryTagBar({ tags, activeTag }: Props) {
         <Link
           href="/category/tutti"
           data-active={activeTag === null ? "true" : "false"}
-          className={`shrink-0 px-3 py-1 rounded-full text-xs font-semibold border transition-all bg-blue-100 text-blue-800 border-blue-200 dark:bg-white/10 dark:text-slate-200 dark:border-white/10 ${
+          className={`shrink-0 px-3 py-1 rounded-full text-xs font-semibold border transition-all bg-orange-100 text-orange-800 border-orange-200 dark:bg-white/10 dark:text-[#F5E8D8] dark:border-white/10 ${
             activeTag === null
-              ? "ring-2 ring-offset-1 ring-blue-400 dark:ring-[#00FFE5] opacity-100"
+              ? "ring-2 ring-offset-1 ring-orange-400 dark:ring-[#F97316] opacity-100"
               : "opacity-60 hover:opacity-100"
           }`}
         >
@@ -115,7 +115,7 @@ export default function CategoryTagBar({ tags, activeTag }: Props) {
       <button
         onClick={() => scroll("right")}
         disabled={!canRight}
-        className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full border border-blue-100 dark:border-white/10 text-gray-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-[#00FFE5] hover:border-blue-300 dark:hover:border-[#00FFE5]/30 transition-all disabled:opacity-20 disabled:cursor-default"
+        className="shrink-0 w-6 h-6 flex items-center justify-center rounded-full border border-orange-100 dark:border-white/10 text-gray-400 dark:text-[#6B5743] hover:text-orange-600 dark:hover:text-[#F97316] hover:border-orange-300 dark:hover:border-[#F97316]/30 transition-all disabled:opacity-20 disabled:cursor-default"
         aria-label="Scorri destra"
       >
         <ChevronRight size={12} />

@@ -18,10 +18,10 @@ export default async function CategoryIndexPage() {
 
       {/* Header */}
       <div className="mb-8">
-        <Link href="/" className="text-sm text-blue-600 dark:text-[#00FFE5] hover:underline">
+        <Link href="/" className="text-sm text-orange-600 dark:text-[#F97316] hover:underline">
           ← Torna alla homepage
         </Link>
-        <h1 className="text-2xl md:text-3xl font-extrabold text-[#0B1F3A] dark:text-slate-100 mt-4 mb-2 font-grotesk">
+        <h1 className="text-2xl md:text-3xl font-extrabold text-[#1C0E00] dark:text-slate-100 mt-4 mb-2 font-grotesk">
           Esplora categorie
         </h1>
         <p className="text-sm text-gray-500 dark:text-slate-400">
@@ -38,12 +38,12 @@ export default async function CategoryIndexPage() {
           {/* Tutti — sempre primo */}
           <Link
             href="/category/tutti"
-            className="card-blue p-4 flex items-center justify-between group hover:border-blue-300 dark:hover:border-[#00FFE5]/30 transition-colors"
+            className="card-blue p-4 flex items-center justify-between group hover:border-orange-300 dark:hover:border-[#F97316]/30 transition-colors"
           >
-            <span className="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-800 border border-blue-200 dark:bg-white/10 dark:text-slate-200 dark:border-white/10">
+            <span className="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-orange-100 text-orange-800 border border-orange-200 dark:bg-white/10 dark:text-[#F5E8D8] dark:border-white/10">
               Tutti
             </span>
-            <span className="text-xs text-gray-400 dark:text-slate-500 font-mono group-hover:text-blue-600 dark:group-hover:text-[#00FFE5] transition-colors">
+            <span className="text-xs text-gray-400 dark:text-[#6B5743] font-mono group-hover:text-orange-600 dark:group-hover:text-[#F97316] transition-colors">
               tutti gli articoli →
             </span>
           </Link>
@@ -52,10 +52,10 @@ export default async function CategoryIndexPage() {
             <Link
               key={tag}
               href={`/category/${encodeURIComponent(tag)}`}
-              className="card-blue p-4 flex items-center justify-between group hover:border-blue-300 dark:hover:border-[#00FFE5]/30 transition-colors"
+              className="card-blue p-4 flex items-center justify-between group hover:border-orange-300 dark:hover:border-[#F97316]/30 transition-colors"
             >
               <TagBadge tag={tag} linked={false} />
-              <span className="text-xs text-gray-400 dark:text-slate-500 font-mono group-hover:text-blue-600 dark:group-hover:text-[#00FFE5] transition-colors">
+              <span className="text-xs text-gray-400 dark:text-[#6B5743] font-mono group-hover:text-orange-600 dark:group-hover:text-[#F97316] transition-colors">
                 {count} articol{count !== 1 ? "i" : "o"} →
               </span>
             </Link>

@@ -18,7 +18,7 @@ const cyberLoaderAnimation = {
   ddd: 0,
   assets: [],
   layers: [
-    // Outer ring — cyan, clockwise
+    // Outer ring — fox orange, clockwise
     {
       ddd: 0, ind: 1, ty: 4, nm: "outer", sr: 1,
       ks: {
@@ -42,7 +42,7 @@ const cyberLoaderAnimation = {
             { d: 1, ty: "el", s: { a: 0, k: [66, 66] }, p: { a: 0, k: [0, 0] }, nm: "E" },
             {
               ty: "st",
-              c: { a: 0, k: [0.003, 1.0, 0.898, 1] }, // #00FFE5
+              c: { a: 0, k: [0.976, 0.451, 0.086, 1] }, // #F97316
               o: { a: 0, k: 100 },
               w: { a: 0, k: 3 },
               lc: 2, lj: 2, bm: 0,
@@ -64,7 +64,7 @@ const cyberLoaderAnimation = {
       ],
       ip: 0, op: 120, st: 0, bm: 0,
     },
-    // Inner ring — purple, counter-clockwise
+    // Inner ring — amber, counter-clockwise
     {
       ddd: 0, ind: 2, ty: 4, nm: "inner", sr: 1,
       ks: {
@@ -88,7 +88,7 @@ const cyberLoaderAnimation = {
             { d: 1, ty: "el", s: { a: 0, k: [38, 38] }, p: { a: 0, k: [0, 0] }, nm: "E" },
             {
               ty: "st",
-              c: { a: 0, k: [0.486, 0.227, 0.929, 1] }, // #7C3AED
+              c: { a: 0, k: [0.961, 0.620, 0.043, 1] }, // #F59E0B amber
               o: { a: 0, k: 100 },
               w: { a: 0, k: 2 },
               lc: 2, lj: 2, bm: 0,
@@ -110,7 +110,7 @@ const cyberLoaderAnimation = {
       ],
       ip: 0, op: 120, st: 0, bm: 0,
     },
-    // Center dot — cyan pulse
+    // Center dot — orange pulse
     {
       ddd: 0, ind: 3, ty: 4, nm: "dot", sr: 1,
       ks: {
@@ -135,7 +135,7 @@ const cyberLoaderAnimation = {
             { d: 1, ty: "el", s: { a: 0, k: [8, 8] }, p: { a: 0, k: [0, 0] }, nm: "E" },
             {
               ty: "fl",
-              c: { a: 0, k: [0.003, 1.0, 0.898, 1] },
+              c: { a: 0, k: [0.976, 0.451, 0.086, 1] },
               o: { a: 0, k: 100 },
               r: 1, bm: 0, nm: "F",
             },

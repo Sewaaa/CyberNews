@@ -26,7 +26,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
         <div className="flex-1 min-w-0">
           <Link
             href={`/article/${article.id}`}
-            className="card-title font-semibold text-lg leading-snug hover:text-blue-600 dark:hover:text-cyan-400 transition-colors line-clamp-2 text-[#0B1F3A]"
+            className="card-title font-semibold text-lg leading-snug hover:text-orange-600 dark:hover:text-[#F97316] transition-colors line-clamp-2 text-[#1C0E00]"
           >
             {article.title}
           </Link>

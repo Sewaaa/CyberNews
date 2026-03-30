@@ -52,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} font-sans bg-[#F0F4FF] dark:bg-[#020817] text-[#0B1F3A] dark:text-slate-200 min-h-screen relative`}
+        className={`${inter.variable} ${spaceGrotesk.variable} font-sans bg-[#FAFAF8] dark:bg-[#0F0D0B] text-[#1C0E00] dark:text-[#F5E8D8] min-h-screen relative`}
       >
         {/* Animated orb background — dark mode only */}
         <AnimatedBackground />
@@ -65,7 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
 
         {/* ── Footer ── */}
-        <footer className="relative z-10 mt-16 md:mt-24 border-t border-blue-100 dark:border-white/5 bg-white dark:bg-transparent overflow-hidden">
+        <footer className="relative z-10 mt-16 md:mt-24 border-t border-orange-100 dark:border-white/5 bg-white dark:bg-transparent overflow-hidden">
           <div className="absolute inset-0 cyber-grid-bg dark:opacity-100 opacity-0 pointer-events-none" />
 
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-10 md:pt-14 pb-6">
@@ -79,18 +79,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/testa_nobg.png" alt="" className="h-9 w-9 object-contain neon-glow-logo" />
                   <span className="font-extrabold text-xl tracking-tight font-grotesk">
-                    <span className="text-[#0B1F3A] dark:text-white">Fox</span>
-                    <span className="text-blue-600 dark:text-[#00FFE5]">Scan</span>
+                    <span className="text-[#1C0E00] dark:text-white">Fox</span>
+                    <span className="text-orange-600 dark:text-[#F97316]">Scan</span>
                   </span>
                 </div>
-                <p className="text-sm text-gray-500 dark:text-slate-500 leading-relaxed mb-3">
+                <p className="text-sm text-gray-500 dark:text-[#6B5743] leading-relaxed mb-3">
                   Il tuo guardiano cyber, 24/7. Notizie di cybersecurity sintetizzate dall&apos;AI, aggiornate ogni 30 minuti.
                 </p>
                 <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[11px] text-gray-400 dark:text-[#00FFE5]/40 px-2.5 py-0.5 rounded-full border border-blue-100 dark:border-[#00FFE5]/10 bg-blue-50 dark:bg-transparent">
+                  <span className="text-[11px] text-gray-400 dark:text-[#F97316]/50 px-2.5 py-0.5 rounded-full border border-orange-100 dark:border-[#F97316]/10 bg-orange-50 dark:bg-transparent">
                     AI‑Powered
                   </span>
-                  <span className="text-[11px] text-gray-400 dark:text-slate-600 px-2.5 py-0.5 rounded-full border border-blue-100 dark:border-white/5 bg-blue-50 dark:bg-transparent">
+                  <span className="text-[11px] text-gray-400 dark:text-[#6B5743] px-2.5 py-0.5 rounded-full border border-orange-100 dark:border-white/5 bg-orange-50 dark:bg-transparent">
                     Open Source
                   </span>
                 </div>
@@ -98,10 +98,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
               {/* Categorie */}
               <div>
-                <h4 className="font-grotesk font-semibold text-[#0B1F3A] dark:text-slate-400 mb-3 text-xs uppercase tracking-widest">
+                <h4 className="font-grotesk font-semibold text-[#1C0E00] dark:text-[#9A8570] mb-3 text-xs uppercase tracking-widest">
                   Categorie
                 </h4>
-                <ul className="space-y-2 text-sm text-gray-500 dark:text-slate-500">
+                <ul className="space-y-2 text-sm text-gray-500 dark:text-[#6B5743]">
                   {[
                     ["/category/malware",       "Malware"],
                     ["/category/ransomware",    "Ransomware"],
@@ -111,7 +111,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     ["/category/APT",           "APT"],
                   ].map(([href, label]) => (
                     <li key={href}>
-                      <Link href={href} className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                      <Link href={href} className="hover:text-orange-600 dark:hover:text-[#F97316] transition-colors">
                         {label}
                       </Link>
                     </li>
@@ -121,27 +121,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
               {/* Piattaforma */}
               <div>
-                <h4 className="font-grotesk font-semibold text-[#0B1F3A] dark:text-slate-400 mb-3 text-xs uppercase tracking-widest">
+                <h4 className="font-grotesk font-semibold text-[#1C0E00] dark:text-[#9A8570] mb-3 text-xs uppercase tracking-widest">
                   Piattaforma
                 </h4>
-                <ul className="space-y-2 text-sm text-gray-500 dark:text-slate-500">
+                <ul className="space-y-2 text-sm text-gray-500 dark:text-[#6B5743]">
                   <li>
-                    <Link href="/" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                    <Link href="/" className="hover:text-orange-600 dark:hover:text-[#F97316] transition-colors">
                       Home
                     </Link>
                   </li>
                   <li>
-                    <Link href="/about" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                    <Link href="/about" className="hover:text-orange-600 dark:hover:text-[#F97316] transition-colors">
                       Chi siamo
                     </Link>
                   </li>
                   <li>
-                    <Link href="/rss" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                    <Link href="/rss" className="hover:text-orange-600 dark:hover:text-[#F97316] transition-colors">
                       Feed RSS
                     </Link>
                   </li>
                   <li>
-                    <Link href="/contact" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                    <Link href="/contact" className="hover:text-orange-600 dark:hover:text-[#F97316] transition-colors">
                       Contatti
                     </Link>
                   </li>
@@ -150,35 +150,35 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
               {/* Legale */}
               <div>
-                <h4 className="font-grotesk font-semibold text-[#0B1F3A] dark:text-slate-400 mb-3 text-xs uppercase tracking-widest">
+                <h4 className="font-grotesk font-semibold text-[#1C0E00] dark:text-[#9A8570] mb-3 text-xs uppercase tracking-widest">
                   Legale
                 </h4>
-                <ul className="space-y-2 text-sm text-gray-500 dark:text-slate-500">
+                <ul className="space-y-2 text-sm text-gray-500 dark:text-[#6B5743]">
                   <li>
-                    <Link href="/privacy" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                    <Link href="/privacy" className="hover:text-orange-600 dark:hover:text-[#F97316] transition-colors">
                       Privacy Policy
                     </Link>
                   </li>
                   <li>
-                    <Link href="/privacy#cookie" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                    <Link href="/privacy#cookie" className="hover:text-orange-600 dark:hover:text-[#F97316] transition-colors">
                       Cookie Policy
                     </Link>
                   </li>
                   <li>
-                    <Link href="/privacy#disclaimer" className="hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors">
+                    <Link href="/privacy#disclaimer" className="hover:text-orange-600 dark:hover:text-[#F97316] transition-colors">
                       Disclaimer AI
                     </Link>
                   </li>
                 </ul>
-                <p className="mt-3 text-[11px] text-gray-400 dark:text-slate-600 leading-relaxed">
+                <p className="mt-3 text-[11px] text-gray-400 dark:text-[#4A3525] leading-relaxed">
                   Nessun cookie di profilazione. Solo cookie tecnici.
                 </p>
               </div>
             </div>
 
             {/* Disclaimer AI */}
-            <div className="py-4 border-t border-b border-blue-100 dark:border-white/5 mb-5">
-              <p className="text-[11px] text-gray-400 dark:text-slate-600 leading-relaxed text-center">
+            <div className="py-4 border-t border-b border-orange-100 dark:border-white/5 mb-5">
+              <p className="text-[11px] text-gray-400 dark:text-[#4A3525] leading-relaxed text-center">
                 Gli articoli sono sintetizzati da intelligenza artificiale — le fonti originali sono sempre citate. I contenuti hanno scopo puramente informativo e non costituiscono consulenza professionale di sicurezza informatica.
                 I diritti sulle fonti originali appartengono ai rispettivi editori.
               </p>
@@ -186,10 +186,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* Bottom bar */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
-              <p className="text-xs text-gray-400 dark:text-slate-600">
+              <p className="text-xs text-gray-400 dark:text-[#4A3525]">
                 © 2026 FoxScan — Tutti i diritti riservati
               </p>
-              <p className="text-xs text-gray-400 dark:text-slate-600">
+              <p className="text-xs text-gray-400 dark:text-[#4A3525]">
                 Reg. UE 2016/679 (GDPR)
               </p>
             </div>

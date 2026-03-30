@@ -68,7 +68,7 @@ export default async function ArticlePage({ params }: PageProps) {
       <div className="mb-5 md:mb-6">
         <a
           href="/"
-          className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors py-1"
+          className="inline-flex items-center gap-1.5 text-sm text-orange-600 hover:text-orange-800 font-medium transition-colors py-1"
         >
           ← Torna alla homepage
         </a>
@@ -77,13 +77,13 @@ export default async function ArticlePage({ params }: PageProps) {
       {/* ── Header ── */}
       <header className="mb-6 md:mb-8">
         {/* Title */}
-        <h1 className="text-2xl md:text-3xl font-extrabold text-[#0B1F3A] leading-tight mb-4 md:mb-5">
+        <h1 className="text-2xl md:text-3xl font-extrabold text-[#1C0E00] leading-tight mb-4 md:mb-5">
           {article.title}
         </h1>
 
         {/* Hero image */}
         <div
-          className={`mb-5 md:mb-6 rounded-2xl overflow-hidden shadow-blue-md ${article.image_url ? "bg-blue-50" : "img-placeholder"}`}
+          className={`mb-5 md:mb-6 rounded-2xl overflow-hidden shadow-blue-md ${article.image_url ? "bg-orange-50" : "img-placeholder"}`}
           style={{ maxHeight: article.image_url ? undefined : "10rem", minHeight: "8rem" }}
         >
           {article.image_url ? (
@@ -98,9 +98,9 @@ export default async function ArticlePage({ params }: PageProps) {
 
         {/* Summary box */}
         {article.summary && (
-          <div className="byte-box relative overflow-hidden rounded-2xl mb-5 md:mb-6 border border-blue-200 dark:border-[#00FFE5]/20 bg-blue-50 dark:bg-[#080e1e]">
+          <div className="byte-box relative overflow-hidden rounded-2xl mb-5 md:mb-6 border border-orange-200 dark:border-[#F97316]/20 bg-orange-50 dark:bg-[#1C1612]">
             {/* Top accent stripe */}
-            <div className="h-0.5 w-full bg-gradient-to-r from-blue-400 via-blue-500 to-transparent dark:from-[#00FFE5]/70 dark:via-[#00FFE5]/30 dark:to-transparent" />
+            <div className="h-0.5 w-full bg-gradient-to-r from-orange-400 via-orange-500 to-transparent dark:from-[#F97316]/70 dark:via-[#F97316]/30 dark:to-transparent" />
 
             <div className="flex gap-4 md:gap-5 p-5 md:p-6">
               {/* Mascot */}
@@ -113,15 +113,15 @@ export default async function ArticlePage({ params }: PageProps) {
 
               {/* Content */}
               <div className="flex-1 min-w-0 py-1">
-                <p className="byte-label text-[10px] font-extrabold uppercase tracking-[0.18em] text-blue-500 dark:text-[#00FFE5] mb-2">
+                <p className="byte-label text-[10px] font-extrabold uppercase tracking-[0.18em] text-orange-500 dark:text-[#F97316] mb-2">
                   ✦ In sintesi
                 </p>
-                <div className="byte-text text-sm md:text-base text-blue-900 dark:text-slate-200 leading-relaxed font-medium">
+                <div className="byte-text text-sm md:text-base text-orange-900 dark:text-[#F5E8D8] leading-relaxed font-medium">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={{
                       p: ({ children }) => <span>{children}</span>,
-                      strong: ({ children }) => <strong className="font-bold text-blue-700 dark:text-[#00FFE5]">{children}</strong>,
+                      strong: ({ children }) => <strong className="font-bold text-orange-700 dark:text-[#F97316]">{children}</strong>,
                     }}
                   >
                     {article.summary}
@@ -138,7 +138,7 @@ export default async function ArticlePage({ params }: PageProps) {
           <span className="text-gray-300">·</span>
           <RelevanceDots score={article.relevance_score} />
           <span className="text-gray-300">·</span>
-          <a href="#fonti" className="text-blue-600 dark:text-blue-400 hover:underline text-xs md:text-sm">
+          <a href="#fonti" className="text-orange-600 dark:text-orange-400 hover:underline text-xs md:text-sm">
             {article.sources.length} fonte{article.sources.length !== 1 ? "i" : ""}
           </a>
         </div>
@@ -150,7 +150,7 @@ export default async function ArticlePage({ params }: PageProps) {
       </div>
 
       {/* ── Sources ── */}
-      <div id="fonti" className="mt-8 md:mt-10 pt-6 md:pt-8 border-t border-blue-100">
+      <div id="fonti" className="mt-8 md:mt-10 pt-6 md:pt-8 border-t border-orange-100">
         <SourcesList sources={article.sources} />
       </div>
     </article>

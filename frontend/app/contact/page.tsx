@@ -49,10 +49,10 @@ export default function ContactPage() {
 
       {/* Header */}
       <div className="mb-8">
-        <Link href="/" className="text-sm text-blue-600 dark:text-[#00FFE5] hover:underline">
+        <Link href="/" className="text-sm text-orange-600 dark:text-[#F97316] hover:underline">
           ← Torna alla homepage
         </Link>
-        <h1 className="text-2xl md:text-3xl font-extrabold text-[#0B1F3A] dark:text-slate-100 mt-4 mb-2 font-grotesk">
+        <h1 className="text-2xl md:text-3xl font-extrabold text-[#1C0E00] dark:text-slate-100 mt-4 mb-2 font-grotesk">
           Contatti
         </h1>
         <p className="text-sm text-gray-500 dark:text-slate-400">
@@ -68,7 +68,7 @@ export default function ContactPage() {
           className="card-blue p-8 flex flex-col items-center text-center gap-4"
         >
           <CheckCircle size={48} className="text-green-500" />
-          <h2 className="font-grotesk font-bold text-xl text-[#0B1F3A] dark:text-slate-100">
+          <h2 className="font-grotesk font-bold text-xl text-[#1C0E00] dark:text-slate-100">
             Messaggio inviato!
           </h2>
           <p className="text-sm text-gray-500 dark:text-slate-400">
@@ -76,7 +76,7 @@ export default function ContactPage() {
           </p>
           <button
             onClick={() => setStatus("idle")}
-            className="mt-2 px-5 py-2 rounded-full bg-blue-600 dark:bg-[#00FFE5] text-white dark:text-[#020817] text-sm font-semibold hover:opacity-90 transition-opacity"
+            className="mt-2 px-5 py-2 rounded-full bg-orange-600 dark:bg-[#F97316] text-white dark:text-[#0F0D0B] text-sm font-semibold hover:opacity-90 transition-opacity"
           >
             Invia un altro messaggio
           </button>
@@ -97,7 +97,7 @@ export default function ContactPage() {
                 onChange={handleChange}
                 required
                 placeholder="Il tuo nome"
-                className="w-full px-4 py-2.5 rounded-xl border border-blue-100 dark:border-white/10 bg-white dark:bg-white/5 text-sm text-[#0B1F3A] dark:text-slate-200 placeholder-gray-300 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-[#00FFE5]/40 transition"
+                className="w-full px-4 py-2.5 rounded-xl border border-orange-100 dark:border-white/10 bg-white dark:bg-white/5 text-sm text-[#1C0E00] dark:text-[#F5E8D8] placeholder-gray-300 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-orange-400 dark:focus:ring-[#F97316]/40 transition"
               />
             </div>
 
@@ -113,7 +113,7 @@ export default function ContactPage() {
                 onChange={handleChange}
                 required
                 placeholder="la-tua@email.com"
-                className="w-full px-4 py-2.5 rounded-xl border border-blue-100 dark:border-white/10 bg-white dark:bg-white/5 text-sm text-[#0B1F3A] dark:text-slate-200 placeholder-gray-300 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-[#00FFE5]/40 transition"
+                className="w-full px-4 py-2.5 rounded-xl border border-orange-100 dark:border-white/10 bg-white dark:bg-white/5 text-sm text-[#1C0E00] dark:text-[#F5E8D8] placeholder-gray-300 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-orange-400 dark:focus:ring-[#F97316]/40 transition"
               />
             </div>
 
@@ -127,7 +127,7 @@ export default function ContactPage() {
                 value={form.subject}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2.5 rounded-xl border border-blue-100 dark:border-white/10 bg-white dark:bg-[#0d1526] text-sm text-[#0B1F3A] dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-[#00FFE5]/40 transition"
+                className="w-full px-4 py-2.5 rounded-xl border border-orange-100 dark:border-white/10 bg-white dark:bg-[#241D15] text-sm text-[#1C0E00] dark:text-[#F5E8D8] focus:outline-none focus:ring-2 focus:ring-orange-400 dark:focus:ring-[#F97316]/40 transition"
               >
                 <option value="">Seleziona un motivo…</option>
                 <option value="Privacy / GDPR">Privacy / GDPR</option>
@@ -150,7 +150,7 @@ export default function ContactPage() {
                 required
                 rows={5}
                 placeholder="Scrivi qui il tuo messaggio…"
-                className="w-full px-4 py-2.5 rounded-xl border border-blue-100 dark:border-white/10 bg-white dark:bg-white/5 text-sm text-[#0B1F3A] dark:text-slate-200 placeholder-gray-300 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-[#00FFE5]/40 transition resize-none"
+                className="w-full px-4 py-2.5 rounded-xl border border-orange-100 dark:border-white/10 bg-white dark:bg-white/5 text-sm text-[#1C0E00] dark:text-[#F5E8D8] placeholder-gray-300 dark:placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-orange-400 dark:focus:ring-[#F97316]/40 transition resize-none"
               />
             </div>
 
@@ -168,7 +168,7 @@ export default function ContactPage() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="self-end flex items-center gap-2 px-6 py-2.5 rounded-full bg-blue-600 dark:bg-[#00FFE5] text-white dark:text-[#020817] text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity"
+              className="self-end flex items-center gap-2 px-6 py-2.5 rounded-full bg-orange-600 dark:bg-[#F97316] text-white dark:text-[#0F0D0B] text-sm font-semibold hover:opacity-90 disabled:opacity-50 transition-opacity"
             >
               {status === "sending" ? (
                 <>
@@ -190,7 +190,7 @@ export default function ContactPage() {
       <p className="mt-6 text-xs text-gray-400 dark:text-slate-600 leading-relaxed">
         I dati inviati tramite questo modulo sono utilizzati esclusivamente per rispondere alla tua richiesta,
         ai sensi dell&apos;art. 6(1)(b) GDPR. Non vengono ceduti a terzi né usati per profilazione.{" "}
-        <Link href="/privacy" className="text-blue-500 dark:text-[#00FFE5]/60 hover:underline">
+        <Link href="/privacy" className="text-orange-500 dark:text-[#F97316]/60 hover:underline">
           Leggi la Privacy Policy completa.
         </Link>
       </p>

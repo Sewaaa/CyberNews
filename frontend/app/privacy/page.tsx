@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 const SECTION = "mb-8";
-const H2 = "text-lg font-bold text-[#0B1F3A] dark:text-slate-100 mb-3 font-grotesk";
+const H2 = "text-lg font-bold text-[#1C0E00] dark:text-slate-100 mb-3 font-grotesk";
 const P = "text-sm text-gray-600 dark:text-slate-400 leading-relaxed mb-3";
 const UL = "list-disc list-inside space-y-1.5 text-sm text-gray-600 dark:text-slate-400 mb-3 ml-1";
 
@@ -17,10 +17,10 @@ export default function PrivacyPage() {
 
       {/* Header */}
       <div className="mb-10">
-        <Link href="/" className="text-sm text-blue-600 dark:text-[#00FFE5] hover:underline">
+        <Link href="/" className="text-sm text-orange-600 dark:text-[#F97316] hover:underline">
           ← Torna alla homepage
         </Link>
-        <h1 className="text-2xl md:text-3xl font-extrabold text-[#0B1F3A] dark:text-slate-100 mt-4 mb-2 font-grotesk">
+        <h1 className="text-2xl md:text-3xl font-extrabold text-[#1C0E00] dark:text-slate-100 mt-4 mb-2 font-grotesk">
           Privacy Policy
         </h1>
         <p className="text-sm text-gray-400 dark:text-slate-500">
@@ -34,7 +34,7 @@ export default function PrivacyPage() {
         <p className={P}>
           Il titolare del trattamento dei dati personali è <strong>FoxScan</strong> (progetto personale).
           Per qualsiasi richiesta relativa alla privacy puoi usare il{" "}
-          <Link href="/contact" className="text-blue-600 dark:text-[#00FFE5] hover:underline">
+          <Link href="/contact" className="text-orange-600 dark:text-[#F97316] hover:underline">
             modulo di contatto
           </Link>
         </p>
@@ -135,7 +135,7 @@ export default function PrivacyPage() {
         </ul>
         <p className={P}>
           Per esercitare i tuoi diritti usa il{" "}
-          <Link href="/contact" className="text-blue-600 dark:text-[#00FFE5] hover:underline">
+          <Link href="/contact" className="text-orange-600 dark:text-[#F97316] hover:underline">
             modulo di contatto
           </Link>.
           Hai inoltre il diritto di proporre reclamo al{" "}
@@ -143,7 +143,7 @@ export default function PrivacyPage() {
             href="https://www.garanteprivacy.it"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 dark:text-[#00FFE5] hover:underline"
+            className="text-orange-600 dark:text-[#F97316] hover:underline"
           >
             Garante per la protezione dei dati personali
           </a>.
@@ -179,7 +179,7 @@ export default function PrivacyPage() {
         </p>
       </div>
 
-      <div className="pt-6 border-t border-blue-100 dark:border-white/8">
+      <div className="pt-6 border-t border-orange-100 dark:border-white/8">
         <p className="text-xs text-gray-400 dark:text-slate-600">
           © 2026 FoxScan · Regolamento UE 2016/679 (GDPR)
         </p>

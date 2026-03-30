@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
 
 const NAV_LINKS = [
-  { href: "/",          label: "Home" },
+  { href: "/",                label: "Home" },
   { href: "/category/tutti",  label: "Esplora" },
-  { href: "/about",     label: "Chi siamo" },
+  { href: "/about",           label: "Chi siamo" },
 ];
 
 export default function Header() {
@@ -18,7 +18,7 @@ export default function Header() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="sticky top-0 z-50 glass border-b border-blue-100/60 dark:border-white/5">
+    <header className="sticky top-0 z-50 glass border-b border-orange-100/60 dark:border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
 
         {/* Logo */}
@@ -34,8 +34,8 @@ export default function Header() {
             className="h-10 w-10 object-contain transition-all duration-300 group-hover:scale-110 neon-glow-logo"
           />
           <span className="font-grotesk font-extrabold text-xl tracking-tight">
-            <span className="text-[#0B1F3A] dark:text-white">Fox</span>
-            <span className="text-blue-600 dark:text-[#00FFE5] dark:[text-shadow:0_0_12px_rgba(0,255,229,0.5)]">
+            <span className="text-[#1C0E00] dark:text-white">Fox</span>
+            <span className="text-orange-600 dark:text-[#F97316] dark:[text-shadow:0_0_12px_rgba(249,115,22,0.5)]">
               Scan
             </span>
           </span>
@@ -49,13 +49,13 @@ export default function Header() {
               href={href}
               className={`relative px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all ${
                 isActive(href)
-                  ? "text-blue-600 bg-blue-50 dark:text-[#00FFE5] dark:bg-transparent"
-                  : "text-gray-600 dark:text-slate-400 hover:text-blue-600 hover:bg-blue-50/80 dark:hover:text-[#00FFE5] dark:hover:bg-white/5"
+                  ? "text-orange-600 bg-orange-50 dark:text-[#F97316] dark:bg-white/5"
+                  : "text-gray-600 dark:text-[#9A8570] hover:text-orange-600 hover:bg-orange-50/80 dark:hover:text-[#F97316] dark:hover:bg-white/5"
               }`}
             >
               {label}
               {isActive(href) && (
-                <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-blue-600 dark:bg-[#00FFE5] dark:shadow-[0_0_6px_rgba(0,255,229,0.8)]" />
+                <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-orange-600 dark:bg-[#F97316] dark:shadow-[0_0_6px_rgba(249,115,22,0.8)]" />
               )}
             </Link>
           ))}
@@ -64,7 +64,7 @@ export default function Header() {
 
           <Link
             href="/rss"
-            className="ml-1 px-3 py-1.5 text-sm text-gray-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors font-mono text-xs tracking-wide"
+            className="ml-1 px-3 py-1.5 text-sm text-gray-400 dark:text-[#6B5743] hover:text-orange-600 dark:hover:text-[#F97316] transition-colors font-mono text-xs tracking-wide"
           >
             RSS
           </Link>
@@ -75,7 +75,7 @@ export default function Header() {
           <ThemeToggle />
           <button
             onClick={() => setOpen(!open)}
-            className="p-2.5 rounded-xl text-[#0B1F3A] dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-white/6 transition-colors"
+            className="p-2.5 rounded-xl text-[#1C0E00] dark:text-[#F5E8D8] hover:bg-orange-50 dark:hover:bg-white/6 transition-colors"
             aria-label={open ? "Chiudi menu" : "Apri menu"}
             aria-expanded={open}
           >
@@ -99,7 +99,7 @@ export default function Header() {
 
       {/* Mobile drawer */}
       {open && (
-        <nav className="md:hidden border-t border-blue-100/60 dark:border-white/5 bg-white/96 dark:bg-[#020817]/96 backdrop-blur-xl px-4 py-3 flex flex-col gap-1">
+        <nav className="md:hidden border-t border-orange-100/60 dark:border-white/5 bg-white/96 dark:bg-[#0F0D0B]/96 backdrop-blur-xl px-4 py-3 flex flex-col gap-1">
           {NAV_LINKS.map(({ href, label }) => (
             <Link
               key={href}
@@ -107,8 +107,8 @@ export default function Header() {
               onClick={() => setOpen(false)}
               className={`px-4 py-3.5 rounded-xl text-sm font-medium transition-colors ${
                 isActive(href)
-                  ? "text-blue-600 bg-blue-50 dark:text-[#00FFE5] dark:bg-transparent"
-                  : "text-[#0B1F3A] dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-white/5"
+                  ? "text-orange-600 bg-orange-50 dark:text-[#F97316] dark:bg-white/5"
+                  : "text-[#1C0E00] dark:text-[#F5E8D8] hover:bg-orange-50 dark:hover:bg-white/5"
               }`}
             >
               {label}
@@ -117,7 +117,7 @@ export default function Header() {
           <Link
             href="/rss"
             onClick={() => setOpen(false)}
-            className="px-4 py-3.5 text-sm text-gray-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors font-mono text-xs tracking-wide"
+            className="px-4 py-3.5 text-sm text-gray-400 dark:text-[#6B5743] hover:text-orange-600 dark:hover:text-[#F97316] transition-colors font-mono text-xs tracking-wide"
           >
             RSS
           </Link>

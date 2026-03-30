@@ -66,7 +66,7 @@ function HeroCard({ article }: { article: ArticleSummary }) {
       className={`card-blue flex flex-col group overflow-hidden border-t-2 ${accentBorder} ${level === 3 ? "critical-pulse" : ""}`}
     >
       {/* Image — fixed height, separated from text */}
-      <div className={`w-full h-48 md:h-52 shrink-0 overflow-hidden card-img-bg relative ${article.image_url ? "bg-blue-50" : "img-placeholder"}`}>
+      <div className={`w-full h-48 md:h-52 shrink-0 overflow-hidden card-img-bg relative ${article.image_url ? "bg-orange-50" : "img-placeholder"}`}>
         {article.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -96,15 +96,15 @@ function HeroCard({ article }: { article: ArticleSummary }) {
           </span>
         </div>
 
-        <h2 className="card-title font-grotesk font-extrabold text-[#0B1F3A] text-lg md:text-xl leading-snug mb-3 group-hover:text-blue-600 dark:group-hover:text-[#00FFE5] transition-colors line-clamp-3">
+        <h2 className="card-title font-grotesk font-extrabold text-[#1C0E00] text-lg md:text-xl leading-snug mb-3 group-hover:text-orange-600 dark:group-hover:text-[#F97316] transition-colors line-clamp-3">
           {article.title}
         </h2>
 
-        <div className="mt-auto flex items-center gap-2 flex-wrap pt-3 border-t border-blue-50 dark:border-white/5">
+        <div className="mt-auto flex items-center gap-2 flex-wrap pt-3 border-t border-orange-50 dark:border-white/5">
           {article.tags.slice(0, 3).map((tag) => (
             <TagBadge key={tag} tag={tag} linked={false} />
           ))}
-          <span className="ml-auto text-blue-600 dark:text-[#00FFE5] font-bold text-sm group-hover:translate-x-1 transition-transform inline-block">
+          <span className="ml-auto text-orange-600 dark:text-[#F97316] font-bold text-sm group-hover:translate-x-1 transition-transform inline-block">
             Leggi →
           </span>
         </div>
@@ -128,7 +128,7 @@ function SecondaryCard({ article }: { article: ArticleSummary }) {
       style={{ borderRadius: "16px" }}
     >
       {article.image_url && (
-        <div className="shrink-0 w-20 h-20 overflow-hidden card-img-bg bg-blue-50">
+        <div className="shrink-0 w-20 h-20 overflow-hidden card-img-bg bg-orange-50">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={article.image_url}
@@ -139,12 +139,12 @@ function SecondaryCard({ article }: { article: ArticleSummary }) {
         </div>
       )}
       <div className="flex-1 min-w-0 p-3">
-        <h3 className="card-title font-grotesk font-bold text-[#0B1F3A] text-xs leading-snug line-clamp-2 mb-1.5 group-hover:text-blue-600 dark:group-hover:text-[#00FFE5] transition-colors">
+        <h3 className="card-title font-grotesk font-bold text-[#1C0E00] text-xs leading-snug line-clamp-2 mb-1.5 group-hover:text-orange-600 dark:group-hover:text-[#F97316] transition-colors">
           {article.title}
         </h3>
         <div className="flex items-center justify-between">
           <time className="text-xs text-gray-400 card-meta">{timeAgo(article.published_at)}</time>
-          <span className="text-xs text-blue-600 dark:text-[#00FFE5]/80 font-semibold">Leggi →</span>
+          <span className="text-xs text-orange-600 dark:text-[#F97316]/80 font-semibold">Leggi →</span>
         </div>
       </div>
     </Link>
@@ -160,8 +160,8 @@ function TopCriticalWidget({ articles }: { articles: ArticleSummary[] }) {
     <div className="flex flex-col">
       {/* Titolo — stesso stile di "In Evidenza" */}
       <div className="flex items-center gap-2 mb-4">
-        <Zap size={15} className="text-blue-600 dark:text-[#00FFE5] shrink-0" />
-        <h2 className="font-grotesk font-extrabold text-xs text-blue-600 dark:text-[#00FFE5] uppercase tracking-widest">
+        <Zap size={15} className="text-orange-600 dark:text-[#F97316] shrink-0" />
+        <h2 className="font-grotesk font-extrabold text-xs text-orange-600 dark:text-[#F97316] uppercase tracking-widest">
           Top criticità del giorno
         </h2>
       </div>
@@ -176,11 +176,11 @@ function TopCriticalWidget({ articles }: { articles: ArticleSummary[] }) {
                           "bg-green-400";
           return (
             <li key={a.id}>
-              <Link href={`/article/${a.id}`} className="flex items-start gap-2.5 group py-1.5 border-b border-blue-50 dark:border-white/5 last:border-0">
-                <span className="shrink-0 w-5 h-5 mt-0.5 rounded-full bg-blue-100 dark:bg-white/10 text-blue-700 dark:text-[#00FFE5] text-[10px] font-bold flex items-center justify-center font-mono">
+              <Link href={`/article/${a.id}`} className="flex items-start gap-2.5 group py-1.5 border-b border-orange-50 dark:border-white/5 last:border-0">
+                <span className="shrink-0 w-5 h-5 mt-0.5 rounded-full bg-orange-100 dark:bg-white/10 text-orange-700 dark:text-[#F97316] text-[10px] font-bold flex items-center justify-center font-mono">
                   {i + 1}
                 </span>
-                <p className="flex-1 min-w-0 text-xs text-[#0B1F3A] dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-white transition-colors leading-snug">
+                <p className="flex-1 min-w-0 text-xs text-[#1C0E00] dark:text-[#D4B896] group-hover:text-orange-600 dark:group-hover:text-white transition-colors leading-snug">
                   {a.title}
                 </p>
                 <span className={`shrink-0 w-1.5 h-1.5 mt-1.5 rounded-full ${dotColor}`} />
@@ -213,7 +213,7 @@ function GridCard({ article }: { article: ArticleSummary }) {
       className={`card-blue flex flex-row md:flex-col group overflow-hidden min-h-[80px] md:min-h-0 ${level === 3 ? "critical-pulse" : ""}`}
     >
       {/* Image — orizzontale su mobile, verticale su desktop */}
-      <div className={`shrink-0 w-28 h-28 md:w-full md:h-36 overflow-hidden card-img-bg relative ${article.image_url ? "bg-blue-50" : "img-placeholder"}`}>
+      <div className={`shrink-0 w-28 h-28 md:w-full md:h-36 overflow-hidden card-img-bg relative ${article.image_url ? "bg-orange-50" : "img-placeholder"}`}>
         {article.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -236,16 +236,16 @@ function GridCard({ article }: { article: ArticleSummary }) {
 
       {/* Content */}
       <div className="p-3 md:p-4 flex flex-col flex-1 min-w-0">
-        <span className="card-title font-grotesk font-bold text-[#0B1F3A] text-xs md:text-sm leading-snug line-clamp-2 mb-2 md:mb-3 group-hover:text-blue-600 dark:group-hover:text-[#00FFE5] transition-colors">
+        <span className="card-title font-grotesk font-bold text-[#1C0E00] text-xs md:text-sm leading-snug line-clamp-2 mb-2 md:mb-3 group-hover:text-orange-600 dark:group-hover:text-[#F97316] transition-colors">
           {article.title}
         </span>
         <div className="hidden md:flex flex-wrap gap-1 mb-3">
           {article.tags.slice(0, 2).map((tag) => <TagBadge key={tag} tag={tag} linked={false} />)}
         </div>
-        <div className="mt-auto flex items-center gap-2 pt-2 border-t border-blue-50 dark:border-white/5">
+        <div className="mt-auto flex items-center gap-2 pt-2 border-t border-orange-50 dark:border-white/5">
           <RelevanceDots score={article.relevance_score} showLabel={false} />
           <time className="text-xs text-gray-400 card-meta flex-1 truncate">{timeAgo(article.published_at)}</time>
-          <span className="shrink-0 text-blue-600 dark:text-[#00FFE5]/80 font-semibold text-xs group-hover:translate-x-0.5 transition-transform inline-block">
+          <span className="shrink-0 text-orange-600 dark:text-[#F97316]/80 font-semibold text-xs group-hover:translate-x-0.5 transition-transform inline-block">
             Leggi →
           </span>
         </div>
@@ -276,7 +276,7 @@ function LoadingCenter() {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-12">
       <CyberLoader size={72} />
-      <p className="text-xs font-mono tracking-widest text-gray-400 dark:text-[#00FFE5]/40 uppercase animate-pulse">
+      <p className="text-xs font-mono tracking-widest text-gray-400 dark:text-[#F97316]/40 uppercase animate-pulse">
         Caricamento feed...
       </p>
     </div>
@@ -358,7 +358,7 @@ export default function HomePage() {
             <h2 className="font-grotesk font-extrabold text-xs text-red-500 uppercase tracking-widest">
               In Evidenza
             </h2>
-            <span className="text-xs text-gray-400 dark:text-slate-600 border border-blue-100 dark:border-white/8 rounded-full px-2.5 py-0.5 evidenza-badge">
+            <span className="text-xs text-gray-400 dark:text-[#4A3525] border border-orange-100 dark:border-white/8 rounded-full px-2.5 py-0.5 evidenza-badge">
               ultime {EVIDENZA_HOURS}h
             </span>
           </div>
@@ -399,7 +399,7 @@ export default function HomePage() {
             {/* TopCriticalWidget — col 3, row 1-2 (solo desktop) */}
             {briefingArticles.length > 0 && (
               <motion.div
-                className="hidden md:block md:col-start-3 md:row-start-1 md:row-span-2 md:border-l border-blue-100 dark:border-[#00FFE5]/15 md:pl-5"
+                className="hidden md:block md:col-start-3 md:row-start-1 md:row-span-2 md:border-l border-orange-100 dark:border-[#F97316]/15 md:pl-5"
                 variants={cardItem} initial="hidden" animate="show"
               >
                 <TopCriticalWidget articles={briefingArticles} />
@@ -423,8 +423,8 @@ export default function HomePage() {
                 onClick={() => changeLevel(lvl)}
                 className={`shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold border transition-all whitespace-nowrap ${
                   levelFilter === lvl
-                    ? "border-blue-600 bg-blue-600 text-white dark:border-[#00FFE5] dark:bg-transparent dark:text-[#00FFE5]"
-                    : "filter-btn-inactive border-blue-200 dark:border-white/8 text-gray-600 dark:text-slate-400 hover:border-blue-400 hover:text-blue-600 dark:hover:border-[#00FFE5]/40 dark:hover:text-[#00FFE5]"
+                    ? "border-orange-600 bg-orange-600 text-white dark:border-[#F97316] dark:bg-transparent dark:text-[#F97316]"
+                    : "filter-btn-inactive border-orange-200 dark:border-white/8 text-gray-600 dark:text-[#9A8570] hover:border-orange-400 hover:text-orange-600 dark:hover:border-[#F97316]/40 dark:hover:text-[#F97316]"
                 }`}
               >
                 {lvl > 0 && (
@@ -439,7 +439,7 @@ export default function HomePage() {
 
           {/* Divider desktop */}
           {topTags.length > 0 && (
-            <div className="hidden md:block shrink-0 w-px h-5 bg-blue-100 dark:bg-white/10" />
+            <div className="hidden md:block shrink-0 w-px h-5 bg-orange-100 dark:bg-white/10" />
           )}
 
           {/* Bottone Categoria — sempre visibile su mobile (riga separata) */}
@@ -448,8 +448,8 @@ export default function HomePage() {
               onClick={() => setCatOpen((o) => !o)}
               className={`shrink-0 self-start flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border transition-all whitespace-nowrap ${
                 catOpen || tagFilter
-                  ? "border-blue-600 bg-blue-600 text-white dark:border-[#00FFE5] dark:bg-transparent dark:text-[#00FFE5]"
-                  : "filter-btn-inactive border-blue-200 dark:border-white/8 text-gray-600 dark:text-slate-400 hover:border-blue-400 hover:text-blue-600 dark:hover:border-[#00FFE5]/40 dark:hover:text-[#00FFE5]"
+                  ? "border-orange-600 bg-orange-600 text-white dark:border-[#F97316] dark:bg-transparent dark:text-[#F97316]"
+                  : "filter-btn-inactive border-orange-200 dark:border-white/8 text-gray-600 dark:text-[#9A8570] hover:border-orange-400 hover:text-orange-600 dark:hover:border-[#F97316]/40 dark:hover:text-[#F97316]"
               }`}
             >
               Categoria
@@ -461,7 +461,7 @@ export default function HomePage() {
 
         {/* Seconda riga: tag pill (collassabile) */}
         {catOpen && topTags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 pb-2.5 border-t border-blue-100/40 dark:border-white/5 pt-2.5">
+          <div className="flex flex-wrap gap-1.5 pb-2.5 border-t border-orange-100/40 dark:border-white/5 pt-2.5">
             {topTags.map(({ tag }) => {
               const color = TAG_COLORS[tag] ?? DEFAULT_TAG_COLOR;
               const isActive = tagFilter === tag;
@@ -483,7 +483,7 @@ export default function HomePage() {
 
       {/* ── Ultime Notizie ───────────────────────────────────────────────── */}
       <section id="ultime-notizie" className="scroll-mt-32">
-        <h2 className="font-grotesk text-lg font-extrabold text-[#0B1F3A] dark:text-slate-100 mb-5">
+        <h2 className="font-grotesk text-lg font-extrabold text-[#1C0E00] dark:text-[#F5E8D8] mb-5">
           Ultime notizie
         </h2>
 
@@ -515,7 +515,7 @@ export default function HomePage() {
                   onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                 />
               </div>
-              <p className="text-base font-grotesk font-semibold text-gray-500 dark:text-slate-400 mb-2">
+              <p className="text-base font-grotesk font-semibold text-gray-500 dark:text-[#9A8570] mb-2">
                 {levelFilter > 0
                   ? `Nessun articolo con rilevanza "${LEVEL_LABELS[levelFilter]}".`
                   : "Nessuna notizia ancora..."}
@@ -523,7 +523,7 @@ export default function HomePage() {
               {levelFilter === 0 && (
                 <p className="text-sm text-gray-400 dark:text-slate-500">
                   Avvia la pipeline dal{" "}
-                  <Link href="/admin" className="text-blue-600 dark:text-[#00FFE5] hover:underline font-medium">
+                  <Link href="/admin" className="text-orange-600 dark:text-[#F97316] hover:underline font-medium">
                     pannello Admin
                   </Link>.
                 </p>
@@ -556,7 +556,7 @@ export default function HomePage() {
             {page > 1 && (
               <button
                 onClick={() => goToPage(page - 1)}
-                className="page-btn-prev px-5 py-2.5 text-sm rounded-full border border-blue-200 text-[#0B1F3A] font-medium hover:border-blue-400 hover:bg-blue-50 transition-all dark:bg-[#080e1e]"
+                className="page-btn-prev px-5 py-2.5 text-sm rounded-full border border-orange-200 text-[#1C0E00] font-medium hover:border-orange-400 hover:bg-orange-50 transition-all dark:bg-[#1C1612]"
               >
                 ← Prec.
               </button>
@@ -567,7 +567,7 @@ export default function HomePage() {
             {page < totalPages && (
               <button
                 onClick={() => goToPage(page + 1)}
-                className="px-5 py-2.5 text-sm rounded-full bg-[#0B1F3A] dark:bg-[#00FFE5] text-white dark:text-[#020817] font-semibold hover:opacity-90 transition-opacity"
+                className="px-5 py-2.5 text-sm rounded-full bg-[#1C0E00] dark:bg-[#F97316] text-white font-semibold hover:opacity-90 transition-opacity"
               >
                 Succ. →
               </button>
