@@ -7,17 +7,6 @@ from datetime import datetime
 from typing import Optional
 from xml.etree.ElementTree import Element, SubElement, tostring
 
-import sentry_sdk
-from sentry_sdk.integrations.fastapi import FastApiIntegration
-
-_sentry_dsn = os.getenv("SENTRY_DSN")
-if _sentry_dsn:
-    sentry_sdk.init(
-        dsn=_sentry_dsn,
-        integrations=[FastApiIntegration()],
-        traces_sample_rate=0.1,
-        environment=os.getenv("ENVIRONMENT", "production"),
-    )
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
