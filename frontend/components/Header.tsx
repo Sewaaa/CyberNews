@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
+import TopCriticalDropdown from "./TopCriticalDropdown";
 
 const NAV_LINKS = [
   { href: "/",          label: "Home" },
@@ -61,14 +62,10 @@ export default function Header() {
             </Link>
           ))}
 
+          <TopCriticalDropdown />
+
           <ThemeToggle />
 
-          <Link
-            href="/rss"
-            className="ml-1 px-3 py-1.5 text-sm text-gray-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors font-mono text-xs tracking-wide"
-          >
-            RSS
-          </Link>
         </nav>
 
         {/* Mobile controls */}

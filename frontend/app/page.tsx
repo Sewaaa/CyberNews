@@ -160,8 +160,8 @@ function TopCriticalWidget({ articles }: { articles: ArticleSummary[] }) {
     <div className="flex flex-col">
       {/* Titolo — stesso stile di "In Evidenza" */}
       <div className="flex items-center gap-2 mb-4">
-        <Zap size={15} className="text-blue-600 dark:text-[#00FFE5] shrink-0" />
-        <h2 className="font-grotesk font-extrabold text-xs text-blue-600 dark:text-[#00FFE5] uppercase tracking-widest">
+        <Zap size={16} className="text-blue-600 dark:text-[#00FFE5] shrink-0" />
+        <h2 className="font-grotesk font-extrabold text-sm text-blue-600 dark:text-[#00FFE5] uppercase tracking-widest">
           Top criticità del giorno
         </h2>
       </div>
@@ -177,13 +177,13 @@ function TopCriticalWidget({ articles }: { articles: ArticleSummary[] }) {
           return (
             <li key={a.id}>
               <Link href={`/article/${a.id}`} className="flex items-start gap-2.5 group py-1.5 border-b border-blue-50 dark:border-white/5 last:border-0">
-                <span className="shrink-0 w-5 h-5 mt-0.5 rounded-full bg-blue-100 dark:bg-white/10 text-blue-700 dark:text-[#00FFE5] text-[10px] font-bold flex items-center justify-center font-mono">
+                <span className="shrink-0 w-6 h-6 mt-0.5 rounded-full bg-blue-100 dark:bg-white/10 text-blue-700 dark:text-[#00FFE5] text-xs font-bold flex items-center justify-center font-mono">
                   {i + 1}
                 </span>
-                <p className="flex-1 min-w-0 text-xs text-[#0B1F3A] dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-white transition-colors leading-snug">
+                <p className="flex-1 min-w-0 text-sm text-[#0B1F3A] dark:text-slate-300 group-hover:text-blue-600 dark:group-hover:text-white transition-colors leading-snug">
                   {a.title}
                 </p>
-                <span className={`shrink-0 w-1.5 h-1.5 mt-1.5 rounded-full ${dotColor}`} />
+                <span className={`shrink-0 w-2 h-2 mt-1.5 rounded-full ${dotColor}`} />
               </Link>
             </li>
           );
@@ -363,16 +363,7 @@ export default function HomePage() {
             </span>
           </div>
 
-          {/*
-            Grid desktop (3 col, 2 righe):
-              Hero          → col 1-2, row 1
-              Secondary     → col 1-2, row 2
-              TopCritical   → col 3,   row 1-2
-
-            Mobile (1 col, ordine JSX):
-              Hero → Secondary → TopCritical ✓
-          */}
-          <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-[auto_auto] gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
             {/* Hero — col 1-2, row 1 */}
             <motion.div
@@ -385,7 +376,7 @@ export default function HomePage() {
             {/* Secondary articles — col 1-2, row 2 (su mobile stanno qui, dopo hero) */}
             {secondaryArticles.length > 0 && (
               <motion.div
-                className="md:col-span-2 md:row-start-2 grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch"
+                className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4 items-stretch"
                 variants={cardGrid} initial="hidden" animate="show"
               >
                 {secondaryArticles.map((a) => (
@@ -393,16 +384,6 @@ export default function HomePage() {
                     <SecondaryCard article={a} />
                   </motion.div>
                 ))}
-              </motion.div>
-            )}
-
-            {/* TopCriticalWidget — col 3, row 1-2 (solo desktop) */}
-            {briefingArticles.length > 0 && (
-              <motion.div
-                className="hidden md:block md:col-start-3 md:row-start-1 md:row-span-2 md:border-l border-blue-100 dark:border-[#00FFE5]/15 md:pl-5"
-                variants={cardItem} initial="hidden" animate="show"
-              >
-                <TopCriticalWidget articles={briefingArticles} />
               </motion.div>
             )}
           </div>
@@ -551,27 +532,56 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mt-8 flex items-center justify-center gap-3"
+            className="mt-8 flex items-center justify-center gap-1.5 flex-wrap"
           >
-            {page > 1 && (
-              <button
-                onClick={() => goToPage(page - 1)}
-                className="page-btn-prev px-5 py-2.5 text-sm rounded-full border border-blue-200 text-[#0B1F3A] font-medium hover:border-blue-400 hover:bg-blue-50 transition-all dark:bg-[#080e1e]"
-              >
-                ← Prec.
-              </button>
-            )}
-            <span className="px-4 py-2 text-sm text-gray-400 dark:text-slate-500 font-mono">
-              {page} / {totalPages}
-            </span>
-            {page < totalPages && (
-              <button
-                onClick={() => goToPage(page + 1)}
-                className="px-5 py-2.5 text-sm rounded-full bg-[#0B1F3A] dark:bg-[#00FFE5] text-white dark:text-[#020817] font-semibold hover:opacity-90 transition-opacity"
-              >
-                Succ. →
-              </button>
-            )}
+            {/* Precedente */}
+            <button
+              onClick={() => goToPage(page - 1)}
+              disabled={page === 1}
+              className="px-3.5 py-2 text-sm rounded-lg border border-blue-200 dark:border-white/10 text-[#0B1F3A] dark:text-slate-300 font-medium hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-white/5 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              ←
+            </button>
+
+            {/* Numeri pagina */}
+            {(() => {
+              const pages: (number | "...")[] = [];
+              if (totalPages <= 7) {
+                for (let i = 1; i <= totalPages; i++) pages.push(i);
+              } else {
+                pages.push(1);
+                if (page > 3) pages.push("...");
+                for (let i = Math.max(2, page - 1); i <= Math.min(totalPages - 1, page + 1); i++) pages.push(i);
+                if (page < totalPages - 2) pages.push("...");
+                pages.push(totalPages);
+              }
+              return pages.map((p, i) =>
+                p === "..." ? (
+                  <span key={`ellipsis-${i}`} className="px-2 py-2 text-sm text-gray-400 dark:text-slate-600">…</span>
+                ) : (
+                  <button
+                    key={p}
+                    onClick={() => goToPage(p)}
+                    className={`min-w-[36px] px-3 py-2 text-sm rounded-lg font-medium transition-all ${
+                      p === page
+                        ? "bg-[#0B1F3A] dark:bg-[#00FFE5] text-white dark:text-[#020817] font-semibold"
+                        : "border border-blue-200 dark:border-white/10 text-[#0B1F3A] dark:text-slate-300 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-white/5"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                )
+              );
+            })()}
+
+            {/* Successivo */}
+            <button
+              onClick={() => goToPage(page + 1)}
+              disabled={page === totalPages}
+              className="px-3.5 py-2 text-sm rounded-lg border border-blue-200 dark:border-white/10 text-[#0B1F3A] dark:text-slate-300 font-medium hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-white/5 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              →
+            </button>
           </motion.div>
         )}
       </section>
