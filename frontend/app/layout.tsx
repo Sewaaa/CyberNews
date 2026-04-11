@@ -53,7 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} font-sans bg-[#F0F4FF] dark:bg-[#020817] text-[#0B1F3A] dark:text-slate-200 min-h-screen relative transition-colors duration-300`}
+        className={`${inter.variable} ${spaceGrotesk.variable} font-sans bg-[#F0F4FF] dark:bg-[#020817] text-[#0B1F3A] dark:text-slate-200 min-h-screen relative`}
       >
         {/* Animated orb background — dark mode only */}
         <AnimatedBackground />

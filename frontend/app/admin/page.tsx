@@ -8,25 +8,26 @@ const SESSION_KEY = "foxscan_admin_key";
 
 interface FeedStat { feed_source: string; count: number; }
 
-// Mappa dominio → nome leggibile + URL feed
+// Mappa netloc del feed URL → nome leggibile + URL sito
+// Le chiavi devono corrispondere a urlparse(feed_url).netloc usato in discovery.py
 const FEED_META: Record<string, { name: string; url: string }> = {
-  "bleepingcomputer.com":       { name: "BleepingComputer",       url: "https://www.bleepingcomputer.com" },
-  "thehackernews.com":          { name: "The Hacker News",         url: "https://thehackernews.com" },
-  "krebsonsecurity.com":        { name: "Krebs on Security",       url: "https://krebsonsecurity.com" },
-  "darkreading.com":            { name: "Dark Reading",            url: "https://www.darkreading.com" },
-  "cisa.gov":                   { name: "CISA Advisories",         url: "https://www.cisa.gov" },
-  "securityaffairs.com":        { name: "Security Affairs",        url: "https://securityaffairs.com" },
-  "grahamcluley.com":           { name: "Graham Cluley",           url: "https://grahamcluley.com" },
-  "securityweek.com":           { name: "SecurityWeek",            url: "https://www.securityweek.com" },
-  "helpnetsecurity.com":        { name: "Help Net Security",       url: "https://www.helpnetsecurity.com" },
-  "infosecurity-magazine.com":  { name: "Infosecurity Magazine",   url: "https://www.infosecurity-magazine.com" },
-  "arstechnica.com":            { name: "Ars Technica Security",   url: "https://arstechnica.com/security/" },
-  "wired.com":                  { name: "Wired Security",          url: "https://www.wired.com/category/security/" },
-  "nakedsecurity.sophos.com":   { name: "Naked Security (Sophos)", url: "https://nakedsecurity.sophos.com" },
-  "cyberscoop.com":             { name: "CyberScoop",              url: "https://cyberscoop.com" },
-  "theregister.com":            { name: "The Register Security",   url: "https://www.theregister.com/security/" },
-  "malwarebytes.com":           { name: "Malwarebytes Blog",       url: "https://www.malwarebytes.com/blog/" },
-  "recordedfuture.com":         { name: "Recorded Future",         url: "https://www.recordedfuture.com" },
+  "www.bleepingcomputer.com":      { name: "BleepingComputer",       url: "https://www.bleepingcomputer.com" },
+  "feeds.feedburner.com":          { name: "The Hacker News",         url: "https://thehackernews.com" },
+  "krebsonsecurity.com":           { name: "Krebs on Security",       url: "https://krebsonsecurity.com" },
+  "www.darkreading.com":           { name: "Dark Reading",            url: "https://www.darkreading.com" },
+  "www.cisa.gov":                  { name: "CISA Advisories",         url: "https://www.cisa.gov" },
+  "securityaffairs.com":           { name: "Security Affairs",        url: "https://securityaffairs.com" },
+  "grahamcluley.com":              { name: "Graham Cluley",           url: "https://grahamcluley.com" },
+  "www.securityweek.com":          { name: "SecurityWeek",            url: "https://www.securityweek.com" },
+  "www.helpnetsecurity.com":       { name: "Help Net Security",       url: "https://www.helpnetsecurity.com" },
+  "www.infosecurity-magazine.com": { name: "Infosecurity Magazine",   url: "https://www.infosecurity-magazine.com" },
+  "feeds.arstechnica.com":         { name: "Ars Technica Security",   url: "https://arstechnica.com/security/" },
+  "www.wired.com":                 { name: "Wired Security",          url: "https://www.wired.com/category/security/" },
+  "nakedsecurity.sophos.com":      { name: "Naked Security (Sophos)", url: "https://nakedsecurity.sophos.com" },
+  "cyberscoop.com":                { name: "CyberScoop",              url: "https://cyberscoop.com" },
+  "www.theregister.com":           { name: "The Register Security",   url: "https://www.theregister.com/security/" },
+  "www.malwarebytes.com":          { name: "Malwarebytes Blog",       url: "https://www.malwarebytes.com/blog/" },
+  "www.recordedfuture.com":        { name: "Recorded Future",         url: "https://www.recordedfuture.com" },
 };
 
 export default function AdminPage() {
