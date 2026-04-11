@@ -6,6 +6,29 @@ import { AdminStats, getStats } from "@/lib/api";
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
 const SESSION_KEY = "foxscan_admin_key";
 
+interface FeedStat { feed_source: string; count: number; }
+
+// Mappa dominio → nome leggibile + URL feed
+const FEED_META: Record<string, { name: string; url: string }> = {
+  "bleepingcomputer.com":       { name: "BleepingComputer",       url: "https://www.bleepingcomputer.com" },
+  "thehackernews.com":          { name: "The Hacker News",         url: "https://thehackernews.com" },
+  "krebsonsecurity.com":        { name: "Krebs on Security",       url: "https://krebsonsecurity.com" },
+  "darkreading.com":            { name: "Dark Reading",            url: "https://www.darkreading.com" },
+  "cisa.gov":                   { name: "CISA Advisories",         url: "https://www.cisa.gov" },
+  "securityaffairs.com":        { name: "Security Affairs",        url: "https://securityaffairs.com" },
+  "grahamcluley.com":           { name: "Graham Cluley",           url: "https://grahamcluley.com" },
+  "securityweek.com":           { name: "SecurityWeek",            url: "https://www.securityweek.com" },
+  "helpnetsecurity.com":        { name: "Help Net Security",       url: "https://www.helpnetsecurity.com" },
+  "infosecurity-magazine.com":  { name: "Infosecurity Magazine",   url: "https://www.infosecurity-magazine.com" },
+  "arstechnica.com":            { name: "Ars Technica Security",   url: "https://arstechnica.com/security/" },
+  "wired.com":                  { name: "Wired Security",          url: "https://www.wired.com/category/security/" },
+  "nakedsecurity.sophos.com":   { name: "Naked Security (Sophos)", url: "https://nakedsecurity.sophos.com" },
+  "cyberscoop.com":             { name: "CyberScoop",              url: "https://cyberscoop.com" },
+  "theregister.com":            { name: "The Register Security",   url: "https://www.theregister.com/security/" },
+  "malwarebytes.com":           { name: "Malwarebytes Blog",       url: "https://www.malwarebytes.com/blog/" },
+  "recordedfuture.com":         { name: "Recorded Future",         url: "https://www.recordedfuture.com" },
+};
+
 export default function AdminPage() {
   const [adminKey, setAdminKey] = useState<string>("");
   const [keyInput, setKeyInput] = useState<string>("");
@@ -13,6 +36,7 @@ export default function AdminPage() {
   const [authError, setAuthError] = useState(false);
 
   const [stats, setStats] = useState<AdminStats | null>(null);
+  const [feedStats, setFeedStats] = useState<FeedStat[]>([]);
   const [, setLoading] = useState(true);
   const [running, setRunning] = useState(false);
   const [resetting, setResetting] = useState(false);
@@ -31,8 +55,14 @@ export default function AdminPage() {
 
   async function loadStats(key: string) {
     setLoading(true);
-    const s = await getStats(key).catch(() => null);
+    const [s, fs] = await Promise.all([
+      getStats(key).catch(() => null),
+      fetch(`${API_BASE}/admin/feed-stats`, { headers: { "X-Admin-Key": key } })
+        .then((r) => r.ok ? r.json() : [])
+        .catch(() => []),
+    ]);
     setStats(s);
+    setFeedStats(fs);
     setPipelineRunning(s?.pipeline_running ?? false);
     setLoading(false);
   }
@@ -248,6 +278,34 @@ export default function AdminPage() {
         >
           {deleting ? "Eliminazione in corso…" : "🗑️ Elimina tutti gli articoli"}
         </button>
+      </div>
+
+      {/* Fonti RSS */}
+      <div className="border border-blue-100 dark:border-zinc-800 rounded-xl p-6 bg-white dark:bg-zinc-900 mt-6 shadow-blue-sm">
+        <h2 className="text-lg font-semibold text-[#0B1F3A] dark:text-white mb-4">Fonti RSS ({Object.keys(FEED_META).length})</h2>
+        <div className="divide-y divide-blue-50 dark:divide-zinc-800">
+          {Object.entries(FEED_META).map(([domain, meta]) => {
+            const stat = feedStats.find((f) => f.feed_source === domain);
+            return (
+              <div key={domain} className="flex items-center justify-between py-2.5 gap-3">
+                <div className="min-w-0">
+                  <a
+                    href={meta.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-medium text-[#0B1F3A] dark:text-slate-200 hover:text-blue-600 dark:hover:text-[#00FFE5] transition-colors"
+                  >
+                    {meta.name}
+                  </a>
+                  <p className="text-xs text-gray-400 dark:text-zinc-500 truncate">{domain}</p>
+                </div>
+                <span className="shrink-0 text-xs font-mono text-gray-400 dark:text-zinc-500 bg-blue-50 dark:bg-zinc-800 px-2 py-0.5 rounded-full">
+                  {stat ? `${stat.count} item` : "—"}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Info */}

@@ -233,6 +233,20 @@ def get_stats(request: Request, db: Session = Depends(get_db), _: None = Depends
     }
 
 
+@app.get("/admin/feed-stats")
+@limiter.limit("10/minute")
+def get_feed_stats(request: Request, db: Session = Depends(get_db), _: None = Depends(verify_admin)):
+    """Conta gli item RSS scoperti per ciascuna fonte."""
+    from models import RssItem
+    from sqlalchemy import func
+    rows = (
+        db.query(RssItem.feed_source, func.count(RssItem.id))
+        .group_by(RssItem.feed_source)
+        .all()
+    )
+    return [{"feed_source": r[0] or "unknown", "count": r[1]} for r in rows]
+
+
 @app.get("/health")
 @app.head("/health")
 def health():

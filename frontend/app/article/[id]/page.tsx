@@ -3,6 +3,7 @@ import { getArticle } from "@/lib/api";
 import TagBadge from "@/components/TagBadge";
 import SourcesList from "@/components/SourcesList";
 import RelevanceDots from "@/components/RelevanceDots";
+import ShareButtons from "@/components/ShareButtons";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -149,8 +150,16 @@ export default async function ArticlePage({ params }: PageProps) {
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{article.body}</ReactMarkdown>
       </div>
 
+      {/* ── Share ── */}
+      <div className="mt-8 pt-6 border-t border-blue-100 dark:border-white/5">
+        <ShareButtons
+          title={article.title}
+          url={`https://foxscan.vercel.app/article/${id}`}
+        />
+      </div>
+
       {/* ── Sources ── */}
-      <div id="fonti" className="mt-8 md:mt-10 pt-6 md:pt-8 border-t border-blue-100">
+      <div id="fonti" className="mt-6 pt-6 border-t border-blue-100 dark:border-white/5">
         <SourcesList sources={article.sources} />
       </div>
     </article>
