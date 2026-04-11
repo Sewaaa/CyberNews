@@ -1,17 +1,20 @@
 import { Source } from "@/lib/api";
 import { ExternalLink } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 interface SourcesListProps {
   sources: Source[];
 }
 
-export default function SourcesList({ sources }: SourcesListProps) {
+export default async function SourcesList({ sources }: SourcesListProps) {
   if (!sources.length) return null;
+
+  const t = await getTranslations("sources");
 
   return (
     <div>
       <h2 className="text-sm font-semibold uppercase tracking-widest text-gray-400 dark:text-slate-500 mb-3">
-        Fonti originali
+        {t("title")}
       </h2>
       <ul className="space-y-2">
         {sources.map((source) => (

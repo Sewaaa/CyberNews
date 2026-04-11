@@ -1,0 +1,118 @@
+{
+  "nav": {
+    "home": "Home",
+    "explore": "Explore",
+    "about": "About",
+    "closeMenu": "Close menu",
+    "openMenu": "Open menu"
+  },
+  "share": {
+    "label": "Share:",
+    "copyLink": "Copy link",
+    "copied": "Copied!"
+  },
+  "topCritical": {
+    "title": "Top threats of the day"
+  },
+  "relevance": {
+    "low": "Low",
+    "medium": "Medium",
+    "critical": "Critical"
+  },
+  "backendStatus": {
+    "message": "Updating — please retry in a few seconds."
+  },
+  "sources": {
+    "title": "Original sources",
+    "singular": "source",
+    "plural": "sources"
+  },
+  "footer": {
+    "tagline": "Your cyber guardian, 24/7. The most relevant cybersecurity news, updated every 30 minutes.",
+    "categories": "Categories",
+    "platform": "Platform",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "aiDisclaimer": "AI Disclaimer",
+    "noCookies": "No profiling cookies. Technical cookies only.",
+    "disclaimer": "Articles are synthesized by artificial intelligence — original sources are always cited. Content is for informational purposes only and does not constitute professional cybersecurity advice. Rights to original sources belong to their respective publishers.",
+    "copyright": "© 2026 FoxScan — All rights reserved",
+    "gdpr": "EU Reg. 2016/679 (GDPR)",
+    "rss": "RSS Feed",
+    "contact": "Contact",
+    "about": "About",
+    "home": "Home",
+    "aiPowered": "AI‑Powered",
+    "openSource": "Open Source"
+  },
+  "home": {
+    "featured": "Featured",
+    "last48h": "last 48h",
+    "latestNews": "Latest news",
+    "all": "All",
+    "low": "Low",
+    "medium": "Medium",
+    "critical": "Critical",
+    "category": "Category",
+    "loading": "Loading feed...",
+    "noArticlesLevel": "No articles with this relevance.",
+    "noNews": "No news yet...",
+    "startPipeline": "Start the pipeline from the Admin panel.",
+    "readMore": "Read →",
+    "justNow": "just now"
+  },
+  "article": {
+    "notFound": "Article not found",
+    "back": "← Back to homepage",
+    "inSummary": "✦ Summary"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page not found",
+    "description": "The article or page you are looking for does not exist or has been removed.",
+    "back": "Back to homepage"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred. Try reloading the page.",
+    "retry": "Retry"
+  },
+  "categories": {
+    "back": "← Back to homepage",
+    "title": "Explore categories",
+    "all": "All",
+    "allArticles": "all articles →",
+    "noCategories": "No categories available yet."
+  },
+  "about": {
+    "hero": "Always one step ahead of every threat.",
+    "heroDesc": "Scans 17+ top cybersecurity sources every day, groups duplicate articles and synthesizes them into a single briefing — clear, complete, free.",
+    "exploreBtn": "Explore news →",
+    "howTitle": "How it works",
+    "howDesc": "Fully automated, fully transparent.",
+    "sources": "Sources",
+    "sourcesDesc": "Monitored 24/7.",
+    "goToNews": "Go to news →"
+  },
+  "contact": {
+    "back": "← Back to homepage",
+    "title": "Contact",
+    "subtitle": "For privacy requests, reports or any other reason.",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "subject": "Subject",
+    "subjectPlaceholder": "Select a reason…",
+    "message": "Message",
+    "messagePlaceholder": "Write your message here…",
+    "send": "Send message",
+    "sending": "Sending…",
+    "success": "Message sent!",
+    "successDesc": "We will get back to you as soon as possible.",
+    "sendAnother": "Send another message",
+    "privacy": "Data submitted through this form is used solely to respond to your request, pursuant to Art. 6(1)(b) GDPR.",
+    "notConfigured": "The form is not yet configured. Contact the administrator.",
+    "error": "Error sending. Please try again in a few seconds."
+  }
+}

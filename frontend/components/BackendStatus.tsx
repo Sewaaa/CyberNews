@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
 
 export default function BackendStatus() {
   const [offline, setOffline] = useState(false);
+  const t = useTranslations("backendStatus");
 
   useEffect(() => {
     // Aspetta 4 secondi prima di controllare: evita falsi positivi
@@ -22,7 +24,7 @@ export default function BackendStatus() {
 
   return (
     <div className="bg-amber-50 border-b border-amber-200 text-amber-800 text-sm text-center py-2.5 px-4">
-      Aggiornamento in corso — riprova tra qualche secondo.
+      {t("message")}
     </div>
   );
 }

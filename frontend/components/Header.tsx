@@ -3,18 +3,22 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import ThemeToggle from "./ThemeToggle";
 import TopCriticalDropdown from "./TopCriticalDropdown";
-
-const NAV_LINKS = [
-  { href: "/",          label: "Home" },
-  { href: "/category/tutti",  label: "Esplora" },
-  { href: "/about",     label: "Chi siamo" },
-];
+import LanguageToggle from "./LanguageToggle";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const t = useTranslations("nav");
+
+  const NAV_LINKS = [
+    { href: "/",             label: t("home") },
+    { href: "/category/tutti", label: t("explore") },
+    { href: "/about",        label: t("about") },
+  ];
+
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
@@ -64,17 +68,19 @@ export default function Header() {
 
           <TopCriticalDropdown />
 
+          <LanguageToggle />
           <ThemeToggle />
 
         </nav>
 
         {/* Mobile controls */}
         <div className="flex md:hidden items-center gap-1">
+          <LanguageToggle />
           <ThemeToggle />
           <button
             onClick={() => setOpen(!open)}
             className="p-2.5 rounded-xl text-[#0B1F3A] dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-white/6 transition-colors"
-            aria-label={open ? "Chiudi menu" : "Apri menu"}
+            aria-label={open ? t("closeMenu") : t("openMenu")}
             aria-expanded={open}
           >
             {open ? (

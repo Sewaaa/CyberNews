@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface ShareButtonsProps {
   title: string;
@@ -9,6 +10,7 @@ interface ShareButtonsProps {
 
 export default function ShareButtons({ title, url }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
+  const t = useTranslations("share");
 
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
@@ -22,7 +24,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
 
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      <span className="text-xs text-gray-400 dark:text-slate-500 mr-1">Condividi:</span>
+      <span className="text-xs text-gray-400 dark:text-slate-500 mr-1">{t("label")}</span>
 
       {/* Twitter/X */}
       <a
@@ -86,7 +88,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="20 6 9 17 4 12" />
             </svg>
-            Copiato!
+            {t("copied")}
           </>
         ) : (
           <>
@@ -94,7 +96,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
               <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
               <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
             </svg>
-            Copia link
+            {t("copyLink")}
           </>
         )}
       </button>

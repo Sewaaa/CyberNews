@@ -8,6 +8,7 @@ import { getArticles, getTags, ArticleSummary, TagCount } from "@/lib/api";
 import TagBadge, { TAG_COLORS, DEFAULT_TAG_COLOR } from "@/components/TagBadge";
 import RelevanceDots from "@/components/RelevanceDots";
 import CyberLoader from "@/components/CyberLoader";
+import { useTranslations } from "next-intl";
 
 const PAGE_SIZE = 9;
 const EVIDENZA_HOURS = 48;
@@ -18,7 +19,6 @@ const LEVEL_RANGES: Record<number, { min_score?: number; max_score?: number }> =
   2: { min_score: 5, max_score: 7 },
   3: { min_score: 8 },
 };
-const LEVEL_LABELS: Record<number, string> = { 0: "Tutti", 1: "Bassa", 2: "Media", 3: "Critica" };
 
 function isRecent(iso: string, hours: number) {
   return Date.now() - new Date(iso).getTime() < hours * 3_600_000;
@@ -55,7 +55,7 @@ const sectionFade = {
 };
 
 /* ─── Hero Card ─────────────────────────────────────────────────────────── */
-function HeroCard({ article }: { article: ArticleSummary }) {
+function HeroCard({ article, levelLabels, readMore }: { article: ArticleSummary; levelLabels: Record<number, string>; readMore: string }) {
   const level = getLevel(article.relevance_score);
   const levelBg = level === 3 ? "bg-red-500" : level === 2 ? "bg-orange-500" : "bg-green-500";
   const accentBorder = level === 3 ? "border-t-red-500" : level === 2 ? "border-t-orange-500" : "border-t-green-500";
@@ -89,7 +89,7 @@ function HeroCard({ article }: { article: ArticleSummary }) {
       <div className="p-5 md:p-6 flex flex-col flex-1">
         <div className="flex items-center gap-2 mb-3">
           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold text-white ${levelBg}`}>
-            {LEVEL_LABELS[level]}
+            {levelLabels[level]}
           </span>
           <span className="text-xs text-gray-400 card-meta">
             {formatDateShort(article.published_at)} · {article.sources.length} font{article.sources.length !== 1 ? "i" : "e"}
@@ -105,7 +105,7 @@ function HeroCard({ article }: { article: ArticleSummary }) {
             <TagBadge key={tag} tag={tag} linked={false} />
           ))}
           <span className="ml-auto text-blue-600 dark:text-[#00FFE5] font-bold text-sm group-hover:translate-x-1 transition-transform inline-block">
-            Leggi →
+            {readMore}
           </span>
         </div>
       </div>
@@ -114,7 +114,7 @@ function HeroCard({ article }: { article: ArticleSummary }) {
 }
 
 /* ─── Secondary Card ─────────────────────────────────────────────────────── */
-function SecondaryCard({ article }: { article: ArticleSummary }) {
+function SecondaryCard({ article, readMore }: { article: ArticleSummary; readMore: string }) {
   const level = getLevel(article.relevance_score);
   const accentBorder =
     level === 3 ? "border-t-red-500" :
@@ -144,7 +144,7 @@ function SecondaryCard({ article }: { article: ArticleSummary }) {
         </h3>
         <div className="flex items-center justify-between">
           <time className="text-xs text-gray-400 card-meta">{timeAgo(article.published_at)}</time>
-          <span className="text-xs text-blue-600 dark:text-[#00FFE5]/80 font-semibold">Leggi →</span>
+          <span className="text-xs text-blue-600 dark:text-[#00FFE5]/80 font-semibold">{readMore}</span>
         </div>
       </div>
     </Link>
@@ -152,7 +152,7 @@ function SecondaryCard({ article }: { article: ArticleSummary }) {
 }
 
 /* ─── Top Critical Widget ────────────────────────────────────────────────── */
-function TopCriticalWidget({ articles }: { articles: ArticleSummary[] }) {
+function TopCriticalWidget({ articles, title }: { articles: ArticleSummary[]; title: string }) {
   const top5 = articles.slice(0, 5);
   if (top5.length === 0) return null;
 
@@ -162,7 +162,7 @@ function TopCriticalWidget({ articles }: { articles: ArticleSummary[] }) {
       <div className="flex items-center gap-2 mb-4">
         <Zap size={16} className="text-blue-600 dark:text-[#00FFE5] shrink-0" />
         <h2 className="font-grotesk font-extrabold text-sm text-blue-600 dark:text-[#00FFE5] uppercase tracking-widest">
-          Top criticità del giorno
+          {title}
         </h2>
       </div>
 
@@ -204,7 +204,7 @@ function TopCriticalWidget({ articles }: { articles: ArticleSummary[] }) {
 }
 
 /* ─── Grid Card ──────────────────────────────────────────────────────────── */
-function GridCard({ article }: { article: ArticleSummary }) {
+function GridCard({ article, readMore }: { article: ArticleSummary; readMore: string }) {
   const level = getLevel(article.relevance_score);
 
   return (
@@ -246,7 +246,7 @@ function GridCard({ article }: { article: ArticleSummary }) {
           <RelevanceDots score={article.relevance_score} showLabel={false} />
           <time className="text-xs text-gray-400 card-meta flex-1 truncate">{timeAgo(article.published_at)}</time>
           <span className="shrink-0 text-blue-600 dark:text-[#00FFE5]/80 font-semibold text-xs group-hover:translate-x-0.5 transition-transform inline-block">
-            Leggi →
+            {readMore}
           </span>
         </div>
       </div>
@@ -272,12 +272,12 @@ function SkeletonGrid() {
   );
 }
 
-function LoadingCenter() {
+function LoadingCenter({ label }: { label: string }) {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-12">
       <CyberLoader size={72} />
       <p className="text-xs font-mono tracking-widest text-gray-400 dark:text-[#00FFE5]/40 uppercase animate-pulse">
-        Caricamento feed...
+        {label}
       </p>
     </div>
   );
@@ -285,6 +285,17 @@ function LoadingCenter() {
 
 /* ─── Main Page ───────────────────────────────────────────────────────────── */
 export default function HomePage() {
+  const tHome = useTranslations("home");
+  const tRel = useTranslations("relevance");
+  const tTop = useTranslations("topCritical");
+
+  const LEVEL_LABELS: Record<number, string> = {
+    0: tHome("all"),
+    1: tRel("low"),
+    2: tRel("medium"),
+    3: tRel("critical"),
+  };
+
   const [page, setPage] = useState(1);
   const goToPage = (n: number) => {
     setPage(n);
@@ -356,10 +367,10 @@ export default function HomePage() {
           <div className="flex items-center gap-2 mb-4">
             <Flame size={15} className="text-red-500 shrink-0" />
             <h2 className="font-grotesk font-extrabold text-xs text-red-500 uppercase tracking-widest">
-              In Evidenza
+              {tHome("featured")}
             </h2>
             <span className="text-xs text-gray-400 dark:text-slate-600 border border-blue-100 dark:border-white/8 rounded-full px-2.5 py-0.5 evidenza-badge">
-              ultime {EVIDENZA_HOURS}h
+              {tHome("last48h")}
             </span>
           </div>
 
@@ -370,7 +381,7 @@ export default function HomePage() {
               className="md:col-span-2 md:row-start-1"
               variants={cardItem} initial="hidden" animate="show"
             >
-              <HeroCard article={heroArticle} />
+              <HeroCard article={heroArticle} levelLabels={LEVEL_LABELS} readMore={tHome("readMore")} />
             </motion.div>
 
             {/* Secondary articles — col 1-2, row 2 (su mobile stanno qui, dopo hero) */}
@@ -381,7 +392,7 @@ export default function HomePage() {
               >
                 {secondaryArticles.map((a) => (
                   <motion.div key={a.id} variants={cardItem} className="h-full">
-                    <SecondaryCard article={a} />
+                    <SecondaryCard article={a} readMore={tHome("readMore")} />
                   </motion.div>
                 ))}
               </motion.div>
@@ -433,7 +444,7 @@ export default function HomePage() {
                   : "filter-btn-inactive border-blue-200 dark:border-white/8 text-gray-600 dark:text-slate-400 hover:border-blue-400 hover:text-blue-600 dark:hover:border-[#00FFE5]/40 dark:hover:text-[#00FFE5]"
               }`}
             >
-              Categoria
+              {tHome("category")}
               {tagFilter && <span className="w-2 h-2 rounded-full bg-current" />}
               <ChevronDown size={13} className={`transition-transform ${catOpen ? "rotate-180" : ""}`} />
             </button>
@@ -465,7 +476,7 @@ export default function HomePage() {
       {/* ── Ultime Notizie ───────────────────────────────────────────────── */}
       <section id="ultime-notizie" className="scroll-mt-32">
         <h2 className="font-grotesk text-lg font-extrabold text-[#0B1F3A] dark:text-slate-100 mb-5">
-          Ultime notizie
+          {tHome("latestNews")}
         </h2>
 
         <AnimatePresence mode="wait">
@@ -477,7 +488,7 @@ export default function HomePage() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <LoadingCenter />
+              <LoadingCenter label={tHome("loading")} />
               <SkeletonGrid />
             </motion.div>
           ) : articles.length === 0 ? (
@@ -498,15 +509,12 @@ export default function HomePage() {
               </div>
               <p className="text-base font-grotesk font-semibold text-gray-500 dark:text-slate-400 mb-2">
                 {levelFilter > 0
-                  ? `Nessun articolo con rilevanza "${LEVEL_LABELS[levelFilter]}".`
-                  : "Nessuna notizia ancora..."}
+                  ? tHome("noArticlesLevel")
+                  : tHome("noNews")}
               </p>
               {levelFilter === 0 && (
                 <p className="text-sm text-gray-400 dark:text-slate-500">
-                  Avvia la pipeline dal{" "}
-                  <Link href="/admin" className="text-blue-600 dark:text-[#00FFE5] hover:underline font-medium">
-                    pannello Admin
-                  </Link>.
+                  {tHome("startPipeline")}
                 </p>
               )}
             </motion.div>
@@ -520,7 +528,7 @@ export default function HomePage() {
             >
               {gridArticles.map((article) => (
                 <motion.div key={article.id} variants={cardItem}>
-                  <GridCard article={article} />
+                  <GridCard article={article} readMore={tHome("readMore")} />
                 </motion.div>
               ))}
             </motion.div>

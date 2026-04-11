@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { getArticles, ArticleSummary } from "@/lib/api";
 import { Zap } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 function getLevel(score: number) {
   if (score >= 8) return 3;
@@ -15,6 +16,7 @@ export default function TopCriticalDropdown() {
   const [open, setOpen] = useState(false);
   const [articles, setArticles] = useState<ArticleSummary[]>([]);
   const ref = useRef<HTMLDivElement>(null);
+  const t = useTranslations("topCritical");
 
   useEffect(() => {
     getArticles({ min_score: 5, limit: 20 })
@@ -45,7 +47,7 @@ export default function TopCriticalDropdown() {
     <div ref={ref} className="relative hidden md:block">
       <button
         onClick={() => setOpen((o) => !o)}
-        title="Top Criticità del Giorno"
+        title={t("title")}
         className={`p-2 rounded-lg transition-colors ${
           open
             ? "text-[#00FFE5] bg-white/8"
@@ -69,7 +71,7 @@ export default function TopCriticalDropdown() {
           <div className="flex items-center gap-2 mb-3">
             <Zap size={14} className="text-[#00FFE5] shrink-0" />
             <h3 className="font-grotesk font-extrabold text-sm text-[#00FFE5] uppercase tracking-widest">
-              Top criticità del giorno
+              {t("title")}
             </h3>
           </div>
 
