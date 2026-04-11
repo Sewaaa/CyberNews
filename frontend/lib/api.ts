@@ -41,6 +41,9 @@ export interface AdminStats {
   last_article_at: string | null;
   server_time: string;
   pipeline_running: boolean;
+  articles_last_24h: number;
+  multi_source_last_24h: number;
+  multi_source_pct: number;
 }
 
 async function apiFetch<T>(path: string): Promise<T> {

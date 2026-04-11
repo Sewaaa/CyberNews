@@ -227,13 +227,33 @@ def trigger_pipeline(request: Request, _: None = Depends(verify_admin)):
 @app.get("/admin/stats")
 @limiter.limit("10/minute")
 def get_stats(request: Request, db: Session = Depends(get_db), _: None = Depends(verify_admin)):
-    from models import RssItem
+    from datetime import timedelta
+    from models import RssItem, Source
+    from sqlalchemy import func
 
     total_articles = db.query(Article).count()
     pending_items = db.query(RssItem).filter(RssItem.processed == False).count()  # noqa: E712
     processed_items = db.query(RssItem).filter(RssItem.processed == True).count()  # noqa: E712
 
     last_article = db.query(Article).order_by(Article.published_at.desc()).first()
+
+    # Articoli ultime 24h e percentuale con più di una fonte
+    since = datetime.utcnow() - timedelta(hours=24)
+    recent_articles = db.query(Article).filter(Article.published_at >= since).all()
+    articles_last_24h = len(recent_articles)
+
+    multi_source = 0
+    if recent_articles:
+        recent_ids = [a.id for a in recent_articles]
+        counts = (
+            db.query(Source.article_id, func.count(Source.id).label("n"))
+            .filter(Source.article_id.in_(recent_ids))
+            .group_by(Source.article_id)
+            .all()
+        )
+        multi_source = sum(1 for _, n in counts if n > 1)
+
+    multi_source_pct = round(multi_source / articles_last_24h * 100) if articles_last_24h else 0
 
     return {
         "total_articles": total_articles,
@@ -242,6 +262,9 @@ def get_stats(request: Request, db: Session = Depends(get_db), _: None = Depends
         "last_article_at": last_article.published_at.isoformat() if last_article else None,
         "server_time": datetime.utcnow().isoformat(),
         "pipeline_running": _pipeline_status["running"],
+        "articles_last_24h": articles_last_24h,
+        "multi_source_last_24h": multi_source,
+        "multi_source_pct": multi_source_pct,
     }
 
 
